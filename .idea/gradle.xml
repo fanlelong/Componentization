@@ -8,7 +8,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ancely_annotation" />
+            <option value="$PROJECT_DIR$/ancely_compile" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/aroute_impl" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/login" />
+            <option value="$PROJECT_DIR$/usercenter" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

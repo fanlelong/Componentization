@@ -1,0 +1,55 @@
+if (isRelease) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+
+def androidId = rootProject.ext.androidId
+def support = rootProject.ext.dependencies
+def appId = rootProject.ext.appId
+
+android {
+    compileSdkVersion androidId.compileSdkVersion
+
+
+
+    defaultConfig {
+        if (!isRelease) {
+            applicationId appId.login
+        }
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    support.each { k, v -> implementation v }
+    implementation project(':ancely_annotation')
+    annotationProcessor project(':ancely_compile')
+    implementation project(':common')
+}

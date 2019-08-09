@@ -1,0 +1,53 @@
+//如果需要添加多个自定义的属性
+ext {
+    //生产开发环境
+    isRelease = true
+
+    packageNameAPT = "com.ancely.fyw.modular.apt"
+    //建立Map的储存
+    androidId = [
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.0",
+            minSdkVersion    : 22,
+            targetSdkVersion : 28,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+    appId = [
+            app       : "com.ancely.fyw",
+            usercenter: "com.ancely.fyw.usercenter",
+            login     : "com.ancely.fyw.login"
+    ]
+    //生产,测试环境
+    url = [
+            "debug"  : "https://xxx/debug",
+            "release": "https://xxx/release"
+    ]
+    supportLibrary = "28.0.0"
+    retrofitLibrary = "2.4.0"
+    archLibrary = "1.0.0"
+    //第三方库
+    dependencies = [
+            "appcompat"       : "com.android.support:appcompat-v7:${supportLibrary}",
+            "recyclerview"    : "com.android.support:recyclerview-v7:${supportLibrary}",
+            "constraint"      : "com.android.support.constraint:constraint-layout:1.1.3",
+            "retrofit2"       : "com.squareup.retrofit2:retrofit:${retrofitLibrary}",
+            "glide"           : "com.github.bumptech.glide:glide:4.8.0",
+            "convertergson"   : "com.squareup.retrofit2:converter-gson:${retrofitLibrary}",
+            "converterscalars": "com.squareup.retrofit2:converter-scalars:${retrofitLibrary}",
+            "adapterrxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${retrofitLibrary}",
+    ]
+    arch = [
+            "lifecycle_runtime"   : "android.arch.lifecycle:runtime:${archLibrary}",
+            "lifecycle_extensions": "android.arch.lifecycle:extensions:${archLibrary}",
+            "room_runtime"        : "android.arch.persistence.room:runtime:${archLibrary}",
+            "room_testing"        : "android.arch.persistence.room:testing:${archLibrary}",
+            "room_rxjava2"        : "android.arch.persistence.room:rxjava2:${archLibrary}",
+    ]
+
+    annotationProcessors = [
+            "glide"    : "com.github.bumptech.glide:compiler:4.8.0",
+            "lifecycle": "android.arch.lifecycle:compiler:${archLibrary}",
+            "room"     : "android.arch.persistence.room:compiler:${archLibrary}"
+    ]
+}

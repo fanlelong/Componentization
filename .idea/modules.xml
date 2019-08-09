@@ -3,7 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Componentization.iml" filepath="$PROJECT_DIR$/Componentization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ancely_annotation/ancely_annotation.iml" filepath="$PROJECT_DIR$/ancely_annotation/ancely_annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ancely_compile/ancely_compile.iml" filepath="$PROJECT_DIR$/ancely_compile/ancely_compile.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aroute_impl/aroute_impl.iml" filepath="$PROJECT_DIR$/aroute_impl/aroute_impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/login/login.iml" filepath="$PROJECT_DIR$/login/login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/usercenter/usercenter.iml" filepath="$PROJECT_DIR$/usercenter/usercenter.iml" />
     </modules>
   </component>
 </project>
