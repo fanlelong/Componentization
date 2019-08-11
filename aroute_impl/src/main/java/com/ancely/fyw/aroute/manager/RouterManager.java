@@ -20,6 +20,7 @@ public class RouterManager {
                 if (sInstance == null) {
                     sInstance = new RouterManager();
                 }
+                
             }
         }
         return sInstance;
