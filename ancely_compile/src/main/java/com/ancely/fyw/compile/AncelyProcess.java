@@ -9,6 +9,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.WildcardTypeName;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,11 +100,14 @@ public class AncelyProcess extends AbstractProcessor {
         TypeElement pathLoadElement = mElementUtils.getTypeElement(Constance.AROUTE_PATH);
         try {
             createPathFiels(pathLoadElement);
+
+            createGroupFiels(groupLoadElement, pathLoadElement);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return true;
     }
+
 
     /**
      * 模板
@@ -176,8 +180,67 @@ public class AncelyProcess extends AbstractProcessor {
                     .build();
 
             JavaFile.builder(mPackageNameAPT, typeSpec).build().writeTo(mFiler);
-
+            mTempGroupMap.put(entry.getKey(), finalName);
         }
+
+    }
+
+    //    public class ARoute$$Group$$order implements ARouteLoadGroup {
+//        @Override
+//        public Map<String, Class<? extends ARouteLoadPath>> loadGroup() {
+//            Map<String,Class<? extends ARouteLoadPath>> groupMap = new HashMap<>();
+//            groupMap.put("order",ARoute$$Path$$order.class);
+//            return groupMap;
+//        }
+//    }
+    //如上
+    private void createGroupFiels(TypeElement groupLoadElement, TypeElement pathLoadElement) throws IOException {
+        if (EmptyUtils.isEmpty(mTempGroupMap)) return;
+        TypeName returnType = ParameterizedTypeName.get(
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(ClassName.get(Class.class),
+                        WildcardTypeName.subtypeOf(ClassName.get(pathLoadElement))));
+
+        //Map<String,Class<? extends ARouteLoadPath>>
+
+        MethodSpec.Builder methodBuild = MethodSpec.methodBuilder(Constance.GROUP_METHOD_NAME)//方法名
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(returnType);
+//            Map<String,Class<? extends ARouteLoadPath>> groupMap = new HashMap<>();
+        methodBuild.addStatement("$T<$T,$T> $L = new $T<>()",
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(ClassName.get(Class.class),
+                        WildcardTypeName.subtypeOf(ClassName.get(pathLoadElement))),
+                Constance.GROUP_METHOD_RETURN,
+                ClassName.get(HashMap.class)
+        );
+        //groupMap.put("order",ARoute$$Path$$order.class);
+        for (Map.Entry<String, String> entry : mTempGroupMap.entrySet()) {
+            // entry.value(): RouteBean.create(RouteBean.Type.ACTIVITY,MainActivity.class,"/app/MainActivity","app")
+
+
+            //groupMap.put("order",ARoute$$Path$$order.class);
+            methodBuild.addStatement("$L.put($S,$T.class)",
+                    Constance.GROUP_METHOD_RETURN,
+                    entry.getKey(),
+                    ClassName.get(mPackageNameAPT, entry.getValue())
+            );
+        }
+// return groupMap;
+        methodBuild.addStatement(" return $N", Constance.GROUP_METHOD_RETURN);
+
+        //创建类
+        String finalName = Constance.GROUP_FILE_NAME_PREFIX + mProjectName;
+        mMessager.printMessage(Diagnostic.Kind.NOTE, "APT生成的GROUP类名为: " + mPackageNameAPT + "." + finalName);
+        TypeSpec typeSpec = TypeSpec.classBuilder(finalName)//类名
+                .addModifiers(Modifier.PUBLIC)
+                .addSuperinterface(ClassName.get(groupLoadElement))
+                .addMethod(methodBuild.build())
+                .build();
+        JavaFile.builder(mPackageNameAPT, typeSpec).build().writeTo(mFiler);
 
     }
 
