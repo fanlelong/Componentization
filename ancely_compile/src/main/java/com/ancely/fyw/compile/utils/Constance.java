@@ -25,7 +25,7 @@ public interface Constance {
     //ACTIVITYR 的全类名
     String ACTIVITY_PATH = "android.app.Activity";
     String STRING = "java.lang.string";
-    String ROUTER_MANAGER = "com.arouter.api.RouterManager";
+    String ROUTER_MANAGER = "com.ancely.fyw.aroute.manager.RouterManager";
 
     //接口的全类名
     String AROUTE_GROUP = "com.ancely.fyw.aroute.core.ARouteLoadGroup";

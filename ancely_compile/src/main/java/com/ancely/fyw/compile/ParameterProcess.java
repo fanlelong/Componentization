@@ -124,63 +124,66 @@ public class ParameterProcess extends AbstractProcessor {
                     ClassName.get(typeElement),
                     Constance.PARAMETER_LOAD);
 
+            //获取类名
+            ClassName className = ClassName.get(typeElement);
             // t. mDrawable = (OrderDrawable)RouterManager.getInstance().build("/order/getDrawable").navigation(t);
             for (Element element : entry.getValue()) {
-                TypeMirror typeMirror = element.asType();//获取到成功变量的类型 比如int string Handler这样的
-
-                //获取类名
-                ClassName className = ClassName.get(typeElement);
-
-                //获取成员变量的变量名: 如 :  String userName的userName
-                String fileName = element.getSimpleName().toString();
-
-                //成员变量注解的值
-                String annotationValue = element.getAnnotation(Parameter.class).name();
-
-                //判断注解的值是否为空 为空则附为属性的值
-                annotationValue = EmptyUtils.isEmpty(annotationValue) ? fileName : annotationValue;
-                //获取Typekind枚举类型的序列号 比如int booler 对应的int 值 Handler 对应的Hander类型
-                int type = typeMirror.getKind().ordinal();
-                //t.age
-                String finalValue = "t." + fileName;
-                String methContent = finalValue + " = t.getIntent().";
-                if (type == TypeKind.INT.ordinal()) {
-                    methContent += "getIntExtra($S, " + finalValue + ")";
-                } else if (type == TypeKind.BOOLEAN.ordinal()) {
-                    //getBooleanExtra("sdfsdf",false)
-                    methContent += "getBooleanExtra($S, " + finalValue + ")";
-                } else {
-                    if (typeMirror.toString().equalsIgnoreCase(Constance.STRING)) {
-                        methContent += "getStringExtra($S)";
-                    } else if (mTypesUtils.isSubtype(typeMirror, mCallTypeMirror)) {//注解在一个Call实现类的接口之上
-
-                        //  t.mDrawable = (OrderDrawable) RouterManager.getInstance().build("/order/getDrawable").navigation(t);
-                        methContent = "t. " + fileName + " = ($T)$T.getInstance().build($S).navigation(t)";
-                        methodBuild.addStatement(methContent,
-                                TypeName.get(typeMirror),
-                                ClassName.get(mElementUtils.getTypeElement(Constance.ROUTER_MANAGER)),
-                                annotationValue
-                        );
-                        return;
-                    }
-                }
-                methodBuild.addStatement(methContent, annotationValue);
-
-                //最终生成的类文件名 (类名$$Parameter)
-                String finalName = typeElement.getSimpleName() + Constance.PARAMETER_FILE_NAME;
-                mMessager.printMessage(Diagnostic.Kind.NOTE, "APT生成的Parameter类名为: " + className.packageName() + "." + finalName);
-
-                TypeElement parameterType = mElementUtils.getTypeElement(Constance.PARAMETER_PATH);
-                TypeSpec typeSpec = TypeSpec.classBuilder(finalName)//类名如Handler
-                        .addModifiers(Modifier.PUBLIC)
-                        .addSuperinterface(ClassName.get(parameterType))
-                        .addMethod(methodBuild.build())
-                        .build();
-                JavaFile.builder(className.packageName(), typeSpec).build().writeTo(mFiler);
+                buildStatement(element, methodBuild);
             }
+            //最终生成的类文件名 (类名$$Parameter)
+            String finalName = typeElement.getSimpleName() + Constance.PARAMETER_FILE_NAME;
+            mMessager.printMessage(Diagnostic.Kind.NOTE, "APT生成的Parameter类名为: " + className.packageName() + "." + finalName);
+
+            TypeElement parameterType = mElementUtils.getTypeElement(Constance.PARAMETER_PATH);
+            TypeSpec typeSpec = TypeSpec.classBuilder(finalName)//类名如Handler
+                    .addModifiers(Modifier.PUBLIC)
+                    .addSuperinterface(ClassName.get(parameterType))
+                    .addMethod(methodBuild.build())
+                    .build();
+            JavaFile.builder(className.packageName(), typeSpec).build().writeTo(mFiler);
         }
 
     }
+
+    private void buildStatement(Element element, MethodSpec.Builder methodBuild) {
+        TypeMirror typeMirror = element.asType();//获取到成功变量的类型 比如int string Handler这样的
+
+        //获取成员变量的变量名: 如 :  String userName的userName
+        String fileName = element.getSimpleName().toString();
+
+        //成员变量注解的值
+        String annotationValue = element.getAnnotation(Parameter.class).name();
+
+        //判断注解的值是否为空 为空则附为属性的值
+        annotationValue = EmptyUtils.isEmpty(annotationValue) ? fileName : annotationValue;
+        //获取Typekind枚举类型的序列号 比如int booler 对应的int 值 Handler 对应的Hander类型
+        int type = typeMirror.getKind().ordinal();
+        //t.age
+        String finalValue = "t." + fileName;
+        String methContent = finalValue + " = t.getIntent().";
+        if (type == TypeKind.INT.ordinal()) {
+            methContent += "getIntExtra($S, " + finalValue + ")";
+        } else if (type == TypeKind.BOOLEAN.ordinal()) {
+            //getBooleanExtra("sdfsdf",false)
+            methContent += "getBooleanExtra($S, " + finalValue + ")";
+        } else {
+            if (typeMirror.toString().equalsIgnoreCase(Constance.STRING)) {
+                methContent += "getStringExtra($S)";
+            } else if (mTypesUtils.isSubtype(typeMirror, mCallTypeMirror)) {//注解在一个Call实现类的接口之上
+
+                //  t.mDrawable = (OrderDrawable) RouterManager.getInstance().build("/order/getDrawable").navigation(t);
+                methContent = "t. " + fileName + " = ($T)$T.getInstance().build($S).navigation(t)";
+                methodBuild.addStatement(methContent,
+                        TypeName.get(typeMirror),
+                        ClassName.get(mElementUtils.getTypeElement(Constance.ROUTER_MANAGER)),
+                        annotationValue
+                );
+                return;
+            }
+        }
+        methodBuild.addStatement(methContent, annotationValue);
+    }
+
 
     private void pareseParameterElements(Set<? extends Element> elements) {
         for (Element element : elements) {

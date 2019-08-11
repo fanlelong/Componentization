@@ -230,7 +230,7 @@ public class AncelyProcess extends AbstractProcessor {
             );
         }
 // return groupMap;
-        methodBuild.addStatement(" return $N", Constance.GROUP_METHOD_RETURN);
+        methodBuild.addStatement("return $N", Constance.GROUP_METHOD_RETURN);
 
         //创建类
         String finalName = Constance.GROUP_FILE_NAME_PREFIX + mProjectName;
