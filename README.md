@@ -1,19 +1,18 @@
 # Componentization
 
-**组件化/Componentization**
+**组件化and插件化/Componentization**
 
 
 ## 不同模块跳转示例
 ### 规范
 
-* 拿这个来作例子: @ARouter(path = "/login/Login_MainActivity")
 
- 第一个/和第二个/之间传的一定是模块的名字,一共有且只有二个/ 多一个都不行, 一定要严格按照规范来写否则 crash
+**拿这个来作例子: @ARouter(path = "/login/Login_MainActivity")**
+**第一个/和第二个/之间传的一定是模块的名字,一共有且只有二个/ 多一个都不行, 一定要严格按照规范来写否则 crash**
 
- *
-*比如想从MainActivity跳转到Login_MainActivity。,代码如下*
+**比如想从MainActivity跳转到Login_MainActivity。,代码如下**
 
-```
+```java
 @ARouter(path = "/login/Login_MainActivity")//login一定是模块名,不是则报错,/一定是二个
 public class Login_MainActivity extends AppCompatActivity {
 
@@ -44,8 +43,8 @@ public class Login_MainActivity extends AppCompatActivity {
 
 ## 组件与组件之间如果传参
 
-* 首先在公用基础module里面定义一个接口继承Call  *
-```
+**首先在公用基础module里面定义一个接口继承Call**
+```java
 
 public interface LoginCall extends Call {
     int getDrawable();
@@ -53,9 +52,9 @@ public interface LoginCall extends Call {
 
 
 ```
-*  比如:如果想获取login模块里面的一个资源文件,就在login模块里面定义实现LoginCall的类,格式一定不能错,/model名/xxx *
+**比如:如果想获取login模块里面的一个资源文件,就在login模块里面定义实现LoginCall的类,格式一定不能错,/model名/xxx**
 
-```
+```java
 @ARouter(path = "/login/getDrawable")
 public class LoginDrawableImpl implements LoginCall {
     @Override
@@ -66,9 +65,9 @@ public class LoginDrawableImpl implements LoginCall {
 
 ```
 
-*  在app模块中如果获取login模块里的res 示例如下*
+**在app模块中如果获取login模块里的res 示例如下**
 
-```
+```java
     //这是一个成员变量 name = "/login/getDrawable  这玩意要跟上面的path = "/login/getDrawable"对应
     @Parameter(name = "/login/getDrawable")
     LoginCall mLoginCall;
@@ -91,11 +90,11 @@ public class LoginDrawableImpl implements LoginCall {
 ### 第三方apk里面的所有的Activity 都要继承BaseActivity
 ### 第三方apk里面所有的Service 都要继承BaseService
 
-*比如想跳转到sd卡里的apk,或都其它文件里的Activity或者Service*
+**比如想跳转到sd卡里的apk,或都其它文件里的Activity或者Service**
 
-*1.本app跳转到第三方apk*
+**1.本app跳转到第三方apk**
 
-```
+```java
 
     public void startActivitys(View view) {
     //这个是加载第三方apk的路径
@@ -112,9 +111,9 @@ public class LoginDrawableImpl implements LoginCall {
 
 ```
 
-*2.第三方apk的Activity启动自己的service*
+**2.第三方apk的Activity启动自己的service**
 
-```
+```java
     button.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
