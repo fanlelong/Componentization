@@ -10,6 +10,6 @@ import com.ancely.fyw.aroute.core.Call;
  *  @创建时间:  2019/8/11 10:25 PM
  *  @描述：    TODO
  */
-public interface OrderCall extends Call {
+public interface LoginCall extends Call {
     int getDrawable();
 }

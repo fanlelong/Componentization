@@ -248,9 +248,11 @@ public class AncelyProcess extends AbstractProcessor {
 
         //获取Activity类型
         TypeElement activityType = mElementUtils.getTypeElement(Constance.ACTIVITY_PATH);
+        TypeElement callType = mElementUtils.getTypeElement(Constance.CALL_PATH);
 
         //获取Activity类信息
         TypeMirror activityMirror = activityType.asType();
+        TypeMirror callyMirror = callType.asType();
 
         for (Element element : elements) {
 
@@ -269,6 +271,8 @@ public class AncelyProcess extends AbstractProcessor {
             //说明ARoute的注解仅仅只能用于类之上并且类型跟Activity相关 规范不能乱使用
             if (mTypeUtils.isSubtype(elementMirror, activityMirror)) {
                 routeBean.setType(RouteBean.Type.ACTIVITY);
+            } else if (mTypeUtils.isSubtype(elementMirror, callyMirror)) {
+                routeBean.setType(RouteBean.Type.CALL);
             } else {
                 throw new RuntimeException("Aroute只限于继承Activity相关类之上");
             }
