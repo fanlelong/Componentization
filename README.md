@@ -36,7 +36,7 @@ public class Login_MainActivity extends AppCompatActivity {
 }
 ```
 
-##组件与组件之间如果传差
+## 组件与组件之间如果传参
 
 * 首先在公用基础module里面定义一个接口继承Call  *
 ```
@@ -60,7 +60,7 @@ public class LoginDrawableImpl implements LoginCall {
 
 ```
 
-*  在app模块中如果获取login模块里的res 示例如下 *
+*  在app模块中如果获取login模块里的res 示例如下*
 
 ```
     //这是一个成员变量 name = "/login/getDrawable  这玩意要跟上面的path = "/login/getDrawable"对应
