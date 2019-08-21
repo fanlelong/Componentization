@@ -1,1 +1,1 @@
-include ':app', ':common', ':ancely_annotation', ':ancely_compile', ':aroute_impl', ':login', ':usercenter'
+include ':app', ':common', ':ancely_annotation', ':ancely_compile', ':aroute_impl', ':login', ':usercenter', ':Plugin'

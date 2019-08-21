@@ -1,5 +1,9 @@
 package com.ancely.fyw;
 
+import android.app.Application;
+
+import com.ancely.fyw.aroute.manager.PluginManager;
+
 /*
  *  @项目名：  Componentization
  *  @包名：    com.ancely.fyw
@@ -8,5 +12,11 @@ package com.ancely.fyw;
  *  @创建时间:  2019/8/21 2:37 PM
  *  @描述：    TODO
  */
-public class ComApplication {
+public class ComApplication extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        PluginManager.getInstance().setContext(this);
+    }
 }

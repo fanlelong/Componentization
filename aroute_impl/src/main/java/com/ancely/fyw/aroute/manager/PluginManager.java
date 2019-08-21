@@ -1,4 +1,4 @@
-package com.pluginpull;
+package com.ancely.fyw.aroute.manager;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -36,6 +36,7 @@ public class PluginManager {
 
     //插件apk的包信息类,因为我们需要根据包信息名字获取Activity的名字
     PackageInfo mPackageInfo;
+    PackageInfo mPackageServiceInfo;
 
     public static PluginManager getInstance() {
         return sInstance;
@@ -46,10 +47,10 @@ public class PluginManager {
     }
 
     //根据传进来的路径去动态加载第三方插件apk里的资源文件和类加载器
-    public void loadPath(String path) {
+    public boolean loadPath(String path) {
         File pathFile = new File(path);
         if (!pathFile.exists()) {
-            return;
+            return false;
         }
         File fileDir = mContext.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
 
@@ -77,7 +78,9 @@ public class PluginManager {
 
         //通过包管理器获取到传进来的这个路径下的dex文件下的包信息类
         mPackageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
+        mPackageServiceInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
 
+        return true;
     }
 
     public Resources getResources() {
@@ -94,5 +97,9 @@ public class PluginManager {
 
     public PackageInfo getPackageInfo() {
         return mPackageInfo;
+    }
+
+    public PackageInfo getPackageServiceInfo() {
+        return mPackageServiceInfo;
     }
 }

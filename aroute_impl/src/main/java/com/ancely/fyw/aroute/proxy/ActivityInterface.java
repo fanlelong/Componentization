@@ -1,5 +1,6 @@
 package com.ancely.fyw.aroute.proxy;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -12,6 +13,8 @@ import android.support.annotation.Nullable;
  *  @描述：    TODO
  */
 public interface ActivityInterface {
+
+    void attach(Activity activity);
 
     void onCreate(@Nullable Bundle savedInstanceState);
 

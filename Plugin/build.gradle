@@ -1,16 +1,15 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
+
 
 def androidId = rootProject.ext.androidId
 def support = rootProject.ext.dependencies
-def appId = rootProject.ext.appId
 
 android {
     compileSdkVersion androidId.compileSdkVersion
 
+
     defaultConfig {
-        if (!isRelease) {
-            applicationId appId.login
-        }
+        applicationId "com.plugin.text"
         minSdkVersion androidId.minSdkVersion
         targetSdkVersion androidId.targetSdkVersion
         versionCode androidId.versionCode
@@ -18,6 +17,11 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT]
+            }
+        }
     }
 
     buildTypes {
@@ -28,11 +32,14 @@ android {
     }
 
 }
+
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    support.each { k, v -> implementation v }
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(':ancely_annotation')
+
+    support.each { k, v -> implementation v }
+    implementation project(':common')
 }
