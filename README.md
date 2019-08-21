@@ -4,7 +4,13 @@
 
 
 ## 不同模块跳转示例
+### 规范
 
+* 拿这个来作例子: @ARouter(path = "/login/Login_MainActivity")
+
+ 第一个/和第二个/之间传的一定是模块的名字,一共有且只有二个/ 多一个都不行, 一定要严格按照规范来写否则 crash
+
+ *
 *比如想从MainActivity跳转到Login_MainActivity。,代码如下*
 
 ```
@@ -81,6 +87,9 @@ public class LoginDrawableImpl implements LoginCall {
 ```
 
 ## 插件化
+
+### 第三方apk里面的所有的Activity 都要继承BaseActivity
+### 第三方apk里面所有的Service 都要继承BaseService
 
 *比如想跳转到sd卡里的apk,或都其它文件里的Activity或者Service*
 
