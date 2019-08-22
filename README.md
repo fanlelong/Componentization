@@ -114,11 +114,53 @@ public class LoginDrawableImpl implements LoginCall {
 **2.第三方apk的Activity启动自己的service**
 
 ```java
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startService(new Intent(mActivity, TextService.class));
-        }
-    });
+public class PluginTextActivity extends BaseActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_plugin_text);
+
+        Button button = findViewById(R.id.startPluginService);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent(mActivity, TextService.class));
+            }
+        });
+    }
+}
+
+```
+
+**3.动态注册第三方apk的BroasCastReceive和发送r**
+
+```java
+public class PluginTextActivity extends BaseActivity {
+    private static final String ACTION="com.plugin.text.TextReceitve";
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_plugin_text);
+
+        //注册广播
+        findViewById(R.id.regist_broadcast).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentFilter infilter=new IntentFilter();
+                infilter.addAction(ACTION);
+                registerReceiver(new TextReceitve(),infilter);
+            }
+        });
+        //发送广播
+        findViewById(R.id.send_broadcast).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION);
+                sendBroadcast(intent);
+            }
+        });
+    }
+}
 
 ```

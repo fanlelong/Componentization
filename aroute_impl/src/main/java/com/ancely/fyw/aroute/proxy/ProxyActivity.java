@@ -1,8 +1,10 @@
 package com.ancely.fyw.aroute.proxy;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 
@@ -96,5 +98,18 @@ public class ProxyActivity extends Activity {
         intentService.setAction("com.ancely.fyw.aroute.proxy.Proxyservice");
         intentService.putExtra("className", className);
         return super.startService(intentService);
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+
+        String className = receiver.getClass().getName();
+
+        return super.registerReceiver(new ProxyReceiver(className), filter);
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent) {
+        super.sendBroadcast(intent);
     }
 }

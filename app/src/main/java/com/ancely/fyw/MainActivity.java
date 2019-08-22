@@ -3,6 +3,7 @@ package com.ancely.fyw;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ancely.fyw.aroute.manager.ParameterManager;
+import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.common.LoginCall;
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         RouterManager.getInstance().build("/usercenter/UserCenter_MainActivity")
                 .withResultString("name", "app_usercenter")
                 .navigation(this, 10);
+        PluginManager.getInstance().loadPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+        PluginManager.getInstance().parserApkAction(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
     }
 
     @Override

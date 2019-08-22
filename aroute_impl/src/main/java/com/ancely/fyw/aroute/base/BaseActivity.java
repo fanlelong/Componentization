@@ -1,8 +1,10 @@
 package com.ancely.fyw.aroute.base;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -163,6 +165,23 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
         Intent newService = new Intent();
         newService.putExtra("className", service.getComponent().getClassName());
         return mActivity.startService(newService);
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        if (mActivity == null) {
+            return super.registerReceiver(receiver, filter);
+        }
+        return mActivity.registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent) {
+        if (mActivity == null) {
+            super.sendBroadcast(intent);
+        } else {
+            mActivity.sendBroadcast(intent);
+        }
     }
 
     @Override

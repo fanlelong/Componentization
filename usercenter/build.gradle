@@ -39,6 +39,19 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            if (!isRelease) {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    exclude '**/debug/**'
+                }
+            }
+        }
+    }
+
 }
 
 dependencies {

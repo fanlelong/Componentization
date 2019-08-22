@@ -1,13 +1,17 @@
 package com.ancely.fyw.aroute.manager;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import dalvik.system.DexClassLoader;
 
@@ -37,6 +41,8 @@ public class PluginManager {
     //插件apk的包信息类,因为我们需要根据包信息名字获取Activity的名字
     PackageInfo mPackageInfo;
     PackageInfo mPackageServiceInfo;
+    PackageInfo mPackageReceiverInfo;
+    PackageInfo mPackageIntentFiltersInfo;
 
     public static PluginManager getInstance() {
         return sInstance;
@@ -79,6 +85,8 @@ public class PluginManager {
         //通过包管理器获取到传进来的这个路径下的dex文件下的包信息类
         mPackageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
         mPackageServiceInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
+        mPackageReceiverInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
+        mPackageIntentFiltersInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_INTENT_FILTERS);
 
         return true;
     }
@@ -101,5 +109,56 @@ public class PluginManager {
 
     public PackageInfo getPackageServiceInfo() {
         return mPackageServiceInfo;
+    }
+
+    public boolean parserApkAction(String path) {
+        try {
+            File pathFile = new File(path);
+            if (!pathFile.exists()) {
+                return false;
+            }
+            File fileDir = mContext.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
+
+
+            //parsePackage
+            Class<?> packageParserClass = Class.forName("android.content.pm.PackageParser");
+            Object packageParser = packageParserClass.newInstance();
+            Method parsePackageMethod = packageParserClass.getMethod("parsePackage", File.class, int.class);
+
+
+            //Package
+            Object mPackage = parsePackageMethod.invoke(packageParser, pathFile, PackageManager.GET_ACTIVITIES);
+            //Package里的receivers
+            Field receiversField = mPackage.getClass().getDeclaredField("receivers");
+
+
+            ArrayList receivers = (ArrayList) receiversField.get(mPackage);
+
+            for (Object receiver : receivers) {
+
+//                Class<?> mPackageUserStateClass = Class.forName("android.content.pm.PackageUserState");
+//                Method generateActivityInfoMethod = packageParserClass.getMethod("generateActivityInfo", receiver.getClass(),
+//                        int.class, mPackageUserStateClass, int.class);
+//                Class<?> mUserHandleClass = Class.forName("android.os.UserHandle");
+//                int useId = (int) mUserHandleClass.getMethod("getCallingUserId").invoke(null);
+//
+//                ActivityInfo activityInfo = (ActivityInfo) generateActivityInfoMethod.invoke(null, receiver, 0,mPackageUserStateClass.newInstance(), useId);
+//                String broastCastName = activityInfo.name;
+
+                Class<?> aClass = PluginManager.getInstance().getClassLoader().loadClass(mPackageReceiverInfo.receivers[receivers.indexOf(receiver)].name);
+                BroadcastReceiver broadcastReceiver = (BroadcastReceiver) aClass.newInstance();
+
+
+                Class<?> mComponent = Class.forName("android.content.pm.PackageParser$Component");
+                Field intentsField = mComponent.getDeclaredField("intents");
+                ArrayList<IntentFilter> intents = (ArrayList<IntentFilter>) intentsField.get(receiver);
+                for (IntentFilter intent : intents) {
+                    mContext.registerReceiver(broadcastReceiver, intent);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

@@ -24,8 +24,19 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:text="启动Plugin插件的Activity"
-        android:onClick="startActivitys"
+    android:text="启动Plugin插件的Activity"
+    android:onClick="startActivitys"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="注册动态广播Receiver"
+        android:onClick="startReceiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:text="发送动态广播Receiver"
+        android:onClick="sendReceiver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

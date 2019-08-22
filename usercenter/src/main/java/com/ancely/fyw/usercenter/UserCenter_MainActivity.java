@@ -51,4 +51,14 @@ public class UserCenter_MainActivity extends BaseActivity {
         intent.putExtra("className", serviceName);
         startActivity(intent);
     }
+
+    public void startReceiver(View view) {
+
+    }
+
+    public void sendReceiver(View view) {
+        Intent intent = new Intent();
+        intent.setAction("com.plugin.text.StaticReceiver");
+        sendBroadcast(intent);
+    }
 }

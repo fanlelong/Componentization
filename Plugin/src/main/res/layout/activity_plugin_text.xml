@@ -13,4 +13,16 @@
         android:layout_height="wrap_content"
         android:text="启动service"/>
 
+
+    <Button
+        android:id="@+id/regist_broadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册动态广播"/>
+
+    <Button
+        android:id="@+id/send_broadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送动态广播"/>
 </LinearLayout>
