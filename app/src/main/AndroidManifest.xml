@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".aroute.proxy.ProxyActivity"/>
+        <activity android:name=".mvptext.TextModelActivity"/>
 
         <service
             android:name=".aroute.proxy.ProxyService"

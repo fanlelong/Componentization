@@ -1,5 +1,6 @@
 package com.ancely.fyw.aroute.manager;
 
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -27,7 +28,7 @@ public class PluginManager {
     private PluginManager() {
     }
 
-    private static PluginManager sInstance = new PluginManager();
+    private static PluginManager sInstance;
 
     //第三方插件apk的资源对象
     private Resources mResources;
@@ -39,17 +40,27 @@ public class PluginManager {
     private Context mContext;
 
     //插件apk的包信息类,因为我们需要根据包信息名字获取Activity的名字
-    PackageInfo mPackageInfo;
-    PackageInfo mPackageServiceInfo;
-    PackageInfo mPackageReceiverInfo;
-    PackageInfo mPackageIntentFiltersInfo;
+    private PackageInfo mPackageInfo;
+    private PackageInfo mPackageServiceInfo;
 
     public static PluginManager getInstance() {
+
+        if (sInstance == null) {
+            synchronized (PluginManager.class) {
+                if (sInstance == null) {
+                    sInstance = new PluginManager();
+                }
+            }
+        }
         return sInstance;
     }
 
     public void setContext(Context context) {
-        this.mContext = context;
+        if (context instanceof Application) {
+            mContext = context;
+        } else {
+            this.mContext = context.getApplicationContext();
+        }
     }
 
     //根据传进来的路径去动态加载第三方插件apk里的资源文件和类加载器
@@ -67,10 +78,10 @@ public class PluginManager {
         //加载插件里的布局
         try {
             AssetManager assetManager = AssetManager.class.newInstance();
-
             //反射获取方法 为了把插件包的路径添加进去
             Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
             //invoke; 第一个是要执行方法的对象,第二个是参数是方法的参数可以是多个
+
             addAssetPath.invoke(assetManager, path);
             // assetManager:资源的一个管理器 第二个参数和第三个 只是一个配置信息
             mResources = new Resources(assetManager, mContext.getResources().getDisplayMetrics(), mContext.getResources().getConfiguration());
@@ -85,8 +96,6 @@ public class PluginManager {
         //通过包管理器获取到传进来的这个路径下的dex文件下的包信息类
         mPackageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
         mPackageServiceInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_SERVICES);
-        mPackageReceiverInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
-        mPackageIntentFiltersInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_INTENT_FILTERS);
 
         return true;
     }
@@ -133,6 +142,8 @@ public class PluginManager {
 
 
             ArrayList receivers = (ArrayList) receiversField.get(mPackage);
+            PackageManager packageManager = mContext.getPackageManager();
+            PackageInfo receiverInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
 
             for (Object receiver : receivers) {
 
@@ -145,13 +156,13 @@ public class PluginManager {
 //                ActivityInfo activityInfo = (ActivityInfo) generateActivityInfoMethod.invoke(null, receiver, 0,mPackageUserStateClass.newInstance(), useId);
 //                String broastCastName = activityInfo.name;
 
-                Class<?> aClass = PluginManager.getInstance().getClassLoader().loadClass(mPackageReceiverInfo.receivers[receivers.indexOf(receiver)].name);
+                Class<?> aClass = PluginManager.getInstance().getClassLoader().loadClass(receiverInfo.receivers[receivers.indexOf(receiver)].name);
                 BroadcastReceiver broadcastReceiver = (BroadcastReceiver) aClass.newInstance();
 
 
                 Class<?> mComponent = Class.forName("android.content.pm.PackageParser$Component");
                 Field intentsField = mComponent.getDeclaredField("intents");
-                ArrayList<IntentFilter> intents = (ArrayList<IntentFilter>) intentsField.get(receiver);
+                ArrayList<IntentFilter> intents = (ArrayList) intentsField.get(receiver);
                 for (IntentFilter intent : intents) {
                     mContext.registerReceiver(broadcastReceiver, intent);
                 }

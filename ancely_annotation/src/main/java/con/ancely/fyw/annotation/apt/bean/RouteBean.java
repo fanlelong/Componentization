@@ -67,7 +67,7 @@ public class RouteBean {
     }
 
     public enum Type {
-        ACTIVITY,CALL
+        ACTIVITY, CALL, FRAGMENT
     }
 
     //枚举类型

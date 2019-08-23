@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
         setContentView(R.layout.activity_main);
         ParameterManager.getInstance().loadParameter(this);
         ImageView imageView = findViewById(R.id.act_main_iv);
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpToOrder(View view) {
-        RouterManager.getInstance().build("/login/Login_MainActivity")
+        RouterManager.getInstance().build("/login/Login_MainActivity1")
                 .withResultString("name", "app_login")
                 .navigation(this, 20);
     }
@@ -58,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 20 && data != null) {
             String call = data.getStringExtra("call");
             Log.e("componentization", call);
+        }
+
+        Object navigation = RouterManager.getInstance().build("/app/TextFragment")
+                .withResultString("name", "app_usercenter")
+                .navigation(this, 10);
+        if (navigation instanceof Fragment) {
+            Bundle arguments = ((Fragment) navigation).getArguments();
+            String name = arguments.getString("name");
+            String name1 = arguments.getString("name");
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction().add(R.id.fragment, (Fragment) navigation).commitAllowingStateLoss();
+            }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -14,6 +14,7 @@ public interface Constance {
 
     //@Parameter注解全路径
     String PARAMETER_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Parameter";
+    String MODEL_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Model";
 
     //每个项目的名字
     String PRODECT_NAME = "projectName";
@@ -24,8 +25,9 @@ public interface Constance {
 
     //ACTIVITYR 的全类名
     String ACTIVITY_PATH = "android.app.Activity";
+    String FRAGMENT_PATH = "android.support.v4.app.Fragment";
     String CALL_PATH = "com.ancely.fyw.aroute.core.Call";
-    String STRING = "java.lang.string";
+    String STRING = "java.lang.String";
     String ROUTER_MANAGER = "com.ancely.fyw.aroute.manager.RouterManager";
 
     //接口的全类名

@@ -3,9 +3,11 @@ package com.ancely.fyw.aroute.manager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.LruCache;
+import android.widget.Toast;
 
 import com.ancely.fyw.aroute.core.ARouteLoadGroup;
 import com.ancely.fyw.aroute.core.ARouteLoadPath;
@@ -18,15 +20,15 @@ import con.ancely.fyw.annotation.apt.bean.RouteBean;
  *  @文件名:   RouterManager
  *  @创建者:   fanlelong
  *  @创建时间:  2019/8/11 10:30 PM
- *  @描述：    TODO
+ *  @描述：    路由管理类
  */
 public class RouterManager {
     private String mGroup;
     private String mPath;
     private static RouterManager sInstance;
 
-    private LruCache<String, ARouteLoadGroup> mGroupLruCache;
-    private LruCache<String, ARouteLoadPath> mPathLruCache;
+    private LruCache<String, ARouteLoadGroup> mGroupLruCache; //组缓存
+    private LruCache<String, ARouteLoadPath> mPathLruCache; // 跳转地址缓存
     private static final String GROUP_FILE_PREFFIX_NAME = "ARoute$$Group$$";
 
     private RouterManager() {
@@ -146,10 +148,17 @@ public class RouterManager {
                         case CALL:
                             //返回的是一个接口的实现类
                             return routeBean.getClazz().newInstance();
+
+                        case FRAGMENT:
+                            Fragment fragment = (Fragment) routeBean.getClazz().newInstance();
+                            fragment.setArguments(bundleManager.getBundle());
+                            return fragment;
                         default:
 
                             break;
                     }
+                } else {
+                    Toast.makeText(context, "功能暂未开放", Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {

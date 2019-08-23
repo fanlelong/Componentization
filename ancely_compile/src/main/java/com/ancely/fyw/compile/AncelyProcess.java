@@ -248,11 +248,13 @@ public class AncelyProcess extends AbstractProcessor {
 
         //获取Activity类型
         TypeElement activityType = mElementUtils.getTypeElement(Constance.ACTIVITY_PATH);
+        TypeElement fragmentType = mElementUtils.getTypeElement(Constance.FRAGMENT_PATH);
         TypeElement callType = mElementUtils.getTypeElement(Constance.CALL_PATH);
 
         //获取Activity类信息
         TypeMirror activityMirror = activityType.asType();
         TypeMirror callyMirror = callType.asType();
+        TypeMirror fragmentMirror = fragmentType.asType();
 
         for (Element element : elements) {
 
@@ -273,8 +275,10 @@ public class AncelyProcess extends AbstractProcessor {
                 routeBean.setType(RouteBean.Type.ACTIVITY);
             } else if (mTypeUtils.isSubtype(elementMirror, callyMirror)) {
                 routeBean.setType(RouteBean.Type.CALL);
+            } else if (mTypeUtils.isSubtype(elementMirror, fragmentMirror)) {
+                routeBean.setType(RouteBean.Type.FRAGMENT);
             } else {
-                throw new RuntimeException("Aroute只限于继承Activity相关类之上");
+                throw new RuntimeException("Aroute只限于继承Activity,Fragment,Call接口之上");
             }
             // 为tempPathMap附值
             addToPathMap(routeBean);

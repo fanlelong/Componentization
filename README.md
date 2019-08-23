@@ -69,19 +69,25 @@ public class LoginDrawableImpl implements LoginCall {
 
 ```java
     //这是一个成员变量 name = "/login/getDrawable  这玩意要跟上面的path = "/login/getDrawable"对应
+@ARouter(path = "/app/MainActivity")
+public class MainActivity extends AppCompatActivity {
+
+    @Parameter
+    String name;
+
     @Parameter(name = "/login/getDrawable")
     LoginCall mLoginCall;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        //先要懒加载出来
+        ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
+        setContentView(R.layout.activity_main);
         ParameterManager.getInstance().loadParameter(this);
         ImageView imageView = findViewById(R.id.act_main_iv);
         imageView.setImageResource(mLoginCall.getDrawable());
     }
+}
 
 ```
 
@@ -96,18 +102,22 @@ public class LoginDrawableImpl implements LoginCall {
 
 ```java
 
+@ARouter(path = "/usercenter/UserCenter_MainActivity")
+public class UserCenter_MainActivity extends BaseActivity {
     public void startActivitys(View view) {
-    //这个是加载第三方apk的路径
         boolean isSuccess = PluginManager.getInstance().loadPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
         if (!isSuccess) {
             return;
         }
+        //先跟转到ProxyActivity代码Activity
         Intent intent = new Intent(this, ProxyActivity.class);
+        
+        //获取到插件apk里面mainfest里面注册的第一个activity 当然里面可以有很多个
         String serviceName = PluginManager.getInstance().getPackageInfo().activities[0].name;
         intent.putExtra("className", serviceName);
         startActivity(intent);
     }
-
+}
 
 ```
 
