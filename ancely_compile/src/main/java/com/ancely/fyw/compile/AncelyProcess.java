@@ -276,7 +276,7 @@ public class AncelyProcess extends AbstractProcessor {
             } else if (mTypeUtils.isSubtype(elementMirror, callyMirror)) {
                 routeBean.setType(RouteBean.Type.CALL);
             } else if (mTypeUtils.isSubtype(elementMirror, fragmentMirror)) {
-                routeBean.setType(RouteBean.Type.FRAGMENT);
+                routeBean.setType(RouteBean.Type.FRAGMENT_V4);
             } else {
                 throw new RuntimeException("Aroute只限于继承Activity,Fragment,Call接口之上");
             }

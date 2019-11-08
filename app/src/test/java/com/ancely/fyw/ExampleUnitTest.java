@@ -1,5 +1,10 @@
 package com.ancely.fyw;
 
+import com.ancely.fyw.interceptertest.ManagerTask;
+import com.ancely.fyw.interceptertest.Task1;
+import com.ancely.fyw.interceptertest.Task2;
+import com.ancely.fyw.interceptertest.Task3;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -35,5 +40,18 @@ public class ExampleUnitTest {
         return dst.replaceAll("零[千百十]", "零").replaceAll("零+万", "万")
                 .replaceAll("零+亿", "亿").replaceAll("亿万", "亿零")
                 .replaceAll("零+", "零").replaceAll("零$", "");
+    }
+
+    @Test
+    public void taskTest(){
+        Task1 task1 = new Task1();
+        Task2 task2 = new Task2();
+        Task3 task3 = new Task3();
+        ManagerTask managerTask = new ManagerTask();
+        managerTask.addTask(task1);
+        managerTask.addTask(task2);
+        managerTask.addTask(task3);
+
+        managerTask.doAction("ok",managerTask);
     }
 }

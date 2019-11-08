@@ -24,7 +24,6 @@ android {
         versionName androidId.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT]
@@ -42,10 +41,13 @@ android {
     sourceSets {
         main {
             if (!isRelease) {
+                //如果是组件化模式时,需要独立运行时
                 manifest.srcFile 'src/main/debug/AndroidManifest.xml'
             } else {
+                //如果是集成化时,整个项目打包apk
                 manifest.srcFile 'src/main/AndroidManifest.xml'
                 java {
+                    //release时,debug目录下文件不需要合并到工程里
                     exclude '**/debug/**'
                 }
             }

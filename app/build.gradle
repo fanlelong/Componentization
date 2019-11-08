@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply from: 'tinker-support.gradle'
 
 def androidId = rootProject.ext.androidId
 def support = rootProject.ext.dependencies
@@ -15,10 +15,11 @@ android {
         versionName androidId.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT]
+                arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT, eventBusIndex:'com.ancely.fyw.MyEventBusIndex']
             }
         }
     }
@@ -45,7 +46,7 @@ dependencies {
     annotationProcessor project(':ancely_compile')
     implementation project(':common')
 
-    if(isRelease){
+    if (isRelease) {
         implementation project(':login')
         implementation project(':usercenter')
     }

@@ -14,6 +14,11 @@ public interface Constance {
 
     //@Parameter注解全路径
     String PARAMETER_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Parameter";
+
+    //@Subscribe注解全路径
+    String SUBSCRIBE_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Subscribe";
+
+
     String MODEL_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Model";
 
     //每个项目的名字
@@ -33,7 +38,7 @@ public interface Constance {
     //接口的全类名
     String AROUTE_GROUP = "com.ancely.fyw.aroute.core.ARouteLoadGroup";
     String AROUTE_PATH = "com.ancely.fyw.aroute.core.ARouteLoadPath";
-     String PARAMETER_PATH =  "com.ancely.fyw.aroute.core.ParameterLoad";
+    String PARAMETER_PATH = "com.ancely.fyw.aroute.core.ParameterLoad";
     String Call_PATH = "com.ancely.fyw.aroute.core.Call";
 
 
@@ -51,8 +56,33 @@ public interface Constance {
     String GROUP_METHOD_RETURN = "groupMap";
 
 
-    public static final String PATH_FILE_NAME_PREFIX = "ARoute$$Path$$";
-    public static final String GROUP_FILE_NAME_PREFIX = "ARoute$$Group$$";
-    public static final String PARAMETER_FILE_NAME = "$$Parameter";
+    String PATH_FILE_NAME_PREFIX = "ARoute$$Path$$";
+    String GROUP_FILE_NAME_PREFIX = "ARoute$$Group$$";
+    String PARAMETER_FILE_NAME = "$$Parameter";
+
+
+    // APT生成类文件所属包名
+    String PACKAGE_NAME = "packageName";
+
+    // APT生成类文件的类名
+    String CLASS_NAME = "className";
+
+    // 所有的事件订阅方法，生成索引接口
+    String SUBSCRIBERINFO_INDEX = "con.ancely.fyw.annotation.apt.SubscriberInfoIndex";
+
+    // 全局属性名
+    String FIELD_NAME = "SUBSCRIBER_INDEX";
+
+    // putIndex方法的参数对象名
+    String PUTINDEX_PARAMETER_NAME = "info";
+
+    // 加入Map集合方法名
+    String PUTINDEX_METHOD_NAME = "putIndex";
+
+    // getSubscriberInfo方法的参数对象名
+    String GETSUBSCRIBERINFO_PARAMETER_NAME = "subscriberClass";
+
+    // 通过订阅者对象（MainActivity.class）获取所有订阅方法的方法名
+    String GETSUBSCRIBERINFO_METHOD_NAME = "getSubscriberInfo";
 
 }

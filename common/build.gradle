@@ -9,9 +9,6 @@ android {
     compileSdkVersion androidId.compileSdkVersion
 
     defaultConfig {
-        if (!isRelease) {
-            applicationId appId.login
-        }
         minSdkVersion androidId.minSdkVersion
         targetSdkVersion androidId.targetSdkVersion
         versionCode androidId.versionCode

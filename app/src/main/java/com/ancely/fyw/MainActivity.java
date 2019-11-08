@@ -11,12 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.ancely.fyw.aroute.manager.ParameterManager;
 import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.common.LoginCall;
+
+import org.greenrobot.eventbus.EventBus;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Parameter;
@@ -33,12 +36,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
         setContentView(R.layout.activity_main);
         ParameterManager.getInstance().loadParameter(this);
         ImageView imageView = findViewById(R.id.act_main_iv);
         imageView.setImageResource(mLoginCall.getDrawable());
+
+
+
     }
 
     public void jumpToOrder(View view) {
@@ -62,18 +73,15 @@ public class MainActivity extends AppCompatActivity {
             Log.e("componentization", call);
         }
 
-        Object navigation = RouterManager.getInstance().build("/app/TextFragment")
+        Fragment navigation = (Fragment) RouterManager.getInstance().build("/app/TextFragment")
                 .withResultString("name", "app_usercenter")
                 .navigation(this, 10);
-        if (navigation instanceof Fragment) {
-            Bundle arguments = ((Fragment) navigation).getArguments();
-            String name = arguments.getString("name");
-            String name1 = arguments.getString("name");
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            if (fragmentManager != null) {
-                fragmentManager.beginTransaction().add(R.id.fragment, (Fragment) navigation).commitAllowingStateLoss();
-            }
-
+        Bundle arguments = ((Fragment) navigation).getArguments();
+        String name = arguments.getString("name");
+        String name1 = arguments.getString("name");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager != null) {
+            fragmentManager.beginTransaction().add(R.id.fragment, (Fragment) navigation).commitAllowingStateLoss();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

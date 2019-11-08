@@ -2,6 +2,8 @@ package com.ancely.fyw.mvptext;
 
 import com.ancely.fyw.aroute.base.BaseModelActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import con.ancely.fyw.annotation.apt.ARouter;
 
 /*
@@ -28,6 +30,7 @@ public class TextModelActivity extends BaseModelActivity<TextPresenter> implemen
 
     @Override
     protected void initView() {
+
 
     }
 

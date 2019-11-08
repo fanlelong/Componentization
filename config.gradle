@@ -1,9 +1,10 @@
 //如果需要添加多个自定义的属性
 ext {
     //生产开发环境
-    isRelease = true
+    isRelease = false
 
     packageNameAPT = "com.ancely.fyw.modular.apt"
+    eventBusPackagename = "com.ancely.fyw.eventbus.apt"
     //建立Map的储存
     androidId = [
             compileSdkVersion: 28,
@@ -16,7 +17,8 @@ ext {
     appId = [
             app       : "com.ancely.fyw",
             usercenter: "com.ancely.fyw.usercenter",
-            login     : "com.ancely.fyw.login"
+            login     : "com.ancely.fyw.login",
+            eventbus  : "com.ancely.fyw.eventbus"
     ]
     //生产,测试环境
     url = [
@@ -36,6 +38,7 @@ ext {
             "convertergson"   : "com.squareup.retrofit2:converter-gson:${retrofitLibrary}",
             "converterscalars": "com.squareup.retrofit2:converter-scalars:${retrofitLibrary}",
             "adapterrxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${retrofitLibrary}",
+//            "eventbus"        : "org.greenrobot:eventbus:3.1.1",
     ]
     arch = [
             "lifecycle_runtime"   : "android.arch.lifecycle:runtime:${archLibrary}",

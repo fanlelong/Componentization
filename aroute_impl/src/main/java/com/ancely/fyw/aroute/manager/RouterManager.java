@@ -149,7 +149,7 @@ public class RouterManager {
                             //返回的是一个接口的实现类
                             return routeBean.getClazz().newInstance();
 
-                        case FRAGMENT:
+                        case FRAGMENT_V4:
                             Fragment fragment = (Fragment) routeBean.getClazz().newInstance();
                             fragment.setArguments(bundleManager.getBundle());
                             return fragment;
