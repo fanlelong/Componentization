@@ -19,7 +19,6 @@ import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.common.LoginCall;
 
-import org.greenrobot.eventbus.EventBus;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Parameter;
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         RouterManager.getInstance().build("/usercenter/UserCenter_MainActivity")
                 .withResultString("name", "app_usercenter")
                 .navigation(this, 10);
-        PluginManager.getInstance().loadPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+        PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
         PluginManager.getInstance().parserApkAction(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
     }
 

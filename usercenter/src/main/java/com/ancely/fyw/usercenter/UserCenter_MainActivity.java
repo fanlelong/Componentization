@@ -30,7 +30,7 @@ public class UserCenter_MainActivity extends BaseActivity {
 
     public void startServices(View view) {
         //加载第三方插件apk
-        boolean isSuccess = PluginManager.getInstance().loadPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+        boolean isSuccess = PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
         if (!isSuccess) {
             return;
         }
@@ -42,7 +42,7 @@ public class UserCenter_MainActivity extends BaseActivity {
     }
 
     public void startActivitys(View view) {
-        boolean isSuccess = PluginManager.getInstance().loadPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+        boolean isSuccess = PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
         if (!isSuccess) {
             return;
         }

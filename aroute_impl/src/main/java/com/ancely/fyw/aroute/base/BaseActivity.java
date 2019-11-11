@@ -3,22 +3,33 @@ package com.ancely.fyw.aroute.base;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.proxy.ActivityInterface;
+import com.ancely.fyw.aroute.skin.impl.ViewsMatch;
+import com.ancely.fyw.aroute.skin.utils.ActionBarUtils;
+import com.ancely.fyw.aroute.skin.utils.NavigationUtils;
+import com.ancely.fyw.aroute.skin.utils.StatusBarUtils;
+import com.ancely.fyw.aroute.skin.view.SelfAppCompatViewInflater;
 
 /*
  *  @项目名：  Componentization
@@ -26,12 +37,12 @@ import com.ancely.fyw.aroute.proxy.ActivityInterface;
  *  @文件名:   BaseActivity
  *  @创建者:   fanlelong
  *  @创建时间:  2019/8/21 1:56 PM
- *  @描述：    TODO
+ *  @描述：    Activity基类
  */
 public class BaseActivity extends AppCompatActivity implements ActivityInterface {
 
     protected Activity mActivity;
-
+    private SelfAppCompatViewInflater mViewInflater;
 
     @Override
     public void attach(Activity activity) {
@@ -40,9 +51,28 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         if (mActivity == null) {
+            if (openChangerSkin()) {
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LayoutInflaterCompat.setFactory2(inflater, this);
+            }
             super.onCreate(savedInstanceState);
         }
+    }
+
+    @Override
+    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        if (openChangerSkin()) {
+            if (mViewInflater == null) {
+                mViewInflater = new SelfAppCompatViewInflater(context);
+            }
+            mViewInflater.setName(name);
+            mViewInflater.setAttrs(attrs);
+            return mViewInflater.autoMatch();
+        }
+
+        return super.onCreateView(parent, name, context, attrs);
     }
 
     @Override
@@ -216,6 +246,50 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     public void onDestroy() {
         if (mActivity == null) {
             super.onDestroy();
+        }
+    }
+
+    public boolean openChangerSkin() {
+        return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void defaultSkin(int themeColorId) {
+        this.skinDynamic(null, themeColorId);
+    }
+
+    /**
+     * 动态换肤（api限制：5.0版本）
+     */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void skinDynamic(String skinPath, int themeColorId) {
+        PluginManager.getInstance().loadPluginPath(skinPath);
+
+        if (themeColorId != 0) {
+            int themeColor = PluginManager.getInstance().getColor(themeColorId);
+            StatusBarUtils.forStatusBar(this, themeColor);
+            NavigationUtils.forNavigation(this, themeColor);
+            ActionBarUtils.forActionBar(this, themeColor);
+        }
+
+        applyViews(getWindow().getDecorView());
+    }
+
+    /**
+     * 控件回调监听，匹配上则给控件执行换肤方法
+     */
+    protected void applyViews(View view) {
+        if (view instanceof ViewsMatch) {
+            ViewsMatch viewsMatch = (ViewsMatch) view;
+            viewsMatch.startChangerSkin();
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup parent = (ViewGroup) view;
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                applyViews(parent.getChildAt(i));
+            }
         }
     }
 }
