@@ -25,14 +25,14 @@
         app:layout_constraintTop_toBottomOf="@+id/button"/>
 
     <Button
-        android:onClick="jumpSkinDysn"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        android:text="跳转到动态换肤界面"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:onClick="jumpSkinDysn"
+        android:text="跳转到动态换肤界面"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button"/>
 
     <ImageView
         android:id="@+id/act_main_iv"
@@ -44,17 +44,18 @@
         app:layout_constraintTop_toBottomOf="@+id/button2"/>
 
 
-    <com.ancely.fyw.aroute.skin.view.SkinTextView
-        android:onClick="dayOrNight"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp"
+    <TextView
         android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:background="@color/skin_background"
-        android:text="改变颜色"
+        android:gravity="center"
+        android:onClick="dayOrNight"
+        android:text="日夜间切换"
         android:textColor="@color/skin_textColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/button"/>
+        app:layout_constraintStart_toEndOf="@id/button"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <FrameLayout
         android:id="@+id/fragment"
