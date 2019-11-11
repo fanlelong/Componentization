@@ -1,5 +1,6 @@
 package com.ancely.fyw.aroute.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -16,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -291,5 +293,17 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
                 applyViews(parent.getChildAt(i));
             }
         }
+    }
+    @SuppressLint("ObsoleteSdkInt")
+    public void setDayNightModel(@AppCompatDelegate.NightMode int uiModeNightYes) {
+      boolean isVersion21 = Build.VERSION.SDK_INT >= 21;
+        getDelegate().setLocalNightMode(uiModeNightYes);
+        if (isVersion21) {
+            StatusBarUtils.forStatusBar(this);
+            ActionBarUtils.forActionBar(this);
+            NavigationUtils.forNavigation(this);
+        }
+        View decorView = getWindow().getDecorView();
+        applyViews(decorView);
     }
 }

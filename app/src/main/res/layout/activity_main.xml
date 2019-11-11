@@ -33,6 +33,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"/>
 
+
+    <com.ancely.fyw.aroute.skin.view.SkinTextView
+        android:onClick="dayOrNight"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@color/commonTextColor"
+        android:text="改变颜色"
+        android:textColor="@color/commonTextColor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button"/>
+
     <FrameLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"

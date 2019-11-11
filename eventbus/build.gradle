@@ -29,7 +29,7 @@ android {
             annotationProcessorOptions {
                 arguments = [projectName   : project.getName(),
                              packageNameAPT: packageNameAPT,
-                             packageName   : eventBusPackagename,
+                             packageName   : "com.ancely.fyw.eventbus.apt",
                              className     : "EventBusIndex"]
             }
         }
@@ -69,7 +69,7 @@ dependencies {
     implementation project(':ancely_annotation')
     annotationProcessor project(':ancely_compile')
     implementation project(':common')
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
 }

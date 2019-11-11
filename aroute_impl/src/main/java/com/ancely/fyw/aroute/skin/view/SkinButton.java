@@ -89,8 +89,8 @@ public class SkinButton extends AppCompatButton implements ViewsMatch {
             }
         }
 
-        // 根据自定义属性，获取styleable中的字体 custom_typeface 属性
-        key = R.styleable.SkinTextView[R.styleable.SkinTextView_custom_typeface];
+//        // 根据自定义属性，获取styleable中的字体 custom_typeface 属性
+        key = R.styleable.SkinButton[R.styleable.SkinButton_custom_typeface];
         int textTypefaceResourceId = attrsBean.getViewResource(key);
         if (textTypefaceResourceId > 0) {
             if (PluginManager.getInstance().isDefaultSkin()) {

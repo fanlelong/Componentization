@@ -26,7 +26,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT]
+                arguments = [projectName: project.getName(),
+                             packageNameAPT: packageNameAPT,
+                             packageName   : "com.ancely.fyw.eventbus.apt",
+                             className     : "EventBusIndex"]
             }
         }
     }

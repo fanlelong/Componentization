@@ -5,8 +5,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.ancely.fyw.aroute.manager.PluginManager;
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
 
 
 /*
@@ -23,7 +21,7 @@ public class ComApplication extends Application {
     public void onCreate() {
         super.onCreate();
         PluginManager.init(this);
-        Bugly.init(this, "900029763", false);
+//        Bugly.init(this, "900029763", false);
 //        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
 
     }
@@ -32,6 +30,6 @@ public class ComApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
-        Beta.installTinker();
+//        Beta.installTinker();
     }
 }

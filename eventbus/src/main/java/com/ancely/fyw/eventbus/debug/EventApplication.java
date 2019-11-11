@@ -2,8 +2,6 @@ package com.ancely.fyw.eventbus.debug;
 
 import android.app.Application;
 
-import com.squareup.leakcanary.LeakCanary;
-
 /*
  *  @项目名：  Componentization
  *  @包名：    com.ancely.fyw.eventbus.debug
@@ -16,6 +14,6 @@ public class EventApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
     }
 }

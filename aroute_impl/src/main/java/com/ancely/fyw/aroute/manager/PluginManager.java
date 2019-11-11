@@ -46,7 +46,7 @@ public class PluginManager {
     private DexClassLoader mClassLoader;
 
     //上下文
-    private Context mContext;
+    private Application mApplication;
 
 
     //插件apk的包信息类,因为我们需要根据包信息名字获取Activity的名字
@@ -79,10 +79,10 @@ public class PluginManager {
     private PluginManager(Application application) {
         cacheSkin = new HashMap<>();
         mAppResources = application.getResources();
-        mContext = application;
+        mApplication = application;
     }
 
-    //根据传进来的路径去动态加载第三方插件apk里的资源文件和类加载器
+    //根据传进来的路径去动态加载第三方插件apk里的资源文件和类加载器或者皮肤包
     public boolean loadPluginPath(String pluginPath) {
         File pathFile = new File(pluginPath);
         if (!pathFile.exists()) {
@@ -102,11 +102,11 @@ public class PluginManager {
             }
         }
 
-        File fileDir = mContext.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
+        File fileDir = mApplication.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
 
         //只有一个classloader   optimizedDire:当前应用的私有存储路径
         //DexClassLoader path: 插件包的路径  optimizedDirectory: 缓存的一个目录
-        mClassLoader = new DexClassLoader(pluginPath, fileDir.getAbsolutePath(), null, mContext.getClassLoader());
+        mClassLoader = new DexClassLoader(pluginPath, fileDir.getAbsolutePath(), null, mApplication.getClassLoader());
 
         //加载插件里的布局
         try {
@@ -117,7 +117,7 @@ public class PluginManager {
 
             addAssetPath.invoke(assetManager, pluginPath);
             // assetManager:资源的一个管理器 第二个参数和第三个 只是一个配置信息
-            mPluginResources = new Resources(assetManager, mContext.getResources().getDisplayMetrics(), mContext.getResources().getConfiguration());
+            mPluginResources = new Resources(assetManager, mApplication.getResources().getDisplayMetrics(), mApplication.getResources().getConfiguration());
 
         } catch (Exception e) {
             isDefaultSkin = true;
@@ -125,7 +125,7 @@ public class PluginManager {
         }
 
         //获取到包管理器(packageManager) 整个系统有只有一个
-        PackageManager packageManager = mContext.getPackageManager();
+        PackageManager packageManager = mApplication.getPackageManager();
 
         //通过包管理器获取到传进来的这个路径下的dex文件下的包信息类
         mPackageInfo = packageManager.getPackageArchiveInfo(pluginPath, PackageManager.GET_ACTIVITIES);
@@ -152,7 +152,7 @@ public class PluginManager {
     }
 
     public Context getContext() {
-        return mContext;
+        return mApplication;
     }
 
     public PackageInfo getPackageInfo() {
@@ -169,7 +169,7 @@ public class PluginManager {
             if (!pathFile.exists()) {
                 return false;
             }
-            File fileDir = mContext.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
+            File fileDir = mApplication.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
 
 
             //parsePackage
@@ -185,7 +185,7 @@ public class PluginManager {
 
 
             ArrayList receivers = (ArrayList) receiversField.get(mPackage);
-            PackageManager packageManager = mContext.getPackageManager();
+            PackageManager packageManager = mApplication.getPackageManager();
             PackageInfo receiverInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_RECEIVERS);
 
             for (Object receiver : receivers) {
@@ -207,7 +207,7 @@ public class PluginManager {
                 Field intentsField = mComponent.getDeclaredField("intents");
                 ArrayList<IntentFilter> intents = (ArrayList) intentsField.get(receiver);
                 for (IntentFilter intent : intents) {
-                    mContext.registerReceiver(broadcastReceiver, intent);
+                    mApplication.registerReceiver(broadcastReceiver, intent);
                 }
             }
         } catch (Exception e) {
@@ -233,12 +233,12 @@ public class PluginManager {
     }
 
     // mipmap和drawable统一用法（待测）
-    public Drawable getDrawableOrMipMap(int resourceId) {
+    private Drawable getDrawableOrMipMap(int resourceId) {
         int ids = getSkinResourceIds(resourceId);
         return isDefaultSkin ? mAppResources.getDrawable(ids) : mPluginResources.getDrawable(ids);
     }
 
-    public String getString(int resourceId) {
+    private String getString(int resourceId) {
         int ids = getSkinResourceIds(resourceId);
         return isDefaultSkin ? mAppResources.getString(ids) : mPluginResources.getString(ids);
     }

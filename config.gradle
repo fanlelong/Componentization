@@ -1,7 +1,7 @@
 //如果需要添加多个自定义的属性
 ext {
     //生产开发环境
-    isRelease = false
+    isRelease =true
 
     packageNameAPT = "com.ancely.fyw.modular.apt"
     eventBusPackagename = "com.ancely.fyw.eventbus.apt"
