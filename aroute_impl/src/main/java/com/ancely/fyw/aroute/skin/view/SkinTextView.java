@@ -3,6 +3,7 @@ package com.ancely.fyw.aroute.skin.view;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
@@ -89,14 +90,14 @@ public class SkinTextView extends AppCompatTextView implements ViewsMatch {
         }
 
         // 根据自定义属性，获取styleable中的字体 custom_typeface 属性
-//        key = R.styleable.SkinTextView[R.styleable.SkinTextView_custom_typeface];
-//        int textTypefaceResourceId = attrsBean.getViewResource(key);
-//        if (textTypefaceResourceId > 0) {
-//            if (PluginManager.getInstance().isDefaultSkin()) {
-//                setTypeface(Typeface.DEFAULT);
-//            } else {
-//                setTypeface(PluginManager.getInstance().getTypeface(textTypefaceResourceId));
-//            }
-//        }
+        key = R.styleable.SkinTextView[R.styleable.SkinTextView_custom_typeface];
+        int textTypefaceResourceId = attrsBean.getViewResource(key);
+        if (textTypefaceResourceId > 0) {
+            if (PluginManager.getInstance().isDefaultSkin()) {
+                setTypeface(Typeface.DEFAULT);
+            } else {
+                setTypeface(PluginManager.getInstance().getTypeface(textTypefaceResourceId));
+            }
+        }
     }
 }
