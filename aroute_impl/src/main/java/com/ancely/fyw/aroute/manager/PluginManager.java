@@ -84,8 +84,8 @@ public class PluginManager {
 
     //根据传进来的路径去动态加载第三方插件apk里的资源文件和类加载器或者皮肤包
     public boolean loadPluginPath(String pluginPath) {
-        File pathFile = new File(pluginPath);
-        if (!pathFile.exists()) {
+
+        if (TextUtils.isEmpty(pluginPath)) {
             isDefaultSkin = true;
             return false;
         }
@@ -100,6 +100,13 @@ public class PluginManager {
                 mClassLoader = skinCache.getClassLoader();
                 return true;
             }
+        }
+
+
+        File pathFile = new File(pluginPath);
+        if (!pathFile.exists()) {
+            isDefaultSkin = true;
+            return false;
         }
 
         File fileDir = mApplication.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/

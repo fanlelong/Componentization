@@ -21,6 +21,7 @@ import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 import com.ancely.fyw.common.LoginCall;
+import com.ancely.fyw.mvptext.SkinTestActivity;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Parameter;
@@ -119,5 +120,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean openChangerSkin() {
         return true;
+    }
+
+
+    public void jumpSkinDysn(View view) {
+        startActivity(new Intent(this,SkinTestActivity.class));
     }
 }

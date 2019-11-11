@@ -3,23 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/commonTextColor1"
+    android:background="@color/skin_background"
     android:orientation="vertical">
 
 
-    <com.ancely.fyw.aroute.skin.view.SkinTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/commonTextColor"
+        android:background="@color/skin_background"
         android:text="frag-textvie"
-        android:textColor="@color/commonTextColor1"/>
+        android:textColor="@color/skin_textColor"/>
 
 
-    <com.ancely.fyw.aroute.skin.view.SkinButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/commonTextColor"
+        android:background="@color/skin_background"
         android:text="frag-button"
-        android:textColor="@color/commonTextColor1"/>
+        android:textColor="@color/skin_textColor"/>
 </LinearLayout>

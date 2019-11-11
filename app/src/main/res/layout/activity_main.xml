@@ -24,6 +24,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"/>
 
+    <Button
+        android:onClick="jumpSkinDysn"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        android:text="跳转到动态换肤界面"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/act_main_iv"
         android:layout_width="wrap_content"
@@ -40,9 +50,9 @@
         android:layout_marginTop="10dp"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:background="@color/commonTextColor"
+        android:background="@color/skin_background"
         android:text="改变颜色"
-        android:textColor="@color/commonTextColor1"
+        android:textColor="@color/skin_textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button"/>
 

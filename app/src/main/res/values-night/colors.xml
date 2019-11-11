@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#5C6BC0</color>
+    <color name="colorPrimaryDark">#673AB7</color>
+    <color name="colorAccent">#D81B60</color>
 
-    <!-- 本地/内置换肤颜色（夜间） -->
-    <color name="commonTextColor">#3F51B5</color>
-    <color name="commonTextColor1">#000000</color>
+    <!-- 皮肤包颜色 -->
+    <color name="skin_background">#3F51B5</color>
+    <color name="skin_textColor">#FFFFFF</color>
+    <color name="skin_item_color">#123456</color>
 
 </resources>
