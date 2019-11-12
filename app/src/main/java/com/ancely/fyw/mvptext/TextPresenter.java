@@ -1,10 +1,7 @@
 package com.ancely.fyw.mvptext;
 
 import android.arch.lifecycle.Observer;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import com.ancely.fyw.aroute.base.BasePresenter;
 
@@ -18,12 +15,8 @@ import com.ancely.fyw.aroute.base.BasePresenter;
  */
 public class TextPresenter extends BasePresenter<TextModel, ITextView, TestContract.Persenter> {
 
-    public TextPresenter(@NonNull Fragment fragment, ITextView baseView) {
-        super(fragment, baseView);
-    }
-
-    public TextPresenter(@NonNull FragmentActivity fragment, ITextView baseView) {
-        super(fragment, baseView);
+    public TextPresenter(ITextView baseView) {
+        super(baseView);
     }
 
     @Override
@@ -54,13 +47,17 @@ public class TextPresenter extends BasePresenter<TextModel, ITextView, TestContr
         return new TestContract.Persenter() {
             @Override
             public void requestTest(String accound, String psw) {
-
+                try {
+                    getBaseModel().getContract().execudeTest(accound, psw);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void requestTest1(String accound, String psw) {
                 try {
-                    getBaseModel().getContract().execudeTest(accound, psw);
+                    getBaseModel().getContract().execudeTest1(accound, psw);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -2,7 +2,6 @@ package com.ancely.fyw.aroute.base;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -22,23 +21,35 @@ public abstract class BasePresenter<VM extends BaseModel, V extends IBaseView, C
     protected V mBaseView;
     private WeakReference<? extends LifecycleOwner> mWeakReference;
 
-    public BasePresenter(@NonNull Fragment fragment, V baseView) {
-        mBaseModel = ViewModelProviders.of(fragment).get(getModelClass());
-        mBaseView = baseView;
-        mBaseModel.setPresenter(this);
-        mWeakReference = new WeakReference<>(fragment);
-//        NetWorkManager.getInstance().getRequestManagerRetriever().get(fragment, this);
-//        mRequest = NetWorkManager.getInstance().getRetrofit().create(getClazz());
-        initObserable(mBaseModel);
-    }
+//    public BasePresenter(@NonNull Fragment fragment, V baseView) {
+//        mBaseModel = ViewModelProviders.of(fragment).get(getModelClass());
+//        mBaseView = baseView;
+//        mBaseModel.setPresenter(this);
+//        mWeakReference = new WeakReference<>(fragment);
+////        NetWorkManager.getInstance().getRequestManagerRetriever().get(fragment, this);
+////        mRequest = NetWorkManager.getInstance().getRetrofit().create(getClazz());
+//        initObserable(mBaseModel);
+//    }
+//
+//    public BasePresenter(@NonNull FragmentActivity fragment, V baseView) {
+//        mBaseModel = ViewModelProviders.of(fragment).get(getModelClass());
+//        mBaseView = baseView;
+//        mBaseModel.setPresenter(this);
+//        mWeakReference = new WeakReference<>(fragment);
+////        NetWorkManager.getInstance().getRequestManagerRetriever().get(fragment, this);
+////        mRequest = NetWorkManager.getInstance().getRetrofit().create(getClazz());
+//        initObserable(mBaseModel);
+//    }
 
-    public BasePresenter(@NonNull FragmentActivity fragment, V baseView) {
-        mBaseModel = ViewModelProviders.of(fragment).get(getModelClass());
+    public BasePresenter(V baseView) {
+        if (baseView instanceof Fragment) {
+            mBaseModel = ViewModelProviders.of((Fragment) baseView).get(getModelClass());
+        } else if (baseView instanceof FragmentActivity) {
+            mBaseModel = ViewModelProviders.of((FragmentActivity) baseView).get(getModelClass());
+        }
         mBaseView = baseView;
         mBaseModel.setPresenter(this);
-        mWeakReference = new WeakReference<>(fragment);
-//        NetWorkManager.getInstance().getRequestManagerRetriever().get(fragment, this);
-//        mRequest = NetWorkManager.getInstance().getRetrofit().create(getClazz());
+        mWeakReference = new WeakReference<>(baseView);
         initObserable(mBaseModel);
     }
 

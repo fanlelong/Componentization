@@ -22,12 +22,12 @@ public class TextModel extends BaseModel<TextPresenter, TestContract.Model> {
         return new TestContract.Model() {
             @Override
             public void execudeTest(String accound, String psw) throws Exception {
-
+                resultLiveData.postValue(new TestInfo());
             }
 
             @Override
             public void execudeTest1(String accound, String psw) throws Exception {
-
+                //不通过Viewmodel传数据
                 mPresenter.getContract().requestSuccess(new TestInfo());
             }
         };

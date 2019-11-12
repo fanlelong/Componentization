@@ -1,5 +1,7 @@
 package com.ancely.fyw.aroute.base;
 
+import android.arch.lifecycle.LifecycleOwner;
+
 /*
  *  @项目名：  ShareAndroid
  *  @包名：    com.ancely.mvp
@@ -8,6 +10,6 @@ package com.ancely.fyw.aroute.base;
  *  @创建时间:  2019/7/25 1:53 PM
  *  @描述：    TODO
  */
-public interface IBaseView<CONTRACT> {
+public interface IBaseView<CONTRACT> extends LifecycleOwner {
     CONTRACT getContract();
 }

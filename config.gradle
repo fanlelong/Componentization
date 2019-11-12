@@ -1,7 +1,7 @@
 //如果需要添加多个自定义的属性
 ext {
     //生产开发环境
-    isRelease =true
+    isRelease = true
 
     packageNameAPT = "com.ancely.fyw.modular.apt"
     eventBusPackagename = "com.ancely.fyw.eventbus.apt"
@@ -38,6 +38,8 @@ ext {
             "convertergson"   : "com.squareup.retrofit2:converter-gson:${retrofitLibrary}",
             "converterscalars": "com.squareup.retrofit2:converter-scalars:${retrofitLibrary}",
             "adapterrxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${retrofitLibrary}",
+            "rxandroid2"      : "io.reactivex.rxjava2:rxandroid:2.1.0",
+            "rxjava2"         : "io.reactivex.rxjava2:rxjava:2.2.0"
 //            "eventbus"        : "org.greenrobot:eventbus:3.1.1",
     ]
     arch = [

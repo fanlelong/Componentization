@@ -19,7 +19,7 @@ public class TextModelActivity extends BaseModelActivity<TextPresenter> implemen
 
     @Override
     protected TextPresenter getPresetner() {
-        return new TextPresenter(this, this);
+        return new TextPresenter(this);
     }
 
     @Override
