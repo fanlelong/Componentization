@@ -60,9 +60,13 @@ public class RouterManager {
         return new BundleManager();
     }
 
+    public BundleManager build() {
+        BundleManager bundleManager = new BundleManager();
+        bundleManager.setResult(true);
+        return bundleManager;
+    }
 
-    public BundleManager finish(Activity activity) {
-
+    public BundleManager finish() {
         return new BundleManager(true);
     }
 
@@ -136,9 +140,8 @@ public class RouterManager {
 
                             if (bundleManager.isResult()) {
                                 ((Activity) context).setResult(code, intent);
-                            }
 
-                            if (code > 0) {//跳转的时候需要回调
+                            } else if (code > 0) {//跳转的时候需要回调
                                 ((Activity) context).startActivityForResult(intent, code, bundleManager.getBundle());
 
                             } else {

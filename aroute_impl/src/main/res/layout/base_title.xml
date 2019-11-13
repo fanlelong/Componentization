@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/color_ffffff">
+
+        <RelativeLayout
+            android:id="@+id/act_map_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingRight="35dp">
+
+            <FrameLayout
+                android:id="@+id/back_left"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/icon_back" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/base_title"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            tools:text="工程进度"
+            android:textColor="@color/color_333333"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/base_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            tools:text="保存"
+            android:textColor="@color/tab_text_color_address"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_e0e0e0" />
+    </RelativeLayout>
+
+</FrameLayout>

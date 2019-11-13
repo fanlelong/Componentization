@@ -91,8 +91,8 @@ public class NetWorkManager {
     }
 
     public NetWorkManager init(@NonNull String host, List<Interceptor> interceptors, @NonNull Application application) {
-
-        NetChangerManager.getDefault().init(this.mApplication);
+        mApplication = application;
+        NetChangerManager.getDefault().init(application);
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor("ancelyOkhttp:");
         httpLoggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         httpLoggingInterceptor.setColorLevel(Level.INFO);

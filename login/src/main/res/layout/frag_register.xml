@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ancely.fyw.login.views.StrakeOutEditText
+        android:id="@+id/frag_register_account"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="15dp"
+        app:et_hint="@string/register_accound_hint"/>
+
+    <com.ancely.fyw.login.views.StrakeOutEditText
+        android:id="@+id/frag_register_password"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        app:et_hint="@string/login_psw_hint"
+        app:input_type="textPassword"/>
+
+    <com.ancely.fyw.login.views.StrakeOutEditText
+        android:id="@+id/frag_register_password_again"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        app:et_hint="@string/register_psw_confirm_hint"
+        app:input_type="textPassword"/>
+
+    <Button
+        android:id="@+id/frag_register_register"
+        style="@style/common_btn_background"
+        android:text="@string/register"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/jump_to_login"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp"/>
+
+</LinearLayout>

@@ -5,16 +5,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login_MainActivity">
+    android:background="@color/color_ffffff"
+    android:orientation="vertical"
+    tools:context=".LoginActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+    <com.ancely.fyw.login.views.BaseTitle
+        android:id="@+id/act_login_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:onClick="jumpToApp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="登录"/>
+
+    <fragment
+        android:id="@+id/fragment_navigation_login"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/act_login_other_login"
+        app:layout_constraintTop_toBottomOf="@+id/act_login_title"
+        app:navGraph="@navigation/login_navigation"/>
+
+    <LinearLayout
+        android:id="@+id/act_login_other_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="110dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1"
+            android:background="@color/color_e0e0e0"/>
+
+        <TextView
+            android:id="@+id/tv_change_net"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/login_social_title"
+            android:textColor="@color/color_333333"
+            android:textSize="10sp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1"
+            android:background="@color/color_e0e0e0"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_weichat_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:src="@mipmap/login_wechat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+        app:layout_constraintRight_toRightOf="parent"/>
 </android.support.constraint.ConstraintLayout>

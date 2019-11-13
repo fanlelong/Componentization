@@ -53,7 +53,7 @@ import con.ancely.fyw.annotation.apt.bean.ThreadMode;
 // 允许/支持的注解类型，让注解处理器处理
 @SupportedAnnotationTypes({Constance.SUBSCRIBE_ANNOTATION_TYPE})
 // 指定JDK编译版本
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 // 注解处理器接收的参数
 @SupportedOptions({Constance.PACKAGE_NAME, Constance.CLASS_NAME})
 public class SubscribeProcessor extends AbstractProcessor {

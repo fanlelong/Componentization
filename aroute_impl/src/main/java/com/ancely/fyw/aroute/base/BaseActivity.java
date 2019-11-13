@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,11 +26,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.ancely.fyw.aroute.R;
 import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.proxy.ActivityInterface;
 import com.ancely.fyw.aroute.skin.impl.ViewsMatch;
 import com.ancely.fyw.aroute.skin.utils.ActionBarUtils;
 import com.ancely.fyw.aroute.skin.utils.NavigationUtils;
+import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 import com.ancely.fyw.aroute.skin.utils.StatusBarUtils;
 import com.ancely.fyw.aroute.skin.view.SelfAppCompatViewInflater;
 
@@ -54,6 +57,7 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
+
         if (mActivity == null) {
             if (openChangerSkin()) {
                 LayoutInflater inflater = LayoutInflater.from(this);
@@ -61,7 +65,16 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
             }
             super.onCreate(savedInstanceState);
         }
+
+        AppCompatDelegate.setDefaultNightMode(Configuration.UI_MODE_NIGHT_NO);
+        boolean isNight = PreferencesUtils.getBoolean(this, "isNight");
+        if (isNight) {
+            setDayNightModel(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            setDayNightModel(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
+
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -71,7 +84,8 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
             }
             mViewInflater.setName(name);
             mViewInflater.setAttrs(attrs);
-            return mViewInflater.autoMatch();
+            View view = mViewInflater.autoMatch();
+            return view == null ? super.onCreateView(parent, name, context, attrs) : view;
         }
 
         return super.onCreateView(parent, name, context, attrs);
@@ -294,14 +308,15 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
             }
         }
     }
+
     @SuppressLint("ObsoleteSdkInt")
     public void setDayNightModel(@AppCompatDelegate.NightMode int uiModeNightYes) {
-      boolean isVersion21 = Build.VERSION.SDK_INT >= 21;
+        boolean isVersion21 = Build.VERSION.SDK_INT >= 21;
         getDelegate().setLocalNightMode(uiModeNightYes);
         if (isVersion21) {
-            StatusBarUtils.forStatusBar(this);
-            ActionBarUtils.forActionBar(this);
-            NavigationUtils.forNavigation(this);
+            StatusBarUtils.forStatusBar(this,getResources().getColor(R.color.colorPrimary));
+            ActionBarUtils.forActionBar(this,getResources().getColor(R.color.colorPrimary));
+            NavigationUtils.forNavigation(this,getResources().getColor(R.color.colorPrimary));
         }
         View decorView = getWindow().getDecorView();
         applyViews(decorView);

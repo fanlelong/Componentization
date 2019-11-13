@@ -3,7 +3,7 @@
           package="com.ancely.fyw.login">
 
     <application>
-        <activity android:name=".Login_MainActivity"/>
+        <activity android:name=".LoginActivity"/>
 
     </application>
 

@@ -48,7 +48,7 @@ import con.ancely.fyw.annotation.apt.bean.RouteBean;
  *  @描述：    TODO
  */
 @AutoService(Processor.class)//通过AutoService生成AutoService注解器
-@SupportedSourceVersion(value = SourceVersion.RELEASE_7)//jdk版本
+@SupportedSourceVersion(value = SourceVersion.RELEASE_8)//jdk版本
 @SupportedAnnotationTypes({Constance.AROUTE_ANNOTATION_TYPE})//需要接收的注解类型
 @SupportedOptions({Constance.PRODECT_NAME, Constance.APT_PACKAGE})//从build.gradle传过来的参数
 public class AncelyProcess extends AbstractProcessor {

@@ -46,7 +46,7 @@ import con.ancely.fyw.annotation.apt.Parameter;
  *  @描述：    TODO
  */
 @AutoService(Processor.class)//通过AutoService生成AutoService注解器
-@SupportedSourceVersion(value = SourceVersion.RELEASE_7)//jdk版本
+@SupportedSourceVersion(value = SourceVersion.RELEASE_8)//jdk版本
 @SupportedAnnotationTypes({Constance.PARAMETER_ANNOTATION_TYPE})//需要接收的注解类型
 public class ParameterProcess extends AbstractProcessor {
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#990F66CC</color>
+    <color name="colorPrimaryDark">#990F66CC</color>
+    <color name="colorAccent">#990F66CC</color>
+
+    <!-- 皮肤包颜色 -->
+    <color name="skin_background">#990F66CC</color>
+    <color name="skin_textColor">#FFFFFF</color>
+    <color name="skin_item_color">#123456</color>
+
+
+    <color name="color_ffffff">#ff999999</color>
+    <color name="color_0f66cc">#990f66cc</color>
+    <color name="color_e0e0e0">#99e0e0e0</color>
+    <color name="color_dcdcdc">#99dcdcdc</color>
+    <color name="color_550f66cc">#220f66cc</color>
+    <color name="color_333333">#99333333</color>
+    <color name="color_e62e3d">#99e62e3d</color>
+</resources>

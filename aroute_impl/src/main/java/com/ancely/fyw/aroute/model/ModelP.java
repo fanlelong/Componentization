@@ -35,10 +35,9 @@ import io.reactivex.disposables.Disposable;
 /**
  * 请求基类
  */
-public abstract class ModelP<T, R> implements IBaseModelP<T> {
+public abstract class ModelP<T> implements IBaseModelP<T> {
     public static final int IS_LOADING_MORE_DATA = 2;//加载更多数据
     private CompositeDisposable mDisposable;
-    private R mRequest;
     private BaseViewModel<T> mBaseViewModel;
     private Map<String, Object> params;
     private int flag;//用来判断不同请求的标识
@@ -65,7 +64,6 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
         mBaseViewModel = ViewModelProviders.of(fragment).get(getVMClass());
         registerObserver(mBaseViewModel, fragment);
         NetWorkManager.getInstance().getRequestManagerRetriever().get(fragment, this);
-        mRequest = NetWorkManager.getInstance().getRetrofit().create(getClazz());
     }
 
     public abstract Class<? extends BaseViewModel<T>> getVMClass();
@@ -75,7 +73,6 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
         mBaseViewModel = ViewModelProviders.of(activity).get(getVMClass());
         registerObserver(mBaseViewModel, activity);
         NetWorkManager.getInstance().getRequestManagerRetriever().get(activity, this);
-        mRequest = NetWorkManager.getInstance().getRetrofit().create(getClazz());
     }
 
 
@@ -83,8 +80,6 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
         baseViewModel.getShowLoadingLiveData().observe(lifecycleOwner, this::showProgress);
         baseViewModel.getHideLoadingLiveData().observe(lifecycleOwner, this::hideProgress);
     }
-
-    protected abstract Class<R> getClazz();
 
     @Override
     public void disposable(Disposable s) {
@@ -112,7 +107,7 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
             params = new HashMap<>();
         }
         start(params, flag, isShowLoading);
-        Observable<T> netObservable = getObservable(mRequest, params, flag);
+        Observable<T> netObservable = getObservable(params, flag);
         if (netObservable == null) {
             throw new NullPointerException("the method of getObservable  can not return null");
         }
@@ -123,7 +118,7 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
             this.flag = flag;
             this.isShowLoading = isShowLoading;
         }
-        sendRequestToServer(mRequest, netObservable, flag, params, isShowLoading, isAddRetry);
+        sendRequestToServer(netObservable, flag, params, isShowLoading, isAddRetry);
     }
 
     /**
@@ -151,8 +146,8 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
     public void start(Map<String, Object> map, int flag, boolean isShowLoading) {
     }
 
-    private void sendRequestToServer(R request, Observable<T> netObservable, int flag, Map<String, Object> params, boolean showLoading, boolean isRetry) {
-        Observable<T> cacheObservable = Observable.create(emitter -> handlerFirstObservable(emitter, request, params, flag));
+    private void sendRequestToServer(Observable<T> netObservable, int flag, Map<String, Object> params, boolean showLoading, boolean isRetry) {
+        Observable<T> cacheObservable = Observable.create(emitter -> handlerFirstObservable(emitter, params, flag));
 
         Observable<T> concat = Observable.concat(cacheObservable, netObservable);
 
@@ -220,7 +215,7 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
         this.startRequestService(null, 1, true);
     }
 
-    protected abstract Observable<T> getObservable(R request, Map<String, Object> map, int flag);
+    protected abstract Observable<T> getObservable(Map<String, Object> map, int flag);
 
 
     @Override
@@ -261,7 +256,7 @@ public abstract class ModelP<T, R> implements IBaseModelP<T> {
     /**
      * 请求前,可做一些相应的操作
      */
-    public void handlerFirstObservable(ObservableEmitter<T> emitter, R request, Map<String, Object> params, int flag) {
+    public void handlerFirstObservable(ObservableEmitter<T> emitter, Map<String, Object> params, int flag) {
         emitter.onComplete(); // 只有执行onComplete才会进入到另一个
     }
 

@@ -4,13 +4,6 @@ import android.util.Log;
 
 import java.util.Formatter;
 
-/*
- *  @项目名：  SharingTechnology
- *  @包名：    com.ancely.rxjava.utils
- *  @文件名:   LoginUtils
- *  @创建者:   fanlelong
- *  @创建时间:  2019/1/14 2:17 PM
- */
 public class LogUtils {
 
     private static boolean IsDebug = true;

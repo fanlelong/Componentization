@@ -24,6 +24,7 @@ public class BundleManager {
 
     public BundleManager(boolean finish) {
         this.finish = finish;
+
     }
 
     public Bundle getBundle() {
@@ -32,6 +33,10 @@ public class BundleManager {
 
     public boolean isResult() {
         return isResult;
+    }
+
+    public void setResult(boolean result) {
+        isResult = result;
     }
 
     public boolean isFinish() {
@@ -43,6 +48,13 @@ public class BundleManager {
         return this;
     }
 
+    /**
+     * 传参给上一个Activity
+     *
+     * @param key
+     * @param value
+     * @return
+     */
     public BundleManager withResultString(@NonNull String key, @NonNull String value) {
         mBundle.putString(key, value);
         isResult = true;
@@ -54,9 +66,20 @@ public class BundleManager {
         return this;
     }
 
+    public BundleManager withResultBoolean(@NonNull String key, boolean value) {
+        mBundle.putBoolean(key, value);
+        isResult = true;
+        return this;
+    }
 
     public BundleManager withInt(@NonNull String key, int value) {
         mBundle.putInt(key, value);
+        return this;
+    }
+
+    public BundleManager withResultInt(@NonNull String key, int value) {
+        mBundle.putInt(key, value);
+        isResult = true;
         return this;
     }
 

@@ -12,7 +12,7 @@ import com.ancely.fyw.aroute.manager.PluginManager;
  *  @文件名:   ProxyReceiver
  *  @创建者:   fanlelong
  *  @创建时间:  2019/8/22 9:29 AM
- *  @描述：    TODO
+ *  @描述：    代理广播
  */
 public class ProxyReceiver extends BroadcastReceiver {
 

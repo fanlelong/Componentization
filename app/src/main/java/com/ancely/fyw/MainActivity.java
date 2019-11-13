@@ -12,48 +12,49 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
-import com.ancely.fyw.aroute.base.BaseActivity;
 import com.ancely.fyw.aroute.manager.ParameterManager;
 import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
+import com.ancely.fyw.aroute.model.ModelP;
+import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 import com.ancely.fyw.common.LoginCall;
+import com.ancely.fyw.common.base.BaseModelActivity;
 import com.ancely.fyw.mvptext.SkinTestActivity;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Parameter;
 
 @ARouter(path = "/app/MainActivity")
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseModelActivity {
 
 
     @Parameter
-    String name;
+    String username;
 
     @Parameter(name = "/login/getDrawable")
     LoginCall mLoginCall;
 
+    private Button mButton;
+    @Override
+    public ModelP getModelP() {
+        return null;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        WindowManager.LayoutParams lp = getWindow().getAttributes();
 //        lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
 
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
-        setContentView(R.layout.activity_main);
 
-        AppCompatDelegate.setDefaultNightMode(Configuration.UI_MODE_NIGHT_NO);
-        boolean isNight = PreferencesUtils.getBoolean(this, "isNight");
-        if (isNight) {
-            setDayNightModel(AppCompatDelegate.MODE_NIGHT_YES);
-        }else{
-            setDayNightModel(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+
 
 
         ParameterManager.getInstance().loadParameter(this);
@@ -63,9 +64,28 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void jumpToOrder(View view) {
-        RouterManager.getInstance().build("/login/Login_MainActivity1")
-                .withResultString("name", "app_login")
+    @Override
+    protected void initDatas() {
+
+    }
+
+    @Override
+    protected void initEvent() {
+
+    }
+
+    @Override
+    protected void initView() {
+        mButton = findViewById(R.id.button);
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    public void jumpToLogin(View view) {
+        RouterManager.getInstance().build("/login/LoginActivity")
                 .navigation(this, 20);
     }
 
@@ -79,9 +99,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 20 && data != null) {
-            String call = data.getStringExtra("call");
-            Log.e("componentization", call);
+        if (resultCode == 2001 && data != null) {
+            String username = data.getStringExtra("username");
+            Log.e("ancely_fyw", username);
+            mButton.setText(username);
+            return;
         }
 
         Fragment navigation = (Fragment) RouterManager.getInstance().build("/app/TextFragment")
@@ -125,5 +147,15 @@ public class MainActivity extends BaseActivity {
 
     public void jumpSkinDysn(View view) {
         startActivity(new Intent(this,SkinTestActivity.class));
+    }
+
+    @Override
+    public void accessSuccess(ResponseBean responseBean) {
+
+    }
+
+    @Override
+    public boolean isNeedCheckNetWork() {
+        return false;
     }
 }

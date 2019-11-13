@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--通用头-->
+    <declare-styleable name="BaseTitle">
+        <attr name="title" format="string"/>
+        <attr name="right_title" format="string"/>
+        <attr name="right_title_gone" format="boolean"/>
+    </declare-styleable>
+</resources>

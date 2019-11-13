@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StrakeOutEditText">
+        <attr name="et_hint" format="string"/>
+        <attr name="left_icon" format="reference|integer"/>
+        <attr name="left_icon_visibility" format="boolean"/>
+        <attr name="input_type">
+            <enum name="textPassword" value="0" />
+            <enum name="text" value="1" />
+            <enum name="phone" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

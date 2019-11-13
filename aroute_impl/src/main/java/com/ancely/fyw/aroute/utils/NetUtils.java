@@ -1,10 +1,6 @@
-package com.ancely.fyw.aroute.utils;/*
- *  @项目名：  ancely_market
- *  @包名：    com.ancely.market.utils
- *  @文件名:   NetUtils
- *  @创建者:   fanlelong
- *  @创建时间:  2018/7/31 下午2:54
- *  @描述：    网络相关工具类
+package com.ancely.fyw.aroute.utils;
+/*
+ *  网络相关工具类
  */
 
 import android.content.Context;
@@ -18,7 +14,8 @@ import com.ancely.fyw.aroute.networks.impl.NetType;
 public class NetUtils {
     /**
      * 判断网络是否连接
-     * @param context  上下文
+     *
+     * @param context 上下文
      * @return true: 有网; false:无网;
      */
     public static boolean isConnected(Context context) {

@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">login</string>
+
+
+    <!--登陆-->
+    <string name="login_accound_title">账号登录</string>
+    <string name="login_code_title">验证码登录</string>
+    <string name="login_register_title">账号注册</string>
+    <string name="login_social_title">使用社交账号登录</string>
+    <string name="register_accound_hint">手机/邮箱</string>
+    <string name="register_psw_hint">请输入密码</string>
+    <string name="register_psw_confirm_hint">确定密码</string>
+    <string name="login_accound_hint">请输入账号</string>
+    <string name="login_psw_hint">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="login_code_phone">请输入手机号</string>
+    <string name="login_code">请输入验证码</string>
+    <string name="code_get">获取验证码</string>
+    <string name="login_out">退出登录</string>
+    <string name="login_accound_error_tips">用户名不能为空</string>
+    <string name="login_psw_error_tips">密码不能为空</string>
 </resources>
