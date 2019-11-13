@@ -1,7 +1,7 @@
 package com.ancely.fyw.aroute.life;
 
 
-import com.ancely.fyw.aroute.manager.NetChangerManager;
+import com.ancely.fyw.aroute.manager.NetWorkManager;
 import com.ancely.fyw.aroute.model.ModelP;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class LifeManager implements LifecycleListener {
         mPresenters.add(presenter);
         mLifecycle.addListener(this);
         if (presenter.isOpenNetChanger())
-            NetChangerManager.getDefault().registerObserver(presenter);
+            NetWorkManager.getInstance().registerObserver(presenter);
 
     }
 
@@ -34,7 +34,7 @@ public class LifeManager implements LifecycleListener {
         mLifecycle.removeListener(this);
         for (ModelP presenter : mPresenters) {
             if (presenter.isOpenNetChanger()) {
-                NetChangerManager.getDefault().unRegisterObserver(presenter);
+                NetWorkManager.getInstance().unRegisterObserver(presenter);
             }
             presenter.unDisposable();
         }

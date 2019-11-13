@@ -1,16 +1,22 @@
 package com.ancely.fyw.aroute.manager;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.ancely.fyw.aroute.life.LifeManagerRetriever;
+import com.ancely.fyw.aroute.networks.NetChangeImpl;
+import com.ancely.fyw.aroute.networks.NetworkCallbackImpl;
 import com.ancely.fyw.aroute.networks.cookie.CookieManger;
 import com.ancely.fyw.aroute.networks.okhttp.HttpLoggingInterceptor;
 import com.ancely.fyw.aroute.networks.okhttp.HttpsSSL;
 import com.ancely.fyw.aroute.networks.okhttp.ProgressInterceptor;
+import com.ancely.fyw.aroute.networks.receiver.NetWorkConnectReceiver;
 
 import java.io.InputStream;
 import java.util.LinkedHashMap;
@@ -35,7 +41,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class NetWorkManager {
 
-    @SuppressLint("StaticFieldLeak")
     private static volatile NetWorkManager mInstance;
     private Retrofit retrofit;
     private OkHttpClient mClient;
@@ -46,8 +51,13 @@ public class NetWorkManager {
     private final LifeManagerRetriever lifeManagerRetriever;
 
 
+    private final NetWorkConnectReceiver mReceiver;
+    private final NetChangeImpl mNetChange;
+
     private NetWorkManager(LifeManagerRetriever retriever) {
         this.lifeManagerRetriever = retriever;
+        mNetChange = new NetChangeImpl();
+        mReceiver = new NetWorkConnectReceiver(mNetChange);
     }
 
     public static NetWorkManager getInstance() { //DCL单例,优化懒汉式单例
@@ -78,21 +88,23 @@ public class NetWorkManager {
 
     /**
      * 初始化必要对象和参数
-     * @param host  域名
+     *
+     * @param host        域名
      * @param application 上下文
-     * @return 请求管理器
      */
-    public NetWorkManager init(String host, Application application) {
-        return init(host, null, mApplication);
+    public void init(String host, Application application) {
+        init(host, null, application);
     }
 
     public Context getContext() {
         return mApplication;
     }
 
-    public NetWorkManager init(@NonNull String host, List<Interceptor> interceptors, @NonNull Application application) {
+    public void init(@NonNull String host, List<Interceptor> interceptors, @NonNull Application application) {
         mApplication = application;
-        NetChangerManager.getDefault().init(application);
+        //初始化网络监听
+        initNetChangerListener(application);
+
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor("ancelyOkhttp:");
         httpLoggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         httpLoggingInterceptor.setColorLevel(Level.INFO);
@@ -133,9 +145,52 @@ public class NetWorkManager {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        return this;
     }
 
+    /**
+     * 初始化网络改变监听
+     */
+    private void initNetChangerListener(Application application) {
+        //通过广播方式来操作
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        //不通过广播来监听
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl(mNetChange);
+            NetworkRequest.Builder builder = new NetworkRequest.Builder();
+            NetworkRequest request = builder.build();
+            ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                cm.registerNetworkCallback(request, networkCallback);
+            }
+        } else {
+            mApplication.registerReceiver(mReceiver, filter);
+        }
+    }
+
+
+    /**
+     * 注册网络监听
+     */
+    public void registerObserver(Object object) {
+        mNetChange.registerObserver(object);
+    }
+
+    /**
+     * 反注册网络监听
+     */
+    public void unRegisterObserver(Object object) {
+        mNetChange.unRegisterObserver(object);
+    }
+
+    /**
+     * 取消所有
+     */
+    public void unRegisterAllObserver() {
+        mNetChange.unRegisterAllObserver();
+
+    }
 
     public OkHttpClient getClient() {
         return mClient;
@@ -157,8 +212,9 @@ public class NetWorkManager {
     /**
      * 添加全局请求头
      */
-    public void addHeards(Headers headers) {
+    public NetWorkManager addHeards(Headers headers) {
         mHeaders = headers;
+        return this;
     }
 
     /**

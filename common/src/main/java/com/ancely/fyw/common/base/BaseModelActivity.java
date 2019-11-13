@@ -9,7 +9,8 @@ import android.view.View;
 
 import com.ancely.fyw.aroute.base.BaseActivity;
 import com.ancely.fyw.aroute.eventbus.EventBus;
-import com.ancely.fyw.aroute.manager.NetChangerManager;
+import com.ancely.fyw.aroute.manager.Density;
+import com.ancely.fyw.aroute.manager.NetWorkManager;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.RequestErrBean;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
@@ -45,9 +46,10 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
         super.onCreate(savedInstanceState);
 
 
+        Density.setDensity(getApplication(),this);
         mContext = this;
 
-        NetChangerManager.getDefault().registerObserver(this);
+        NetWorkManager.getInstance().registerObserver(this);
         if (openEventBus()) {
             EventBus.getDefault().register(this);
         }
@@ -130,7 +132,7 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        NetChangerManager.getDefault().unRegisterObserver(this);
+        NetWorkManager.getInstance().unRegisterObserver(this);
         if (openEventBus()) {
             EventBus.getDefault().unregister(this);
         }

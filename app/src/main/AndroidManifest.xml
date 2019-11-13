@@ -18,7 +18,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
-            android:screenOrientation="portrait">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -26,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".aroute.proxy.ProxyActivity"/>
-        <activity android:name=".mvptext.TextModelActivity"/>
 
         <service
             android:name=".aroute.proxy.ProxyService"

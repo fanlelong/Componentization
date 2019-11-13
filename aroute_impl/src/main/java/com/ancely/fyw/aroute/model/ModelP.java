@@ -225,7 +225,7 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
             mBaseViewModel.getHideLoadingLiveData().setValue(flag);
         }
         netRequestFailed = false;
-        mBaseViewModel.getResultLiveData().setValue(responseBean);
+        mBaseViewModel.getResultLiveData().postValue(responseBean);
     }
 
     @Override

@@ -73,7 +73,7 @@ public class BaseTitle extends LinearLayout {
             }
         });
 
-        if (Build.VERSION.SDK_INT < 19) {
+        if (Build.VERSION.SDK_INT >= 19) {
             view.setVisibility(GONE);
         }
 
