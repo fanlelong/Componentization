@@ -1,8 +1,8 @@
-if (isRelease) {
-    apply plugin: 'com.android.library'
-} else {
-    apply plugin: 'com.android.application'
-}
+//if (isRelease) {
+//    apply plugin: 'com.android.library'
+//} else {
+apply plugin: 'com.android.application'
+//}
 
 
 def androidId = rootProject.ext.androidId
@@ -15,9 +15,9 @@ android {
 
 
     defaultConfig {
-        if (!isRelease) {
-            applicationId appId.eventbus
-        }
+//        if (!isRelease) {
+        applicationId appId.eventbus
+//        }
         minSdkVersion androidId.minSdkVersion
         targetSdkVersion androidId.targetSdkVersion
         versionCode androidId.versionCode
@@ -29,7 +29,7 @@ android {
             annotationProcessorOptions {
                 arguments = [projectName   : project.getName(),
                              packageNameAPT: packageNameAPT,
-                             packageName   : "com.ancely.fyw.eventbus.apt",
+                             packageName   : "com.ancely.fyw.eventbus.test",
                              className     : "EventBusIndex"]
             }
         }
@@ -73,7 +73,5 @@ dependencies {
     implementation project(':ancely_annotation')
     annotationProcessor project(':ancely_compile')
     implementation project(':common')
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
-//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+
 }

@@ -10,7 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,12 +20,15 @@ import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
+import com.ancely.fyw.aroute.utils.LogUtils;
 import com.ancely.fyw.common.LoginCall;
 import com.ancely.fyw.common.base.BaseModelActivity;
+import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.mvptext.SkinTestActivity;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Parameter;
+import con.ancely.fyw.annotation.apt.Subscribe;
 
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends BaseModelActivity {
@@ -91,7 +93,7 @@ public class MainActivity extends BaseModelActivity {
 
     public void jumpToUsercenter(View view) {
         RouterManager.getInstance().build("/usercenter/UserCenter_MainActivity")
-                .withResultString("name", "app_usercenter")
+                .withString("name", "app_usercenter")
                 .navigation(this, 10);
         PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
         PluginManager.getInstance().parserApkAction(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
@@ -101,7 +103,7 @@ public class MainActivity extends BaseModelActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == 2001 && data != null) {
             String username = data.getStringExtra("username");
-            Log.e("ancely_fyw", username);
+            LogUtils.e("ancely_fyw", username);
             mButton.setText(username);
             return;
         }
@@ -157,5 +159,16 @@ public class MainActivity extends BaseModelActivity {
     @Override
     public boolean isNeedCheckNetWork() {
         return false;
+    }
+
+
+    @Subscribe
+    public void loginEvent(LoginBean loginBean){
+        LogUtils.e("ancely_fyw", loginBean.getUsername());
+    }
+
+    @Override
+    public boolean openEventBus() {
+        return true;
     }
 }

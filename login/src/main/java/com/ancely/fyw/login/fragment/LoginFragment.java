@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ancely.fyw.aroute.bean.HttpResult;
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.aroute.utils.LogUtils;
@@ -124,5 +125,7 @@ public class LoginFragment extends BaseModelFragment<LoginModelP, HttpResult<Log
         if (getActivity() != null) {
             getActivity().finish();
         }
+
+        EventBus.getDefault().post(loginBean);
     }
 }

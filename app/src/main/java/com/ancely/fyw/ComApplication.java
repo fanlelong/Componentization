@@ -4,8 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.NetWorkManager;
 import com.ancely.fyw.aroute.manager.PluginManager;
+import com.ancely.fyw.eventbus.apt.EventBusIndex;
+import com.squareup.leakcanary.LeakCanary;
 
 
 /*
@@ -25,7 +28,8 @@ public class ComApplication extends Application {
 //        Bugly.init(this, "900029763", false);
 //        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
         NetWorkManager.getInstance().init("https://www.wanandroid.com/", null, this);
-
+        EventBus.getDefault().addIndex(new EventBusIndex());
+        LeakCanary.install(this);
     }
 
     @Override

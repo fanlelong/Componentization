@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.ancely.fyw.aroute.base.BaseActivity;
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.NetChangerManager;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.RequestErrBean;
@@ -47,7 +48,9 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
         mContext = this;
 
         NetChangerManager.getDefault().registerObserver(this);
-
+        if (openEventBus()) {
+            EventBus.getDefault().register(this);
+        }
         int layoutId = getContentView();
         if (layoutId >= 0) {
             setContentView(layoutId);
@@ -128,5 +131,12 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
     public void onDestroy() {
         super.onDestroy();
         NetChangerManager.getDefault().unRegisterObserver(this);
+        if (openEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    public boolean openEventBus() {
+        return false;
     }
 }

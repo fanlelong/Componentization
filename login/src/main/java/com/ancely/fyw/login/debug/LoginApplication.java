@@ -2,6 +2,7 @@ package com.ancely.fyw.login.debug;
 
 import android.app.Application;
 
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.NetWorkManager;
 
 /*
@@ -17,6 +18,5 @@ public class LoginApplication extends Application {
     public void onCreate() {
         super.onCreate();
         NetWorkManager.getInstance().init("https://www.wanandroid.com/", null, this);
-
     }
 }

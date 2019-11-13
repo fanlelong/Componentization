@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.ancely.fyw.eventbus.EventBus;
 import com.ancely.fyw.eventbus.R;
-import com.ancely.fyw.eventbus.apt.EventBusIndex;
 import com.ancely.fyw.eventbus.debug.event.UserInfo;
 
 import con.ancely.fyw.annotation.apt.Subscribe;
@@ -33,7 +32,7 @@ public class DebugEventbusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eventbus);
         mTextView = findViewById(R.id.tv);
         mTextView.setText("debug_eventbus");
-        EventBus.getDefault().addIndex(new EventBusIndex());
+//        EventBus.getDefault().addIndex(new EventBusIndex());
         EventBus.getDefault().register(this);
 
     }

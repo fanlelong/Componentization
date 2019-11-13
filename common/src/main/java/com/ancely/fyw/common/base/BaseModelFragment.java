@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.RequestErrBean;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
@@ -33,10 +34,19 @@ public abstract class BaseModelFragment<P extends ModelP<T>, T> extends Fragment
     private boolean isLazyLoad;
 
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (openEventBus()) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Nullable
@@ -136,5 +146,17 @@ public abstract class BaseModelFragment<P extends ModelP<T>, T> extends Fragment
     @Override
     public boolean isNeedCheckNetWork() {
         return false;
+    }
+
+    public boolean openEventBus(){
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (openEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }
