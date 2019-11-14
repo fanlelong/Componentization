@@ -104,7 +104,7 @@ public class NetWorkManager {
         mApplication = application;
         //初始化网络监听
         initNetChangerListener(application);
-
+        PluginManager.init(application);
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor("ancelyOkhttp:");
         httpLoggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         httpLoggingInterceptor.setColorLevel(Level.INFO);

@@ -27,8 +27,8 @@ public class RouterManager {
     private String mPath;
     private static RouterManager sInstance;
 
-    private LruCache<String, ARouteLoadGroup> mGroupLruCache; //组缓存
-    private LruCache<String, ARouteLoadPath> mPathLruCache; // 跳转地址缓存
+    private final LruCache<String, ARouteLoadGroup> mGroupLruCache; //组缓存
+    private final LruCache<String, ARouteLoadPath> mPathLruCache; // 跳转地址缓存
     private static final String GROUP_FILE_PREFFIX_NAME = "ARoute$$Group$$";
 
     private RouterManager() {

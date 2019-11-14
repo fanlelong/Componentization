@@ -96,7 +96,6 @@ public class BundleManager {
 
     //forResult code 可以是requestCode  也可以是responseCode
     public Object navigation(Context context, int code) {
-
         return RouterManager.getInstance().navigation(context, this, code);
     }
 }

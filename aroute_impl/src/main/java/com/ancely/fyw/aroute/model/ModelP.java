@@ -222,7 +222,7 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
     public void accessSucceed(ResponseBean<T> responseBean, int flag, boolean isShowLoading) {
 
         if (isShowLoading) {
-            mBaseViewModel.getHideLoadingLiveData().setValue(flag);
+            mBaseViewModel.getHideLoadingLiveData().postValue(flag);
         }
         netRequestFailed = false;
         mBaseViewModel.getResultLiveData().postValue(responseBean);
@@ -231,10 +231,10 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
     @Override
     public void accessMoreSuccess(ResponseBean<T> responseBean, int flag, boolean isShowLoading) {
         if (isShowLoading) {
-            mBaseViewModel.getHideLoadingLiveData().setValue(flag);
+            mBaseViewModel.getHideLoadingLiveData().postValue(flag);
         }
         netRequestFailed = false;
-        mBaseViewModel.getMoreLiveData().setValue(responseBean);
+        mBaseViewModel.getMoreLiveData().postValue(responseBean);
     }
 
     private boolean netRequestFailed;//网络请求失败标志
@@ -243,10 +243,10 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
     public void accessError(int code, String errorMsg, ResponseBean<T> responseBean) {
 
         if (isShowLoading) {
-            mBaseViewModel.getHideLoadingLiveData().setValue(flag);
+            mBaseViewModel.getHideLoadingLiveData().postValue(flag);
         }
         if (responseBean.isRetry) netRequestFailed = true;
-        mBaseViewModel.getErrorLiveData().setValue(new RequestErrBean(code, errorMsg, flag));
+        mBaseViewModel.getErrorLiveData().postValue(new RequestErrBean(code, errorMsg, flag));
     }
 
     public abstract void showProgress(int flag);

@@ -24,7 +24,6 @@ public class ComApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PluginManager.init(this);
 //        Bugly.init(this, "900029763", false);
 //        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
         NetWorkManager.getInstance().init("https://www.wanandroid.com/", this);

@@ -48,6 +48,7 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
 
     protected Activity mActivity;
     private SelfAppCompatViewInflater mViewInflater;
+    private Activity mContext;
 
     @Override
     public void attach(Activity activity) {
@@ -57,7 +58,6 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
-
         if (mActivity == null) {
             if (openChangerSkin()) {
                 LayoutInflater inflater = LayoutInflater.from(this);
@@ -65,12 +65,12 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
             }
             super.onCreate(savedInstanceState);
         }
-
+        mContext = mActivity == null ? this : mActivity;
         AppCompatDelegate.setDefaultNightMode(Configuration.UI_MODE_NIGHT_NO);
-        boolean isNight = PreferencesUtils.getBoolean(this, "isNight");
+        boolean isNight = PreferencesUtils.getBoolean(mContext, "isNight");
         if (isNight) {
             setDayNightModel(AppCompatDelegate.MODE_NIGHT_YES);
-        }else{
+        } else {
             setDayNightModel(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
@@ -312,13 +312,15 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     @SuppressLint("ObsoleteSdkInt")
     public void setDayNightModel(@AppCompatDelegate.NightMode int uiModeNightYes) {
         boolean isVersion21 = Build.VERSION.SDK_INT >= 21;
-        getDelegate().setLocalNightMode(uiModeNightYes);
-        if (isVersion21) {
-            StatusBarUtils.forStatusBar(this,getResources().getColor(R.color.colorPrimary));
-            ActionBarUtils.forActionBar(this,getResources().getColor(R.color.colorPrimary));
-            NavigationUtils.forNavigation(this,getResources().getColor(R.color.colorPrimary));
+        if (mActivity == null) {
+            getDelegate().setLocalNightMode(uiModeNightYes);
+            if (isVersion21) {
+                StatusBarUtils.forStatusBar(this, getResources().getColor(R.color.colorPrimary));
+                ActionBarUtils.forActionBar(this, getResources().getColor(R.color.colorPrimary));
+                NavigationUtils.forNavigation(this, getResources().getColor(R.color.colorPrimary));
+            }
+            View decorView = getWindow().getDecorView();
+            applyViews(decorView);
         }
-        View decorView = getWindow().getDecorView();
-        applyViews(decorView);
     }
 }

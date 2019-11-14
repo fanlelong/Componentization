@@ -25,7 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".aroute.proxy.ProxyActivity"/>
+        <activity android:name=".aroute.proxy.ProxyActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <service
             android:name=".aroute.proxy.ProxyService"

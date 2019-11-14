@@ -57,6 +57,7 @@ public class PluginManager {
     private boolean isDefaultSkin = true; // 应用默认皮肤（app内置）
     private static final String ADD_ASSET_PATH = "addAssetPath"; // 方法名
     private Map<String, SkinCache> cacheSkin;
+    private AssetManager mAssetManager;
 
 
     /**
@@ -80,6 +81,10 @@ public class PluginManager {
         cacheSkin = new HashMap<>();
         mAppResources = application.getResources();
         mApplication = application;
+    }
+
+    public AssetManager getAssetManager() {
+        return mAssetManager;
     }
 
     //根据传进来的路径去动态加载第三方插件apk里的资源文件和类加载器或者皮肤包
@@ -117,14 +122,14 @@ public class PluginManager {
 
         //加载插件里的布局
         try {
-            AssetManager assetManager = AssetManager.class.newInstance();
+            mAssetManager = AssetManager.class.newInstance();
             //反射获取方法 为了把插件包的路径添加进去
-            Method addAssetPath = assetManager.getClass().getMethod(ADD_ASSET_PATH, String.class);
+            Method addAssetPath = mAssetManager.getClass().getMethod(ADD_ASSET_PATH, String.class);
             //invoke; 第一个是要执行方法的对象,第二个是参数是方法的参数可以是多个
 
-            addAssetPath.invoke(assetManager, pluginPath);
+            addAssetPath.invoke(mAssetManager, pluginPath);
             // assetManager:资源的一个管理器 第二个参数和第三个 只是一个配置信息
-            mPluginResources = new Resources(assetManager, mApplication.getResources().getDisplayMetrics(), mApplication.getResources().getConfiguration());
+            mPluginResources = new Resources(mAssetManager, mApplication.getResources().getDisplayMetrics(), mApplication.getResources().getConfiguration());
 
         } catch (Exception e) {
             isDefaultSkin = true;
@@ -176,8 +181,6 @@ public class PluginManager {
             if (!pathFile.exists()) {
                 return false;
             }
-            File fileDir = mApplication.getDir("odex", Context.MODE_PRIVATE);// data/data/包名/odex/
-
 
             //parsePackage
             Class<?> packageParserClass = Class.forName("android.content.pm.PackageParser");

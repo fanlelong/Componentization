@@ -6,20 +6,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ancely.fyw.aroute.manager.PluginManager;
-import com.ancely.fyw.aroute.skin.impl.ViewsMatch;
-import com.ancely.fyw.aroute.skin.utils.NavigationUtils;
-import com.ancely.fyw.aroute.skin.utils.StatusBarUtils;
 import com.ancely.fyw.aroute.skin.view.SelfAppCompatViewInflater;
 
 
@@ -44,8 +41,15 @@ public class ProxyActivity extends Activity {
             LayoutInflaterCompat.setFactory2(inflater, this);
         }
 
+        View decorView = getWindow().getDecorView();
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         super.onCreate(savedInstanceState);
-
         String className = getIntent().getStringExtra("className");
         try {
             Class<?> aClass = PluginManager.getInstance().getClassLoader().loadClass(className);
@@ -58,6 +62,7 @@ public class ProxyActivity extends Activity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 
@@ -69,7 +74,8 @@ public class ProxyActivity extends Activity {
             }
             mViewInflater.setName(name);
             mViewInflater.setAttrs(attrs);
-            return mViewInflater.autoMatch();
+            View view = mViewInflater.autoMatch();
+            return view != null ? view : super.onCreateView(parent, name, context, attrs);
         }
         return super.onCreateView(parent, name, context, attrs);
     }
@@ -81,42 +87,50 @@ public class ProxyActivity extends Activity {
 
     @Override
     public Resources getResources() {
-        return PluginManager.getInstance().getResources();
+        if (mInterface != null) return PluginManager.getInstance().getResources();
+        return super.getResources();
     }
 
     @Override
     public ClassLoader getClassLoader() {
-        return PluginManager.getInstance().getClassLoader();
+        if (mInterface != null) return PluginManager.getInstance().getClassLoader();
+        return super.getClassLoader();
+    }
+
+    @Override
+    public AssetManager getAssets() {
+        if (mInterface != null) return PluginManager.getInstance().getAssetManager();
+        return super.getAssets();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mInterface.onStart();
+        if (mInterface != null) mInterface.onStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mInterface.onStart();
+        if (mInterface != null) mInterface.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mInterface.onStart();
+        if (mInterface != null) mInterface.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mInterface.onPause();
+        if (mInterface != null) mInterface.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mInterface.onDestroy();
+        if (mInterface != null) mInterface.onDestroy();
     }
 
     @Override
@@ -151,42 +165,4 @@ public class ProxyActivity extends Activity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void defaultSkin(int themeColorId) {
-        this.skinDynamic(null, themeColorId);
-    }
-
-    /**
-     * 动态换肤（api限制：5.0版本）
-     */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void skinDynamic(String skinPath, int themeColorId) {
-        PluginManager.getInstance().loadPluginPath(skinPath);
-
-        if (themeColorId != 0) {
-            int themeColor = PluginManager.getInstance().getColor(themeColorId);
-            StatusBarUtils.forStatusBar(this, themeColor);
-            NavigationUtils.forNavigation(this, themeColor);
-        }
-
-        applyViews(getWindow().getDecorView());
-    }
-
-    /**
-     * 控件回调监听，匹配上则给控件执行换肤方法
-     */
-    protected void applyViews(View view) {
-        if (view instanceof ViewsMatch) {
-            ViewsMatch viewsMatch = (ViewsMatch) view;
-            viewsMatch.startChangerSkin();
-        }
-
-        if (view instanceof ViewGroup) {
-            ViewGroup parent = (ViewGroup) view;
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                applyViews(parent.getChildAt(i));
-            }
-        }
-    }
 }
