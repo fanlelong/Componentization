@@ -8,12 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.ancely.fyw.aroute.manager.PluginManager;
@@ -36,19 +32,14 @@ public class ProxyActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (openChangerSkin()) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LayoutInflaterCompat.setFactory2(inflater, this);
-        }
-
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        decorView.setSystemUiVisibility(option);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+//        View decorView = getWindow().getDecorView();
+//        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//        decorView.setSystemUiVisibility(option);
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
         super.onCreate(savedInstanceState);
         String className = getIntent().getStringExtra("className");
         try {
@@ -68,20 +59,8 @@ public class ProxyActivity extends Activity {
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        if (openChangerSkin()) {
-            if (mViewInflater == null) {
-                mViewInflater = new SelfAppCompatViewInflater(context);
-            }
-            mViewInflater.setName(name);
-            mViewInflater.setAttrs(attrs);
-            View view = mViewInflater.autoMatch();
-            return view != null ? view : super.onCreateView(parent, name, context, attrs);
-        }
+        if (mInterface != null) return mInterface.onCreateView(parent, name, context, attrs);
         return super.onCreateView(parent, name, context, attrs);
-    }
-
-    private boolean openChangerSkin() {
-        return false;
     }
 
 

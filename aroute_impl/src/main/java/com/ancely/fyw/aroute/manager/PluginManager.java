@@ -145,7 +145,6 @@ public class PluginManager {
 
 
         skinPackageName = mPackageInfo.packageName;
-
         // 无法获取皮肤包应用的包名，则加载app内置资源
         isDefaultSkin = TextUtils.isEmpty(skinPackageName);
         if (!isDefaultSkin) {

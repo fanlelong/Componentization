@@ -5,6 +5,11 @@ package com.ancely.fyw.aroute.networks;
  */
 
 import com.ancely.fyw.aroute.model.BaseViewModel;
+import com.ancely.fyw.aroute.model.bean.ResponseBean;
 
 public class StringViewModel extends BaseViewModel<String> {
+    @Override
+    public void hanlerDataRequestSuccess(ResponseBean<String> t) {
+
+    }
 }

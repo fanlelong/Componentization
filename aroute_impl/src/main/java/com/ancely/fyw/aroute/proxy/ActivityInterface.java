@@ -1,8 +1,11 @@
 package com.ancely.fyw.aroute.proxy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.view.View;
 
 public interface ActivityInterface {
 
@@ -19,4 +22,6 @@ public interface ActivityInterface {
     void onStop();
 
     void onDestroy();
+
+    View onCreateView(View parent, String name, Context context, AttributeSet attrs);
 }

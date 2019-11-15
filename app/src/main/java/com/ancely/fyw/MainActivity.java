@@ -1,24 +1,27 @@
 package com.ancely.fyw;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ancely.fyw.aroute.manager.ParameterManager;
-import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
+import com.ancely.fyw.aroute.permissions.PermissionManager;
+import com.ancely.fyw.aroute.permissions.listener.PermissionRequest;
 import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 import com.ancely.fyw.aroute.utils.LogUtils;
 import com.ancely.fyw.common.LoginCall;
@@ -27,6 +30,10 @@ import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.mvptext.SkinTestActivity;
 
 import con.ancely.fyw.annotation.apt.ARouter;
+import con.ancely.fyw.annotation.apt.NeedsPermission;
+import con.ancely.fyw.annotation.apt.OnNeverAskAgain;
+import con.ancely.fyw.annotation.apt.OnPermissionDenied;
+import con.ancely.fyw.annotation.apt.OnShowRationale;
 import con.ancely.fyw.annotation.apt.Parameter;
 import con.ancely.fyw.annotation.apt.Subscribe;
 
@@ -41,6 +48,7 @@ public class MainActivity extends BaseModelActivity {
     LoginCall mLoginCall;
 
     private Button mButton;
+
     @Override
     public ModelP getModelP() {
         return null;
@@ -54,9 +62,7 @@ public class MainActivity extends BaseModelActivity {
 //        lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
 
         super.onCreate(savedInstanceState);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
-
-
+//        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
 
 
         ParameterManager.getInstance().loadParameter(this);
@@ -95,8 +101,8 @@ public class MainActivity extends BaseModelActivity {
         RouterManager.getInstance().build("/usercenter/UserCenter_MainActivity")
                 .withString("name", "app_usercenter")
                 .navigation(this, 10);
-        PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
-        PluginManager.getInstance().parserApkAction(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+//        PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+//        PluginManager.getInstance().parserApkAction(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
     }
 
     @Override
@@ -128,17 +134,16 @@ public class MainActivity extends BaseModelActivity {
         switch (uiMode) {
             case Configuration.UI_MODE_NIGHT_NO:
                 setDayNightModel(AppCompatDelegate.MODE_NIGHT_YES);
-                PreferencesUtils.putBoolean(this,"isNight",true);
+                PreferencesUtils.putBoolean(this, "isNight", true);
                 break;
             case Configuration.UI_MODE_NIGHT_YES:
                 setDayNightModel(AppCompatDelegate.MODE_NIGHT_NO);
-                PreferencesUtils.putBoolean(this,"isNight",false);
+                PreferencesUtils.putBoolean(this, "isNight", false);
                 break;
             default:
                 break;
         }
     }
-
 
 
     @Override
@@ -148,7 +153,7 @@ public class MainActivity extends BaseModelActivity {
 
 
     public void jumpSkinDysn(View view) {
-        startActivity(new Intent(this,SkinTestActivity.class));
+        startActivity(new Intent(this, SkinTestActivity.class));
     }
 
     @Override
@@ -163,12 +168,69 @@ public class MainActivity extends BaseModelActivity {
 
 
     @Subscribe
-    public void loginEvent(LoginBean loginBean){
+    public void loginEvent(LoginBean loginBean) {
         LogUtils.e("ancely_fyw", loginBean.getUsername());
     }
 
     @Override
     public boolean openEventBus() {
         return true;
+    }
+
+
+    @NeedsPermission()
+    void showCamera() {
+        Log.e("ancely_fyw >>> ", "showCamera()");
+    }
+
+    // 提示用户为何要开启权限
+    @OnShowRationale()
+    void showRationaleForCamera(final PermissionRequest request) {
+        Log.e("ancely_fyw >>> ", "showRationaleForCamera()");
+        new AlertDialog.Builder(this)
+                .setMessage("提示用户为何要开启权限")
+                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        // 再次执行权限请求
+                        request.proceed();
+                    }
+                })
+                .show();
+    }
+
+    // 用户选择拒绝时的提示
+    @OnPermissionDenied()
+    void showDeniedForCamera() {
+        Log.e("ancely_fyw >>> ", "showDeniedForCamera()");
+    }
+
+    // 用户选择不再询问后的提示
+    @OnNeverAskAgain()
+    void showNeverAskForCamera() {
+        Log.e("ancely_fyw >>> ", "showNeverAskForCamera()");
+        new AlertDialog.Builder(this)
+                .setMessage("用户选择不再询问后的提示")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        Log.e("ancely_fyw >>> ", "showNeverAskForCamera() >>> Dialog");
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("ancely_fyw >>> ", "onRequestPermissionsResult()");
+        PermissionManager.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    public void permission(View view) {
+        PermissionManager.request(this, new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE},0);
     }
 }

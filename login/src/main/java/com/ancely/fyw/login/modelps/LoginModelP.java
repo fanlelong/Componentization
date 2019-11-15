@@ -7,6 +7,7 @@ import com.ancely.fyw.aroute.bean.HttpResult;
 import com.ancely.fyw.aroute.manager.NetWorkManager;
 import com.ancely.fyw.aroute.model.BaseViewModel;
 import com.ancely.fyw.aroute.model.ModelP;
+import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.login.LoginApi;
 import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.login.viewmodel.LoginVM;
@@ -46,5 +47,12 @@ public class LoginModelP extends ModelP<HttpResult<LoginBean>> {
     @Override
     public void hideProgress(int flag) {
 
+    }
+
+    @Override
+    public boolean hanlerDataRequestSuccess(ResponseBean<HttpResult<LoginBean>> responseBean) {
+
+        getBaseViewModel().hanlerDataRequestSuccess(responseBean);
+        return true;
     }
 }

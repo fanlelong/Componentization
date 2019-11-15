@@ -64,6 +64,11 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
                 LayoutInflaterCompat.setFactory2(inflater, this);
             }
             super.onCreate(savedInstanceState);
+        } else {
+            if (openChangerSkin()) {
+                LayoutInflater inflater = LayoutInflater.from(mActivity);
+                LayoutInflaterCompat.setFactory2(inflater, mActivity);
+            }
         }
         mContext = mActivity == null ? this : mActivity;
         AppCompatDelegate.setDefaultNightMode(Configuration.UI_MODE_NIGHT_NO);

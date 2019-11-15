@@ -26,6 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button"/>
 
     <Button
+        android:id="@+id/skin_dong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -35,6 +36,14 @@
         app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/button"/>
 
+
+    <Button
+        android:onClick="permission"
+        android:text="申请权限"
+        app:layout_constraintStart_toEndOf="@id/skin_dong"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <ImageView
         android:id="@+id/act_main_iv"
         android:layout_width="wrap_content"
@@ -43,6 +52,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"/>
+
 
 
     <TextView

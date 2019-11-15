@@ -12,7 +12,7 @@ import com.ancely.fyw.aroute.model.bean.RequestErrBean;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.google.gson.Gson;
 
-public class BaseViewModel<T> extends ViewModel implements IBaseViewModel<T> {
+public abstract class BaseViewModel<T> extends ViewModel implements IBaseViewModel<T> {
 
     private MediatorLiveData<ResponseBean<T>> resultLiveData;
     private MediatorLiveData<ResponseBean<T>> moreLiveData;
@@ -65,9 +65,5 @@ public class BaseViewModel<T> extends ViewModel implements IBaseViewModel<T> {
             hideLoadingLiveData = new MutableLiveData<>();
         }
         return hideLoadingLiveData;
-    }
-
-    @Override
-    public void hanlerDataRequestSuccess(ResponseBean<T> t) {
     }
 }

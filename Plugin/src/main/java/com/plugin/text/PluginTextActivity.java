@@ -42,4 +42,9 @@ public class PluginTextActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public boolean openChangerSkin() {
+        return true;
+    }
 }
