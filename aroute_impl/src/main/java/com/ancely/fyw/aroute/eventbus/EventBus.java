@@ -78,6 +78,8 @@ public class EventBus {
             for (Class clazz : subscriberMaps.keySet()) {
                 subscriberInfoIndexes.putIndexs(index.getSubscriberInfo(clazz));
             }
+            subscriberMaps.clear();
+
         } else {
             subscriberInfoIndexes = index;
         }

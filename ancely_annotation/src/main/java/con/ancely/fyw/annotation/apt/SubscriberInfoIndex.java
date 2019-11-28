@@ -17,6 +17,8 @@ public interface SubscriberInfoIndex {
      * @return 事件订阅方法封装类
      */
     SubscriberInfo getSubscriberInfo(Class<?> subscriberClass);
+
     Map<Class, SubscriberInfo> getSubscriberMaps();
+
     void putIndexs(SubscriberInfo info);
 }
