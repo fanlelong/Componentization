@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.ParameterManager;
+import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
@@ -29,6 +32,9 @@ import com.ancely.fyw.common.base.BaseModelActivity;
 import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.mvptext.SkinTestActivity;
 
+import java.util.MyHashMap;
+import java.util.MyLinkedHashMap;
+
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.NeedsPermission;
 import con.ancely.fyw.annotation.apt.OnNeverAskAgain;
@@ -40,7 +46,7 @@ import con.ancely.fyw.annotation.apt.Subscribe;
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends BaseModelActivity {
 
-
+    public static final String TAG = "ancely->>>";
     @Parameter
     String username;
 
@@ -102,7 +108,6 @@ public class MainActivity extends BaseModelActivity {
                 .withString("name", "app_usercenter")
                 .navigation(this, 10);
 //        PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
-//        PluginManager.getInstance().parserApkAction(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
     }
 
     @Override
@@ -130,6 +135,7 @@ public class MainActivity extends BaseModelActivity {
 
     //日夜间切换
     public void dayOrNight(View view) {
+        EventBus.getDefault().postSticky(new View(this));
         int uiMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (uiMode) {
             case Configuration.UI_MODE_NIGHT_NO:
@@ -143,6 +149,40 @@ public class MainActivity extends BaseModelActivity {
             default:
                 break;
         }
+
+        MyHashMap<String,String> maps = new MyHashMap<>();
+        maps.put(null,null);
+        maps.put("12","aaa");
+        maps.put("22","bbb");
+        maps.put("32","ccc");
+        maps.put("42","ccc");
+        maps.put("52","ccc");
+        maps.put("62","ccc");
+        maps.put("72","ccc");
+        maps.put("82","ccc");
+        maps.put("92","ccc");
+        maps.put("02","ccc");
+        maps.put("112","ccc");
+        maps.put("122","ccc");
+        maps.put("132","ccc");
+        maps.put("142","ccc");
+        maps.put("152","ccc");
+        maps.put("162","ccc");
+        String text1 = maps.put("172", "ccc");
+        Log.e(TAG,"text1: "+text1);
+
+        String text2 = maps.put("172", "ccc111");
+        Log.e(TAG,"text2: "+text2);
+
+        String getTest = maps.get("172");
+        Log.e(TAG,"getTest: "+getTest);
+
+        String getNull = maps.get(null);
+        Log.e(TAG,"getNull: "+getNull);
+
+        MyLinkedHashMap<String,String> linkedHashMap = new MyLinkedHashMap<>();
+        linkedHashMap.put("112","ccc");
+
     }
 
 
@@ -172,6 +212,11 @@ public class MainActivity extends BaseModelActivity {
         LogUtils.e("ancely_fyw", loginBean.getUsername());
     }
 
+    @Subscribe
+    public void loginSuccess(LoginBean loginBean) {
+        LogUtils.e("ancely_fyw", loginBean.getUsername());
+    }
+
     @Override
     public boolean openEventBus() {
         return true;
@@ -180,7 +225,8 @@ public class MainActivity extends BaseModelActivity {
 
     @NeedsPermission()
     void showCamera() {
-        Log.e("ancely_fyw >>> ", "showCamera()");
+        PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+
     }
 
     // 提示用户为何要开启权限
@@ -231,6 +277,6 @@ public class MainActivity extends BaseModelActivity {
         PermissionManager.request(this, new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE},0);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
     }
 }

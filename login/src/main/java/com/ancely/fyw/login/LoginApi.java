@@ -2,6 +2,7 @@ package com.ancely.fyw.login;
 
 import com.ancely.fyw.aroute.bean.HttpResult;
 import com.ancely.fyw.login.bean.LoginBean;
+import com.ancely.fyw.login.bean.RegisterBean;
 
 import java.util.Map;
 
@@ -27,5 +28,5 @@ public interface LoginApi {
 
     @FormUrlEncoded
     @POST("user/register")
-    Observable<HttpResult<LoginBean>> register(@FieldMap Map<String, Object> params);
+    Observable<HttpResult<RegisterBean>> register(@FieldMap Map<String, Object> params);
 }

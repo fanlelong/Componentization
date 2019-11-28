@@ -12,6 +12,7 @@ import com.ancely.fyw.login.LoginApi;
 import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.login.viewmodel.LoginVM;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -41,7 +42,6 @@ public class LoginModelP extends ModelP<HttpResult<LoginBean>> {
 
     @Override
     public void showProgress(int flag) {
-
     }
 
     @Override
@@ -53,6 +53,6 @@ public class LoginModelP extends ModelP<HttpResult<LoginBean>> {
     public boolean hanlerDataRequestSuccess(ResponseBean<HttpResult<LoginBean>> responseBean) {
 
         getBaseViewModel().hanlerDataRequestSuccess(responseBean);
-        return true;
+        return false;
     }
 }

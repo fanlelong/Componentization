@@ -13,6 +13,8 @@ import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 
 import java.io.File;
 
+import con.ancely.fyw.annotation.apt.Subscribe;
+
 public class SkinTestActivity extends BaseActivity {
 
     private String skinPath;
@@ -70,5 +72,10 @@ public class SkinTestActivity extends BaseActivity {
     @Override
     public boolean openChangerSkin() {
         return true;
+    }
+
+    @Subscribe
+    public void textEvent(PathBean pathBean){
+
     }
 }

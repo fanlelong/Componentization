@@ -137,7 +137,7 @@ public class PermissionProcessor extends AbstractProcessor {
             System.out.println("executableElement >>> " + executableElement.getSimpleName().toString());
         }
 
-        // 获取MainActivity中所有带OnShowRationale注解的方法
+        // 获取MainActivity中所有带OnShowRationale注解的m方法
         Set<? extends Element> onShowRationaleMapSet = roundEnvironment.getElementsAnnotatedWith(OnShowRationale.class);
         Map<String, List<ExecutableElement>> onShowRationaleMap = new HashMap<>();
         for (Element element : onShowRationaleMapSet) {
@@ -196,7 +196,7 @@ public class PermissionProcessor extends AbstractProcessor {
 
                 // 生成常量属性
                 List<Integer> integers = codeMap.get(activityName);
-                
+
                 writer.write("    private static  int REQUEST_PERMISSION_CODE = 1001; \n");
                 writer.write("    private static String[] PERMISSIONS;\n");
 
@@ -222,7 +222,7 @@ public class PermissionProcessor extends AbstractProcessor {
                         // 调用申请权限方法
                         writer.write("                target." + methodName + "();\n            }");
                     } else {
-                        writer.write("            else if (REQUEST_PERMISSION_CODE == " + code + ") {\n");
+                        writer.write("else if (REQUEST_PERMISSION_CODE == " + code + ") {\n");
                         writer.write("                target." + methodName + "();\n            }");
                     }
                 }
@@ -242,7 +242,7 @@ public class PermissionProcessor extends AbstractProcessor {
                 writer.write("            ActivityCompat.requestPermissions(target, PERMISSIONS, REQUEST_PERMISSION_CODE);\n        }\n    }\n");
 
                 // 生成onRequestPermissionsResult方法
-                writer.write("    public void onRequestPermissionsResult(" + activityName + " target, int requestCode, @NonNull int[] grantResults) {");
+                writer.write("    public void onRequestPermissionsResult(" + activityName + " target, int requestCode, @NonNull int[] grantResults) {\n");
                 writer.write("        switch(requestCode) {\n");
 //                writer.write("            case REQUEST_PERMISSION_CODE:\n");
 //                writer.write("                if (PermissionUtils.verifyPermissions(grantResults)) {\n");

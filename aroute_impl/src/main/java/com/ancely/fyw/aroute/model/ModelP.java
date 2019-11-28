@@ -66,6 +66,12 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
         NetWorkManager.getInstance().getRequestManagerRetriever().get(fragment, this);
     }
 
+    //<? extends BaseViewModel<T> > 控制其上限,最高只能是BaseViewModel 这里传Object就不行,只能是BaseViewModel or BaseViewModel的子类
+    //<? extends BaseViewModel<T> >  可读不可写
+    //<? super BaseViewModel<T> > 控制其下限,最低只能是BaseViewModel, 这样传Object也是可以的 只能是BaseViewModel或者是他的父类
+    //<? super BaseViewModel<T> >  可与,不完全可读
+
+
     public abstract Class<? extends BaseViewModel<T>> getVMClass();
 
     public ModelP(FragmentActivity activity) {

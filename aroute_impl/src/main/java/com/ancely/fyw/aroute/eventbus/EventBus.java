@@ -73,7 +73,15 @@ public class EventBus {
 
     // 添加索引（简化），接口 = 接口实现类，参考EventBusBuilder.java 136行
     public void addIndex(SubscriberInfoIndex index) {
-        subscriberInfoIndexes = index;
+        if (subscriberInfoIndexes != null && subscriberInfoIndexes != index) {
+            Map<Class, SubscriberInfo> subscriberMaps = index.getSubscriberMaps();
+            for (Class clazz : subscriberMaps.keySet()) {
+                subscriberInfoIndexes.putIndexs(index.getSubscriberInfo(clazz));
+            }
+        } else {
+            subscriberInfoIndexes = index;
+        }
+
     }
 
     // 注册 / 订阅事件，参考EventBus.java 138行

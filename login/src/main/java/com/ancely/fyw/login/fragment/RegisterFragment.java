@@ -15,7 +15,7 @@ import com.ancely.fyw.aroute.utils.LogUtils;
 import com.ancely.fyw.common.base.BaseModelFragment;
 import com.ancely.fyw.login.LoginActivity;
 import com.ancely.fyw.login.R;
-import com.ancely.fyw.login.bean.LoginBean;
+import com.ancely.fyw.login.bean.RegisterBean;
 import com.ancely.fyw.login.modelps.RegisterModelP;
 import com.ancely.fyw.login.views.StrakeOutEditText;
 
@@ -29,7 +29,7 @@ import androidx.navigation.Navigation;
  *  @创建时间:  2019/11/12 5:59 PM
  *  @描述：    注册
  */
-public class RegisterFragment extends BaseModelFragment<RegisterModelP,HttpResult<LoginBean>> implements View.OnClickListener, StrakeOutEditText.EditextChangedListener {
+public class RegisterFragment extends BaseModelFragment<RegisterModelP,HttpResult<RegisterBean>> implements View.OnClickListener, StrakeOutEditText.EditextChangedListener {
 
     private StrakeOutEditText mFragRegisterAccount;
     private StrakeOutEditText mFragRegisterPassword;
@@ -111,8 +111,8 @@ public class RegisterFragment extends BaseModelFragment<RegisterModelP,HttpResul
     }
 
     @Override
-    public void accessSuccess(ResponseBean<HttpResult<LoginBean>> responseBean) {
-        LoginBean loginBean = responseBean.body.getData();
+    public void accessSuccess(ResponseBean<HttpResult<RegisterBean>> responseBean) {
+        RegisterBean loginBean = responseBean.body.getData();
         LogUtils.e("ancely_fyw", loginBean.getUsername());
         Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
         RouterManager.getInstance().build()

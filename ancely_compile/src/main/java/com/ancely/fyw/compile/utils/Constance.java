@@ -78,9 +78,13 @@ public interface Constance {
 
     // 加入Map集合方法名
     String PUTINDEX_METHOD_NAME = "putIndex";
+    String PUTINDEXS_METHOD_NAME = "putIndexs";
 
     // getSubscriberInfo方法的参数对象名
     String GETSUBSCRIBERINFO_PARAMETER_NAME = "subscriberClass";
+
+    String GET_SUBSCRIBER_MAPS = "getSubscriberMaps";
+
 
     // 通过订阅者对象（MainActivity.class）获取所有订阅方法的方法名
     String GETSUBSCRIBERINFO_METHOD_NAME = "getSubscriberInfo";

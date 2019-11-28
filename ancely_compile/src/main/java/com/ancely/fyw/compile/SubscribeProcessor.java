@@ -244,9 +244,10 @@ public class SubscribeProcessor extends AbstractProcessor {
         // putIndex方法配置：private static void putIndex(SubscriberMethod info) {
         MethodSpec.Builder putIndexBuidler = MethodSpec
                 .methodBuilder(Constance.PUTINDEX_METHOD_NAME) // 方法名
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC) // private static修饰符
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC) // private static修饰符
                 .addParameter(putIndexParameter); // 添加方法参数
         // 不填returns默认void返回值
+
 
         // putIndex方法内容：SUBSCRIBER_INDEX.put(info.getSubscriberClass(), info);
         putIndexBuidler.addStatement("$N.put($N.getSubscriberClass(), $N)",
@@ -268,6 +269,31 @@ public class SubscribeProcessor extends AbstractProcessor {
                 .addParameter(getSubscriberInfoParameter) // 方法参数
                 .returns(SubscriberInfo.class); // 方法返回值
 
+        //        public Map<Class, SubscriberInfo> getSubscriberMaps() {
+//            return SUBSCRIBER_INDEX;
+//        }
+        MethodSpec.Builder getSubscriberMapsBuilder = MethodSpec
+                .methodBuilder(Constance.GET_SUBSCRIBER_MAPS) // 方法名
+                .addAnnotation(Override.class) // 重写方法注解
+                .addModifiers(Modifier.PUBLIC) // private static修饰符
+                .returns(fieldType); // 添加方法参数
+
+        getSubscriberMapsBuilder.addStatement("return SUBSCRIBER_INDEX");
+//        @Override
+//        public void putIndexs(SubscriberInfo info) {
+//            SUBSCRIBER_INDEX.put(info.getSubscriberClass(), info);
+//        }
+        MethodSpec.Builder putIndexBuilder = MethodSpec
+                .methodBuilder(Constance.PUTINDEXS_METHOD_NAME) // 方法名
+                .addAnnotation(Override.class) // 重写方法注解
+                .addModifiers(Modifier.PUBLIC) // private static修饰符
+                .addParameter(putIndexParameter); // 添加方法参数
+
+        putIndexBuilder.addStatement("$N.put($N.getSubscriberClass(), $N)",
+                Constance.FIELD_NAME,
+                Constance.PUTINDEX_PARAMETER_NAME,
+                Constance.PUTINDEX_PARAMETER_NAME);
+
         // getSubscriberInfo方法内容：return SUBSCRIBER_INDEX.get(subscriberClass);
         getSubscriberInfoBuidler.addStatement("return $N.get($N)",
                 Constance.FIELD_NAME,
@@ -287,6 +313,8 @@ public class SubscribeProcessor extends AbstractProcessor {
                 .addMethod(putIndexBuidler.build())
                 // 第二个方法：通过订阅者对象（MainActivity.class）获取所有订阅方法
                 .addMethod(getSubscriberInfoBuidler.build())
+                .addMethod(getSubscriberMapsBuilder.build())
+                .addMethod(putIndexBuilder.build())
                 .build();
 
         // 生成类文件：EventBusIndex

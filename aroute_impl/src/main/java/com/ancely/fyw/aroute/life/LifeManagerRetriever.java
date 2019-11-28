@@ -64,7 +64,7 @@ public class LifeManagerRetriever implements Handler.Callback {
     @NonNull
     private LifeManager supportFragmentGet(@NonNull Context context, @NonNull FragmentManager fm,
                                            boolean isParentVisible, ModelP presenter) {
-        //获取到一个影藏的fragment
+        //获取到一个隐藏的fragment
         LifeFragment current = getSupportRequestManagerFragment(fm, isParentVisible);
 
         LifeManager lifeManager = current.getLifeManager();//获取到最终管理类

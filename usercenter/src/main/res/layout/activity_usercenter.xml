@@ -18,25 +18,20 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:text="启动Plugin插件的Service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="startServices"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="启动Plugin插件的Service"/>
 
     <Button
-    android:text="启动Plugin插件的Activity"
-    android:onClick="startActivitys"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startActivitys"
+        android:text="启动Plugin插件的Activity"/>
 
     <Button
-        android:text="注册动态广播Receiver"
-        android:onClick="startReceiver"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:text="发送动态广播Receiver"
+        android:layout_height="wrap_content"
         android:onClick="sendReceiver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="发送插件静态广播"/>
 </LinearLayout>

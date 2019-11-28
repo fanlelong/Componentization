@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.ancely.fyw.aroute.base.BaseActivity;
+import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.ParameterManager;
 import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.permissions.PermissionManager;
 import com.ancely.fyw.aroute.permissions.listener.PermissionRequest;
 import com.ancely.fyw.aroute.proxy.ProxyActivity;
 import com.ancely.fyw.aroute.proxy.ProxyService;
+import com.ancely.fyw.usercenter.apt.EventBusIndex;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.NeedsPermission;
@@ -24,6 +26,8 @@ import con.ancely.fyw.annotation.apt.OnNeverAskAgain;
 import con.ancely.fyw.annotation.apt.OnPermissionDenied;
 import con.ancely.fyw.annotation.apt.OnShowRationale;
 import con.ancely.fyw.annotation.apt.Parameter;
+import con.ancely.fyw.annotation.apt.Subscribe;
+import con.ancely.fyw.annotation.apt.bean.ThreadMode;
 
 @ARouter(path = "/usercenter/UserCenter_MainActivity")
 public class UserCenter_MainActivity extends BaseActivity {
@@ -36,6 +40,8 @@ public class UserCenter_MainActivity extends BaseActivity {
         setContentView(R.layout.activity_usercenter);
         ParameterManager.getInstance().loadParameter(this);
         Log.e("componentization", name);
+        EventBus.getDefault().addIndex(new EventBusIndex());
+        EventBus.getDefault().register(this);
     }
 
 
@@ -130,17 +136,16 @@ public class UserCenter_MainActivity extends BaseActivity {
 
     }
 
-    public void startReceiver(View view) {
-
-    }
-
-    public void startReceiver() {
-
-    }
-
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 10)
     public void sendReceiver(View view) {
         Intent intent = new Intent();
         intent.setAction("com.plugin.text.StaticReceiver");
         sendBroadcast(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

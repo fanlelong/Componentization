@@ -151,6 +151,8 @@ public class PluginManager {
             cacheSkin.put(pluginPath, new SkinCache(mPluginResources, mClassLoader, skinPackageName));
         }
         Log.e("skinPackageName >>> ", skinPackageName);
+
+        parserApkAction(pluginPath,pathFile);
         return true;
     }
 
@@ -174,13 +176,8 @@ public class PluginManager {
         return mPackageServiceInfo;
     }
 
-    public boolean parserApkAction(String path) {
+    private void parserApkAction(String path, File pathFile) {
         try {
-            File pathFile = new File(path);
-            if (!pathFile.exists()) {
-                return false;
-            }
-
             //parsePackage
             Class<?> packageParserClass = Class.forName("android.content.pm.PackageParser");
             Object packageParser = packageParserClass.newInstance();
@@ -221,9 +218,7 @@ public class PluginManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     public boolean isDefaultSkin() {
