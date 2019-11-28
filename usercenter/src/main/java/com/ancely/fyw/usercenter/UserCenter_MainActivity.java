@@ -9,8 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ancely.fyw.aroute.base.BaseActivity;
+import com.ancely.fyw.aroute.bean.BaseEntry;
 import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.ParameterManager;
 import com.ancely.fyw.aroute.manager.PluginManager;
@@ -18,7 +20,7 @@ import com.ancely.fyw.aroute.permissions.PermissionManager;
 import com.ancely.fyw.aroute.permissions.listener.PermissionRequest;
 import com.ancely.fyw.aroute.proxy.ProxyActivity;
 import com.ancely.fyw.aroute.proxy.ProxyService;
-import com.ancely.fyw.usercenter.apt.EventBusIndex;
+import com.ancely.fyw.usercenter.event.EventBusIndex;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.NeedsPermission;
@@ -42,6 +44,7 @@ public class UserCenter_MainActivity extends BaseActivity {
         Log.e("componentization", name);
         EventBus.getDefault().addIndex(new EventBusIndex());
         EventBus.getDefault().register(this);
+        EventBus.getDefault().removeStickyEvent(BaseEntry.class);
     }
 
 
@@ -136,11 +139,15 @@ public class UserCenter_MainActivity extends BaseActivity {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 10)
     public void sendReceiver(View view) {
         Intent intent = new Intent();
         intent.setAction("com.plugin.text.StaticReceiver");
         sendBroadcast(intent);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 10)
+    public void testStickEvent(BaseEntry baseEntry) {
+        Toast.makeText(this, "收到stick事件", Toast.LENGTH_SHORT).show();
     }
 
     @Override

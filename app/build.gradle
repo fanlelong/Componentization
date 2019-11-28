@@ -21,7 +21,7 @@ android {
             annotationProcessorOptions {
                 arguments = [projectName   : project.getName(),
                              packageNameAPT: packageNameAPT,
-                             packageName   : "com.ancely.fyw.eventbus.apt",
+                             packageName   : "com.ancely.fyw.app.event",
                              className     : "EventBusIndex"]
             }
         }
@@ -56,9 +56,9 @@ dependencies {
     implementation project(':common')
 
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
     if (isRelease) {
         implementation project(':login')
         implementation project(':usercenter')

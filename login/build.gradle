@@ -28,7 +28,7 @@ android {
             annotationProcessorOptions {
                 arguments = [projectName: project.getName(),
                              packageNameAPT: packageNameAPT,
-                             packageName   : "com.ancely.fyw.login.apt",
+                             packageName   : "com.ancely.fyw.login.event",
                              className     : "EventBusIndex"]
             }
         }

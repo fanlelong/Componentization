@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.ancely.fyw.aroute.bean.BaseEntry;
 import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.ParameterManager;
 import com.ancely.fyw.aroute.manager.PluginManager;
@@ -135,7 +136,7 @@ public class MainActivity extends BaseModelActivity {
 
     //日夜间切换
     public void dayOrNight(View view) {
-        EventBus.getDefault().postSticky(new View(this));
+        EventBus.getDefault().postSticky(new BaseEntry());
         int uiMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (uiMode) {
             case Configuration.UI_MODE_NIGHT_NO:

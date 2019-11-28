@@ -29,7 +29,7 @@ android {
             annotationProcessorOptions {
                 arguments = [projectName: project.getName(),
                              packageNameAPT: packageNameAPT,
-                             packageName   : "com.ancely.fyw.usercenter.apt",
+                             packageName   : "com.ancely.fyw.usercenter.event",
                              className     : "EventBusIndex"]
             }
         }

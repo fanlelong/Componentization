@@ -50,6 +50,10 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     private SelfAppCompatViewInflater mViewInflater;
     private Activity mContext;
 
+    public Activity getContext() {
+        return mContext;
+    }
+
     @Override
     public void attach(Activity activity) {
         mActivity = activity;
