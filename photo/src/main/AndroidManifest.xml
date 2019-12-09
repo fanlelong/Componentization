@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ancely.fyw.photo">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <application>
+        <activity android:name=".PhotoActivity"/>
+        <activity
+            android:name=".PhotoItemActivity"
+            android:label="ImageViewPreview"
+            android:theme="@style/TranslateActivityTheme"/>
+    </application>
+
+</manifest>

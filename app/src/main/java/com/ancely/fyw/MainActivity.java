@@ -81,13 +81,14 @@ public class MainActivity extends BaseModelActivity {
 
     @Override
     protected void initDatas() {
-
     }
 
     @Override
     protected void initEvent() {
 
     }
+
+
 
     @Override
     protected void initView() {
@@ -136,6 +137,7 @@ public class MainActivity extends BaseModelActivity {
 
     //日夜间切换
     public void dayOrNight(View view) {
+
         EventBus.getDefault().postSticky(new BaseEntry());
         int uiMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (uiMode) {
@@ -151,38 +153,38 @@ public class MainActivity extends BaseModelActivity {
                 break;
         }
 
-        MyHashMap<String,String> maps = new MyHashMap<>();
-        maps.put(null,null);
-        maps.put("12","aaa");
-        maps.put("22","bbb");
-        maps.put("32","ccc");
-        maps.put("42","ccc");
-        maps.put("52","ccc");
-        maps.put("62","ccc");
-        maps.put("72","ccc");
-        maps.put("82","ccc");
-        maps.put("92","ccc");
-        maps.put("02","ccc");
-        maps.put("112","ccc");
-        maps.put("122","ccc");
-        maps.put("132","ccc");
-        maps.put("142","ccc");
-        maps.put("152","ccc");
-        maps.put("162","ccc");
+        MyHashMap<String, String> maps = new MyHashMap<>();
+        maps.put(null, null);
+        maps.put("12", "aaa");
+        maps.put("22", "bbb");
+        maps.put("32", "ccc");
+        maps.put("42", "ccc");
+        maps.put("52", "ccc");
+        maps.put("62", "ccc");
+        maps.put("72", "ccc");
+        maps.put("82", "ccc");
+        maps.put("92", "ccc");
+        maps.put("02", "ccc");
+        maps.put("112", "ccc");
+        maps.put("122", "ccc");
+        maps.put("132", "ccc");
+        maps.put("142", "ccc");
+        maps.put("152", "ccc");
+        maps.put("162", "ccc");
         String text1 = maps.put("172", "ccc");
-        Log.e(TAG,"text1: "+text1);
+        Log.e(TAG, "text1: " + text1);
 
         String text2 = maps.put("172", "ccc111");
-        Log.e(TAG,"text2: "+text2);
+        Log.e(TAG, "text2: " + text2);
 
         String getTest = maps.get("172");
-        Log.e(TAG,"getTest: "+getTest);
+        Log.e(TAG, "getTest: " + getTest);
 
         String getNull = maps.get(null);
-        Log.e(TAG,"getNull: "+getNull);
+        Log.e(TAG, "getNull: " + getNull);
 
-        MyLinkedHashMap<String,String> linkedHashMap = new MyLinkedHashMap<>();
-        linkedHashMap.put("112","ccc");
+        MyLinkedHashMap<String, String> linkedHashMap = new MyLinkedHashMap<>();
+        linkedHashMap.put("112", "ccc");
 
     }
 
@@ -224,7 +226,7 @@ public class MainActivity extends BaseModelActivity {
     }
 
 
-    @NeedsPermission()
+    @NeedsPermission(code = 0)
     void showCamera() {
         PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
 
@@ -279,5 +281,22 @@ public class MainActivity extends BaseModelActivity {
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+
+
+
     }
+
+    public void selectPhoto(View view) {
+        PermissionManager.request(this, new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE}, 1002);
+
+
+    }
+    @NeedsPermission(code = 1002)
+    public void selectPhoto(){
+        RouterManager.getInstance().build("/photo/PhotoActivity")
+                .navigation(this);
+    }
+
 }

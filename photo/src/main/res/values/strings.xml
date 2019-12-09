@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MyPhoto</string>
+    <string name="ip_folder_image_count">共%1$d张</string>
+</resources>

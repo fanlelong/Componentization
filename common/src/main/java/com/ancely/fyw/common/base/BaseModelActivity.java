@@ -124,7 +124,7 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
     }
 
 
-    private boolean isFullScreen() {
+    public boolean isFullScreen() {
         return true;
     }
 

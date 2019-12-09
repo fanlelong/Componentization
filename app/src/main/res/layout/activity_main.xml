@@ -38,12 +38,31 @@
 
 
     <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:onClick="permission"
         android:text="申请权限"
-        app:layout_constraintStart_toEndOf="@id/skin_dong"
+        app:layout_constraintBottom_toBottomOf="@+id/skin_dong"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toEndOf="@+id/skin_dong"
+        app:layout_constraintTop_toTopOf="@+id/skin_dong"/>
+
+
+    <Button
+        android:onClick="selectPhoto"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="选择相片"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/button3"/>
     <ImageView
         android:id="@+id/act_main_iv"
         android:layout_width="wrap_content"
@@ -54,17 +73,16 @@
         app:layout_constraintTop_toBottomOf="@+id/button2"/>
 
 
-
     <TextView
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
         android:background="@color/skin_background"
         android:gravity="center"
         android:onClick="dayOrNight"
         android:text="日夜间切换"
         android:textColor="@color/skin_textColor"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/button"
         app:layout_constraintTop_toTopOf="parent"/>
 
