@@ -205,10 +205,35 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     public void startActivity(Intent intent) {
         if (mActivity == null) {
             super.startActivity(intent);
+            overridePendingTransition(R.anim.anim_window_in_right, R.anim.anim_window_out_left);
         } else {
             Intent newIntent = new Intent();
             newIntent.putExtra("className", intent.getComponent().getClassName());
             mActivity.startActivity(newIntent);
+            mActivity.overridePendingTransition(R.anim.anim_window_in_right, R.anim.anim_window_out_left);
+
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        if (mActivity == null) {
+            super.startActivityForResult(intent, requestCode);
+            overridePendingTransition(R.anim.anim_window_in_right, R.anim.anim_window_out_left);
+        }else{
+            mActivity.startActivityForResult(intent, requestCode);
+            mActivity.overridePendingTransition(R.anim.anim_window_in_right, R.anim.anim_window_out_left);
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        if (mActivity == null) {
+            super.startActivityForResult(intent, requestCode, options);
+            overridePendingTransition(R.anim.anim_window_in_right, R.anim.anim_window_out_left);
+        }else{
+            mActivity.startActivityForResult(intent, requestCode, options);
+            mActivity.overridePendingTransition(R.anim.anim_window_in_right, R.anim.anim_window_out_left);
         }
     }
 
@@ -330,6 +355,18 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
             }
             View decorView = getWindow().getDecorView();
             applyViews(decorView);
+        }
+    }
+
+    @Override
+    public void finish() {
+
+        if (mActivity == null) {
+            super.finish();
+            overridePendingTransition(R.anim.anim_window_in_left, R.anim.anim_window_out_right);
+        } else {
+            mActivity.finish();
+            mActivity.overridePendingTransition(R.anim.anim_window_in_left, R.anim.anim_window_out_right);
         }
     }
 }

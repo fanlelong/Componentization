@@ -5,7 +5,6 @@ import android.app.SharedElementCallback;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Matrix;
 import android.graphics.RectF;
@@ -40,11 +39,9 @@ import com.ancely.fyw.photo.bean.PhotoBean;
 import com.ancely.fyw.photo.bean.UpdataViewEvent;
 import com.ancely.fyw.photo.event.EventBusIndex;
 import com.ancely.fyw.photo.util.GridSpacingItemDecoration;
-import com.ancely.fyw.photo.util.ImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,13 +58,7 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
     private TextView mDirName;
     private TextView mDirCount;
 
-    public static List<String> mImgs = new ArrayList<>();
-    public static TreeSet<PhotoBean> sPhotoBeans = new TreeSet<>(new Comparator<PhotoBean>() {
-        @Override
-        public int compare(PhotoBean o1, PhotoBean o2) {
-            return (int) (o1.time - o2.time);
-        }
-    });
+    public static List<String> mImgs = new ArrayList<>(100);
     private List<FloderBean> mFloderBeans = new ArrayList<>();
     private PhotoAdapter mPhotoAdapter;
     private final String[] IMAGE_PROJECTION = {     //查询图片需要的数据列
@@ -89,7 +80,8 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
         @Override
         public boolean handleMessage(Message message) {
             if (message.what == 0x100) {
-                if (mImgs.size() == 0) {
+                mImgs = (ArrayList<String>) message.obj;
+                if (mImgs == null || mImgs.size() == 0) {
                     Toast.makeText(PhotoActivity.this, "未扫描到任务图片", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -106,7 +98,7 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
     private ImageFolderAdapter mImageFolderAdapter;
     private FolderPopUpWindow mFolderPopupWindow;
     private GridLayoutManager mGridLayoutManager;
-    private ImageLoader mInstance;
+    //    private ImageLoader mInstance;
     private String mDirPath;
 
     @Override
@@ -117,18 +109,13 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().addIndex(new EventBusIndex());
-
         super.onCreate(savedInstanceState);
         mImgs = new ArrayList<>();
-        sPhotoBeans.clear();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-            }
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
         }
         mRv = findViewById(R.id.rv);
         mBottomRl = findViewById(R.id.bottom_rl);
@@ -160,7 +147,7 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
 
 
         //扫描手机的所有图片
-        initDatas();
+//        initDatas();
 
 
     }
@@ -184,6 +171,7 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
         new Thread() {
             @Override
             public void run() {
+                List<String> mImgs = new ArrayList<>();
                 Uri mImgUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 ContentResolver contentResolver = PhotoActivity.this.getContentResolver();
 //                Cursor cursor = contentResolver.query(mImgUri, null,
@@ -192,8 +180,9 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
                 Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION, null, null, IMAGE_PROJECTION[6] + " DESC");
                 assert cursor != null;
                 Map<String, FloderBean> parentFiles = new HashMap<>();
-
+                long start=System.currentTimeMillis();
                 while (cursor.moveToNext()) {
+
                     String name = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
                     String path = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
                     long time = cursor.getLong(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[6]));
@@ -235,7 +224,11 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
 //                for (PhotoBean photoBean : sPhotoBeans) {
 //                    mImgs.add(photoBean.path);
 //                }
-                mHandler.sendEmptyMessage(0x100);//通知更新ui
+                Log.e("ancely>>> ",String.valueOf(System.currentTimeMillis()-start));
+                Message message = mHandler.obtainMessage();
+                message.obj = mImgs;
+                message.what = 0x100;
+                mHandler.sendMessage(message);//通知更新ui
             }
         }.start();
 
@@ -386,4 +379,5 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
     public boolean isFullScreen() {
         return false;
     }
+
 }

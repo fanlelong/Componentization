@@ -1,6 +1,6 @@
 package com.ancely.fyw.aroute.manager;
 
-import android.app.Application;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -41,12 +41,13 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class NetWorkManager {
 
+    @SuppressLint("StaticFieldLeak")
     private static volatile NetWorkManager mInstance;
     private Retrofit retrofit;
     private OkHttpClient mClient;
     private Headers mHeaders;
     private LinkedHashMap<String, String> heardsMap;
-    private Application mApplication;
+    private Context mApplication;
     private HttpsSSL.SSLParams sslParams;
     private final LifeManagerRetriever lifeManagerRetriever;
 
@@ -89,22 +90,38 @@ public class NetWorkManager {
     /**
      * 初始化必要对象和参数
      *
-     * @param host        域名
-     * @param application 上下文
+     * @param host 域名
      */
-    public void init(String host, Application application) {
-        init(host, null, application);
+    public void init(String host,Context context) {
+        init(host, null,context);
     }
 
     public Context getContext() {
         return mApplication;
     }
 
-    public void init(@NonNull String host, List<Interceptor> interceptors, @NonNull Application application) {
-        mApplication = application;
+    public void init(@NonNull String host, List<Interceptor> interceptors,Context context) {
+//        if (AncelyContentProvider.context == null) {
+//            throw new IllegalArgumentException("Context must not be null.");
+//        }
+//        mApplication = AncelyContentProvider.context.getApplicationContext();
+        mApplication = context;
         //初始化网络监听
-        initNetChangerListener(application);
-        PluginManager.init(application);
+        initNetChangerListener(mApplication);
+        PluginManager.init(mApplication);
+
+        initOkhttpClient(interceptors);
+        // 初始化Retrofit
+        retrofit = new Retrofit.Builder()
+                .client(mClient)
+                .baseUrl(host)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    private void initOkhttpClient(List<Interceptor> interceptors) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor("ancelyOkhttp:");
         httpLoggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         httpLoggingInterceptor.setColorLevel(Level.INFO);
@@ -137,20 +154,12 @@ public class NetWorkManager {
             builder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
 
         mClient = builder.build();
-        // 初始化Retrofit
-        retrofit = new Retrofit.Builder()
-                .client(mClient)
-                .baseUrl(host)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
     }
 
     /**
      * 初始化网络改变监听
      */
-    private void initNetChangerListener(Application application) {
+    private void initNetChangerListener(Context application) {
         //通过广播方式来操作
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -234,7 +243,10 @@ public class NetWorkManager {
         }
         if (heardsMap != null) {
             for (String s : heardsMap.keySet()) {
-                builder.addHeader(s, heardsMap.get(s));
+                String value = heardsMap.get(s);
+                if (value != null) {
+                    builder.addHeader(s, value);
+                }
             }
         }
     }

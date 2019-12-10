@@ -1,7 +1,6 @@
 package com.ancely.fyw.photo;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +14,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Transition;
-import android.transition.TransitionManager;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,12 +26,8 @@ import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.photo.bean.UpdataViewEvent;
 import com.ancely.fyw.photo.photoview.PhotoView;
 import com.ancely.fyw.photo.util.DragCloseHelper;
-import com.ancely.fyw.photo.util.ImageLoader;
 import com.bumptech.glide.Glide;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -78,7 +70,7 @@ public class PhotoItemActivity extends BaseActivity {
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mPhotoRv.setLayoutManager(mLinearLayoutManager);
-        final ImageLoader instance = ImageLoader.getInstance();
+//        final ImageLoader instance = ImageLoader.getInstance();
         new PagerSnapHelper().attachToRecyclerView(mPhotoRv);
 
         initDrawView();
@@ -152,8 +144,7 @@ public class PhotoItemActivity extends BaseActivity {
                 public View onCreateSnapshotView(Context context, Parcelable snapshot) {
                     //新的iv执行动画的真正iv
                     Log.e("PhotoItemActivity", "onCreateSnapshotView");
-                    View view = super.onCreateSnapshotView(context, snapshot);
-                    return view;
+                    return super.onCreateSnapshotView(context, snapshot);
                 }
 
                 @Override
@@ -170,7 +161,7 @@ public class PhotoItemActivity extends BaseActivity {
     boolean scrolling;
     RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             scrolling = newState != 0;
         }
@@ -240,7 +231,7 @@ public class PhotoItemActivity extends BaseActivity {
     class PhotoHolder extends RecyclerView.ViewHolder {
         ImageView mImageView;
 
-        public PhotoHolder(View itemView) {
+        PhotoHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.item_iv);
 
@@ -258,28 +249,28 @@ public class PhotoItemActivity extends BaseActivity {
     }
 
 
-    private static void removeActivityFromTransitionManager(Activity activity) {
-        if (Build.VERSION.SDK_INT < 21) {
-            return;
-        }
-        Class transitionManagerClass = TransitionManager.class;
-        try {
-            Field runningTransitionsField = transitionManagerClass.getDeclaredField("sRunningTransitions");
-            runningTransitionsField.setAccessible(true);
-            //noinspection unchecked
-            ThreadLocal<WeakReference<ArrayMap<ViewGroup, ArrayList<Transition>>>> runningTransitions
-                    = (ThreadLocal<WeakReference<ArrayMap<ViewGroup, ArrayList<Transition>>>>)
-                    runningTransitionsField.get(transitionManagerClass);
-            if (runningTransitions.get() == null || runningTransitions.get().get() == null) {
-                return;
-            }
-            ArrayMap map = runningTransitions.get().get();
-            View decorView = activity.getWindow().getDecorView();
-            map.remove(decorView);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+//    private static void removeActivityFromTransitionManager(Activity activity) {
+//        if (Build.VERSION.SDK_INT < 21) {
+//            return;
+//        }
+//        Class transitionManagerClass = TransitionManager.class;
+//        try {
+//            Field runningTransitionsField = transitionManagerClass.getDeclaredField("sRunningTransitions");
+//            runningTransitionsField.setAccessible(true);
+//            //noinspection unchecked
+//            ThreadLocal<WeakReference<ArrayMap<ViewGroup, ArrayList<Transition>>>> runningTransitions
+//                    = (ThreadLocal<WeakReference<ArrayMap<ViewGroup, ArrayList<Transition>>>>)
+//                    runningTransitionsField.get(transitionManagerClass);
+//            if (runningTransitions.get() == null || runningTransitions.get().get() == null) {
+//                return;
+//            }
+//            ArrayMap map = runningTransitions.get().get();
+//            View decorView = activity.getWindow().getDecorView();
+//            map.remove(decorView);
+//        } catch (NoSuchFieldException | IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onDestroy() {

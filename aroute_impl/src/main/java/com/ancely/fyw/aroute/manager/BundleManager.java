@@ -66,6 +66,7 @@ public class BundleManager {
         return this;
     }
 
+
     public BundleManager withResultBoolean(@NonNull String key, boolean value) {
         mBundle.putBoolean(key, value);
         isResult = true;

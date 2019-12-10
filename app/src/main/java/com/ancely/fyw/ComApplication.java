@@ -24,7 +24,7 @@ public class ComApplication extends Application {
         super.onCreate();
 //        Bugly.init(this, "900029763", false);
 //        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
-        NetWorkManager.getInstance().init("https://www.wanandroid.com/", this);
+        NetWorkManager.getInstance().init("https://www.wanandroid.com/",this);
         EventBus.getDefault().addIndex(new EventBusIndex());
 //        LeakCanary.install(this);
     }

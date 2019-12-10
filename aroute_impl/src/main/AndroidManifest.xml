@@ -2,4 +2,10 @@
           package="com.ancely.fyw.aroute">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <application>
+        <provider
+            android:name=".manager.AncelyContentProvider"
+            android:authorities="com.ancely.fyw.aroute.manager.AncelyContentProvider"
+            android:exported="false"/>
+    </application>
 </manifest>

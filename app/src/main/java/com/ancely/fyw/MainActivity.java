@@ -76,7 +76,6 @@ public class MainActivity extends BaseModelActivity {
         ImageView imageView = findViewById(R.id.act_main_iv);
         imageView.setImageResource(mLoginCall.getDrawable());
 
-
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.ancely.fyw.aroute.manager;
 
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -46,7 +45,7 @@ public class PluginManager {
     private DexClassLoader mClassLoader;
 
     //上下文
-    private Application mApplication;
+    private Context mApplication;
 
 
     //插件apk的包信息类,因为我们需要根据包信息名字获取Activity的名字
@@ -63,7 +62,7 @@ public class PluginManager {
     /**
      * 单例方法，目的是初始化app内置资源（越早越好，用户的操作可能是：换肤后的第2次冷启动）
      */
-    public static void init(Application application) {
+    public static void init(Context application) {
         if (sInstance == null) {
             synchronized (PluginManager.class) {
                 if (sInstance == null) {
@@ -77,7 +76,7 @@ public class PluginManager {
         return sInstance;
     }
 
-    private PluginManager(Application application) {
+    private PluginManager(Context application) {
         cacheSkin = new HashMap<>();
         mAppResources = application.getResources();
         mApplication = application;

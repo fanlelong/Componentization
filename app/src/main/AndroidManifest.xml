@@ -41,6 +41,7 @@
 
         <activity android:name=".mvptext.SkinTestActivity">
         </activity>
+
     </application>
 
 </manifest>
