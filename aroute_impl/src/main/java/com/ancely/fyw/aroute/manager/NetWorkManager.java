@@ -19,8 +19,10 @@ import com.ancely.fyw.aroute.networks.okhttp.ProgressInterceptor;
 import com.ancely.fyw.aroute.networks.receiver.NetWorkConnectReceiver;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -43,14 +45,14 @@ public class NetWorkManager {
 
     @SuppressLint("StaticFieldLeak")
     private static volatile NetWorkManager mInstance;
-    private Retrofit retrofit;
+    private Retrofit mRetrofit;
     private OkHttpClient mClient;
     private Headers mHeaders;
     private LinkedHashMap<String, String> heardsMap;
     private Context mApplication;
     private HttpsSSL.SSLParams sslParams;
     private final LifeManagerRetriever lifeManagerRetriever;
-
+    private Map<String, Retrofit> mRetrofitMap = new HashMap<>();
 
     private final NetWorkConnectReceiver mReceiver;
     private final NetChangeImpl mNetChange;
@@ -92,15 +94,15 @@ public class NetWorkManager {
      *
      * @param host 域名
      */
-    public void init(String host,Context context) {
-        init(host, null,context);
+    public void init(String host, Context context) {
+        init(host, null, context);
     }
 
     public Context getContext() {
         return mApplication;
     }
 
-    public void init(@NonNull String host, List<Interceptor> interceptors,Context context) {
+    public void init(@NonNull String host, List<Interceptor> interceptors, Context context) {
 //        if (AncelyContentProvider.context == null) {
 //            throw new IllegalArgumentException("Context must not be null.");
 //        }
@@ -112,13 +114,14 @@ public class NetWorkManager {
 
         initOkhttpClient(interceptors);
         // 初始化Retrofit
-        retrofit = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .client(mClient)
                 .baseUrl(host)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        mRetrofitMap.put(host, mRetrofit);
     }
 
     private void initOkhttpClient(List<Interceptor> interceptors) {
@@ -214,6 +217,25 @@ public class NetWorkManager {
     }
 
     public Retrofit getRetrofit() {
+        return mRetrofit;
+    }
+
+    /**
+     * 处理多host
+     */
+    public Retrofit getRetrofit(String host) {
+        Retrofit retrofit = mRetrofitMap.get(host);
+        if (retrofit == null) {
+            Retrofit r = new Retrofit.Builder()
+                    .client(mClient)
+                    .baseUrl(host)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            mRetrofitMap.put(host, r);
+            return r;
+        }
         return retrofit;
     }
 
@@ -254,5 +276,15 @@ public class NetWorkManager {
     @NonNull
     public LifeManagerRetriever getRequestManagerRetriever() {
         return lifeManagerRetriever;
+    }
+
+    private boolean mIsLogin;
+
+    public void setIsLogin(boolean isLogin) {
+        mIsLogin = isLogin;
+    }
+
+    public boolean isLogin() {
+        return mIsLogin;
     }
 }
