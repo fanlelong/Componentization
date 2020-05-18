@@ -7,9 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.ancely.fyw.aroute.base.BaseActivity;
+import com.ancely.fyw.network.BaseObserver;
 
 public class PluginTextActivity extends BaseActivity {
-    public static final String ACTION="com.plugin.text.TextReceitve";
+    public static final String ACTION = "com.plugin.text.TextReceitve";
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +30,9 @@ public class PluginTextActivity extends BaseActivity {
         findViewById(R.id.regist_broadcast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentFilter infilter=new IntentFilter();
+                IntentFilter infilter = new IntentFilter();
                 infilter.addAction(ACTION);
-                registerReceiver(new TextReceitve(),infilter);
+                registerReceiver(new TextReceitve(), infilter);
             }
         });
         //发送广播
@@ -41,7 +44,21 @@ public class PluginTextActivity extends BaseActivity {
                 sendBroadcast(intent);
             }
         });
+
+        PluginNetWorkApi.getService(PluginApi.class).login(null)
+                .compose(PluginNetWorkApi.getInstance().applySchedulers(new BaseObserver<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+
+                    }
+                }));
     }
+
 
     @Override
     public boolean openChangerSkin() {

@@ -1,4 +1,4 @@
-package com.plugin.text;
+package com.ancely.fyw.network;
 
 /*
  *  @项目名：  Componentization
@@ -9,4 +9,6 @@ package com.plugin.text;
  *  @描述：    TODO
  */
 public interface IEnviroment {
+    String getRelease();
+    String getTest();
 }

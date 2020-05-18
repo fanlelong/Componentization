@@ -24,4 +24,5 @@ public interface ActivityInterface {
     void onDestroy();
 
     View onCreateView(View parent, String name, Context context, AttributeSet attrs);
+
 }

@@ -1,20 +1,58 @@
-apply plugin: 'com.android.application'
+if (isRelease) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
+def androidId = rootProject.ext.androidId
+def support = rootProject.ext.dependencies
+def appId = rootProject.ext.appId
 android {
-    compileSdkVersion 28
+    compileSdkVersion androidId.compileSdkVersion
 
 
 
     defaultConfig {
-        applicationId "com.ancely.pay"
-        minSdkVersion 22
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
+        if (!isRelease) {
+            applicationId appId.pay
+        }
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [projectName   : project.getName(),
+                             packageNameAPT: packageNameAPT,
+                             packageName   : "com.ancely.pay.event",
+                             className     : "EventBusIndex"]
+            }
+        }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            if (!isRelease) {
+                //如果是组件化模式时,需要独立运行时
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                //如果是集成化时,整个项目打包apk
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    //release时,debug目录下文件不需要合并到工程里
+                    exclude '**/debug/**'
+                }
+            }
+        }
+    }
+
 
     buildTypes {
         release {
@@ -23,6 +61,9 @@ android {
         }
     }
 
+}
+greendao {
+    schemaVersion 1
 }
 
 dependencies {
@@ -33,4 +74,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    support.each { k, v -> implementation v }
+    implementation project(':ancely_annotation')
+    annotationProcessor project(':ancely_compile')
+    implementation project(':common')
 }
+
+
+
+

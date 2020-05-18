@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ancely.pay" >
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.ancely.pay">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application>
+        <activity android:name=".PlayActivity"/>
+
+        <service
+            android:name=".service.NotificationCollectorService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.service.notification.NotificationListenerService"/>
             </intent-filter>
-        </activity>
+        </service>
+        <service android:name=".service.FloatingService"/>
     </application>
 
 </manifest>

@@ -9,4 +9,7 @@ package com.ancely.fyw.network;
  *  @描述：    TODO
  */
 public interface INetworkRequiredInfo {
+    String getBaseUrlName();
+    String getAppVersionCode();
+    boolean isDebug();
 }

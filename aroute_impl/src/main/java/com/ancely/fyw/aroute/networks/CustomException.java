@@ -38,11 +38,14 @@ public class CustomException {
      */
     public static final int HTTP_ERROR = 1003;
 
+    /**
+     * 证书验证失败
+     */
+    public static final int HTTP_SSL_ERROR = 1003;
+
     public static ApiException handleException(Throwable e) {
         ApiException ex;
-        if (e instanceof JsonParseException
-                || e instanceof JSONException
-                || e instanceof ParseException) {
+        if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {
             //解析错误
             ex = new ApiException(PARSE_ERROR, e.getMessage());
             return ex;
@@ -50,6 +53,8 @@ public class CustomException {
             //网络错误
             ex = new ApiException(NETWORK_ERROR, e.getMessage());
             return ex;
+        } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
+            return new ApiException(HTTP_SSL_ERROR, e.getMessage());
         } else if (e instanceof UnknownHostException || e instanceof SocketTimeoutException) {
             //连接错误
             ex = new ApiException(HTTP_ERROR, e.getMessage());

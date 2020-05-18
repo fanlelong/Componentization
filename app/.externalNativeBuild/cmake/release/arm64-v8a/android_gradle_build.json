@@ -1,0 +1,40 @@
+{
+  "stringTable": {
+    "0": "/studio_demo/Componentization/app/.externalNativeBuild/cmake/release/arm64-v8a",
+    "1": "--target=aarch64-none-linux-android22 --gcc-toolchain=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dffmpeg_first_EXPORTS -I../../../../src/main/cpp/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++ -L/studio_demo/Componentization/app/libs/arm64-v8a -O2 -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "/Users/fanlelong/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/fanlelong/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/studio_demo/Componentization/app/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/fanlelong/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake --build /studio_demo/Componentization/app/.externalNativeBuild/cmake/release/arm64-v8a --target clean"
+  ],
+  "libraries": {
+    "ffmpeg-first-Release-arm64-v8a": {
+      "buildCommand": "/Users/fanlelong/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake --build /studio_demo/Componentization/app/.externalNativeBuild/cmake/release/arm64-v8a --target ffmpeg-first",
+      "buildType": "release",
+      "toolchain": "3183765355",
+      "abi": "arm64-v8a",
+      "artifactName": "ffmpeg-first",
+      "files": [
+        {
+          "src": "/studio_demo/Componentization/app/src/main/cpp/native-lib.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "/studio_demo/Componentization/app/build/intermediates/cmake/release/obj/arm64-v8a/libffmpeg-first.so"
+    }
+  },
+  "toolchains": {
+    "3183765355": {
+      "cppCompilerExecutable": "/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

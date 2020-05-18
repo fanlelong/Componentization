@@ -290,7 +290,6 @@ public class PluginManager {
         // 动态获取皮肤包内的指定资源ID
         // getResources().getIdentifier(“netease_bg”, “drawable”, “com.netease.skin.packages”);
         int skinResourceId = mPluginResources.getIdentifier(resourceName, resourceType, skinPackageName);
-
         // 源码1924行：(0 is not a valid resource ID.)
         isDefaultSkin = skinResourceId == 0;
         return skinResourceId == 0 ? resourceId : skinResourceId;

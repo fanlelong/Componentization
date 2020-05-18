@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--标题栏的颜色-->
     <color name="colorPrimary">#3F51B5</color>
+    <!--状态栏的颜色-->
     <color name="colorPrimaryDark">#673AB7</color>
+    <!--强调色-->
     <color name="colorAccent">#D81B60</color>
 
     <!-- 皮肤包颜色 -->

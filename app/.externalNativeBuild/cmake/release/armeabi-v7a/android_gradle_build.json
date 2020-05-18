@@ -1,0 +1,40 @@
+{
+  "stringTable": {
+    "0": "/studio_demo/Componentization/app/.externalNativeBuild/cmake/release/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi22 --gcc-toolchain=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dffmpeg_first_EXPORTS -I../../../../src/main/cpp/include -I../../../../src/main/cpp/hafuman -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mfpu=vfpv3-d16 -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++ -frtti -fexceptions -L/studio_demo/Componentization/app/libs/armeabi-v7a -Oz -DNDEBUG -fPIC"
+  },
+  "buildFiles": [
+    "/Users/fanlelong/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/fanlelong/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/studio_demo/Componentization/app/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/fanlelong/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake --build /studio_demo/Componentization/app/.externalNativeBuild/cmake/release/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "ffmpeg-first-Release-armeabi-v7a": {
+      "buildCommand": "/Users/fanlelong/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake --build /studio_demo/Componentization/app/.externalNativeBuild/cmake/release/armeabi-v7a --target ffmpeg-first",
+      "buildType": "release",
+      "toolchain": "3183765355",
+      "abi": "armeabi-v7a",
+      "artifactName": "ffmpeg-first",
+      "files": [
+        {
+          "src": "/studio_demo/Componentization/app/src/main/cpp/native-lib.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "output": "/studio_demo/Componentization/app/build/intermediates/cmake/release/obj/armeabi-v7a/libffmpeg-first.so"
+    }
+  },
+  "toolchains": {
+    "3183765355": {
+      "cppCompilerExecutable": "/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

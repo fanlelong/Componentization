@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -303,7 +302,6 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
         return false;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void defaultSkin(int themeColorId) {
         this.skinDynamic(null, themeColorId);
     }
@@ -311,7 +309,6 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     /**
      * 动态换肤（api限制：5.0版本）
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void skinDynamic(String skinPath, int themeColorId) {
         PluginManager.getInstance().loadPluginPath(skinPath);
 

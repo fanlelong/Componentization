@@ -142,7 +142,12 @@ public class RouterManager {
                                 ((Activity) context).setResult(code, intent);
 
                             } else if (code > 0) {//跳转的时候需要回调
-                                ((Activity) context).startActivityForResult(intent, code, bundleManager.getBundle());
+                                if (context instanceof Activity) {
+                                    ((Activity) context).startActivityForResult(intent, code, bundleManager.getBundle());
+                                } else {
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent, bundleManager.getBundle());
+                                }
 
                             } else {
                                 context.startActivity(intent, bundleManager.getBundle());

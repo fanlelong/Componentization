@@ -46,6 +46,7 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
     private int retryCount = 1;//请求重试次数
     private int retryTime = 1000;//每隔多少请求重试一次,毫秒
 
+
     /**
      * 设置失败重连次数
      *
@@ -103,12 +104,14 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
         }
     }
 
+    public void remomeInvokeMethod() {
+        AncelyHandler.getInstance().removeModelP(this);
+    }
 
     /**
      * @param isAddRetry 无网-->有网  是否需要重新请求: 有些场景是不需要的 比如点击收藏
      */
     public void startRequestService(Map<String, Object> params, int flag, boolean isShowLoading, boolean isAddRetry) {
-
         if (params == null) {
             params = new HashMap<>();
         }
@@ -214,6 +217,7 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
     }
 
     public void startRequestService(Map<String, Object> map) {
+
         this.startRequestService(map, 1);
     }
 

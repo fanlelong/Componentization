@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
     <application
         android:name=".ComApplication"
         android:allowBackup="false"
@@ -25,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".aroute.proxy.ProxyActivity"
+        <activity
+            android:name=".aroute.proxy.ProxyActivity"
             android:theme="@style/AppTheme"/>
 
         <service
@@ -40,6 +45,10 @@
         </service>
 
         <activity android:name=".mvptext.SkinTestActivity">
+        </activity>
+        <activity android:name=".demo.InvokeOnClickActivity">
+
+
         </activity>
 
     </application>

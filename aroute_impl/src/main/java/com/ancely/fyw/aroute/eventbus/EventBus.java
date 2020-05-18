@@ -118,6 +118,11 @@ public class EventBus {
     }
 
     // 遍历中……并开始订阅，参考EventBus.java 149行
+
+    /**
+     * @param subscriber 注册的类比如MainActivity
+     * @param subscriberMethod 注册类里加了@Subscriber的注解的方法
+     */
     private void subscribe(Object subscriber, SubscriberMethod subscriberMethod) {
         // 获取订阅方法参数类型，如：UserInfo.class
         Class<?> eventType = subscriberMethod.getEventType();
@@ -129,10 +134,10 @@ public class EventBus {
             // 初始化集合
             subscriptions = new CopyOnWriteArrayList<>();
             // 存入缓存
-            subscriptionsByEventType.put(eventType, subscriptions);
+            subscriptionsByEventType.put(eventType, subscriptions);//将方法的Class当作key value为订阅了eventType的事件集合
         } else {
             if (subscriptions.contains(subscription)) {
-                Log.e("netease >>> ", subscriber.getClass() + "重复注册粘性事件！");
+                Log.e("ancely >>> ", subscriber.getClass() + "重复注册粘性事件！");
                 // 执行多次粘性事件，但不添加到集合，避免订阅方法多次执行
                 sticky(subscriberMethod, eventType, subscription);
                 return;

@@ -89,7 +89,7 @@ public class LifeManagerRetriever implements Handler.Callback {
     }
 
     @NonNull
-    private LifeFragment getSupportRequestManagerFragment(@NonNull final FragmentManager fm, boolean isParentVisible) {
+    private LifeFragment getSupportRequestManagerFragment(@NonNull final FragmentManager    fm, boolean isParentVisible) {
         //第一: 通过Tag找
         LifeFragment current = (LifeFragment) fm.findFragmentByTag(FRAGMENT_TAG);
         if (current == null) {

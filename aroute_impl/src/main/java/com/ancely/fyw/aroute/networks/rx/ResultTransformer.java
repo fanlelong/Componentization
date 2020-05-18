@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ResultTransformer {
     public static <T> ObservableTransformer<T, T> handleResult() {
 
-        return upstream -> upstream.onErrorResumeNext(new ErrorResumeFunction<>());
+        return upstream -> upstream.onErrorResumeNext(new ErrorResumeFunction<T>());
 //        return upstream -> upstream
 //                .onErrorResumeNext(new ErrorResumeFunction<>());
 //                .flatMap(new ResultBeanFunction<>());

@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ancely.fyw.aroute.base.BaseActivity;
+import com.ancely.fyw.aroute.model.AncelyHandler;
 import com.ancely.fyw.login.views.BaseTitle;
+
+import java.lang.reflect.Proxy;
 
 import androidx.navigation.Navigation;
 import con.ancely.fyw.annotation.apt.ARouter;
@@ -28,6 +31,9 @@ public class LoginActivity extends BaseActivity implements BaseTitle.OnLeftBackL
 
 
         mActLoginTitle.setOnLeftBackListener(this);
+
+//        startActivity(new Intent(getContext(),LoginTestActivity.class));
+
     }
 
     public void jumpToApp(View view) {

@@ -1,5 +1,12 @@
 package com.plugin.text;
 
+import java.util.Map;
+
+import io.reactivex.Observable;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+
 /*
  *  @项目名：  Componentization
  *  @包名：    com.plugin.text
@@ -9,4 +16,12 @@ package com.plugin.text;
  *  @描述：    TODO
  */
 public interface PluginApi {
+    @FormUrlEncoded
+    @POST("user/login")
+    Observable<String> login(@FieldMap Map<String, Object> params);
+
+
+    @FormUrlEncoded
+    @POST("user/register")
+    Observable<String> register(@FieldMap Map<String, Object> params);
 }

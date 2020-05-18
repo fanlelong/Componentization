@@ -1,0 +1,3 @@
+/studio_demo/Componentization/app/.externalNativeBuild/cmake/release/x86/CMakeFiles/rebuild_cache.dir
+/studio_demo/Componentization/app/.externalNativeBuild/cmake/release/x86/CMakeFiles/edit_cache.dir
+/studio_demo/Componentization/app/.externalNativeBuild/cmake/release/x86/CMakeFiles/ffmpeg-first.dir

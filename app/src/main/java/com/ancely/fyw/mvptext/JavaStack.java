@@ -9,4 +9,25 @@ package com.ancely.fyw.mvptext;
  *  @描述：    TODO
  */
 public class JavaStack {
+
+    private static String sLs = "一个静态的成员变量";
+    public static final String SINT = "我是一个常量";
+
+    private void test() {
+        Object obj = new Object();
+
+        int oneKing = 100;
+        int twoKing = 200;
+        if ((oneKing + twoKing) > 40) {
+            obj.hashCode();
+            oneKing -= 20;
+            twoKing -= 20;
+        }
+    }
+
+    public static void main(String[] args) {
+        JavaStack stack = new JavaStack();
+        stack.test();
+    }
+
 }

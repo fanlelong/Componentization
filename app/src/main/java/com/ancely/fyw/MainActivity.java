@@ -1,11 +1,14 @@
 package com.ancely.fyw;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,7 +35,9 @@ import com.ancely.fyw.common.LoginCall;
 import com.ancely.fyw.common.base.BaseModelActivity;
 import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.mvptext.SkinTestActivity;
+import com.ancely.fyw.mvptext.TestJoin;
 
+import java.lang.reflect.Field;
 import java.util.MyHashMap;
 import java.util.MyLinkedHashMap;
 
@@ -75,6 +80,9 @@ public class MainActivity extends BaseModelActivity {
         ParameterManager.getInstance().loadParameter(this);
         ImageView imageView = findViewById(R.id.act_main_iv);
         imageView.setImageResource(mLoginCall.getDrawable());
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", 0, 1);
+        scaleX.start();
+
 
     }
 
@@ -136,7 +144,7 @@ public class MainActivity extends BaseModelActivity {
 
     //日夜间切换
     public void dayOrNight(View view) {
-
+        TestJoin.join1();
         EventBus.getDefault().postSticky(new BaseEntry());
         int uiMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         switch (uiMode) {
@@ -184,6 +192,17 @@ public class MainActivity extends BaseModelActivity {
 
         MyLinkedHashMap<String, String> linkedHashMap = new MyLinkedHashMap<>();
         linkedHashMap.put("112", "ccc");
+        try {
+            Class<?> activityManagerClass = Class.forName("android.app.ActivityManager");
+            Field getServiceMethod = activityManagerClass.getDeclaredField("IActivityManagerSingleton");
+            getServiceMethod.setAccessible(true);
+            Object iActivityManager = getServiceMethod.get(null);
+            Log.e(TAG, "iActivityManager: " + iActivityManager.getClass().getName());
+
+        }catch (Exception e){
+            Messenger messenger = new Messenger(new Handler());
+        }
+
 
     }
 
@@ -196,6 +215,8 @@ public class MainActivity extends BaseModelActivity {
 
     public void jumpSkinDysn(View view) {
         startActivity(new Intent(this, SkinTestActivity.class));
+        EventBus.getDefault().postSticky("sdfsdf");
+        EventBus.getDefault().postSticky("gdsgsdgsd");
     }
 
     @Override
@@ -282,7 +303,6 @@ public class MainActivity extends BaseModelActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
 
 
-
     }
 
     public void selectPhoto(View view) {
@@ -298,4 +318,8 @@ public class MainActivity extends BaseModelActivity {
                 .navigation(this);
     }
 
+    public void jumpToPay(View view) {
+        RouterManager.getInstance().build("/ancelypay/PlayActivity")
+                .navigation(this);
+    }
 }

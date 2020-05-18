@@ -257,7 +257,6 @@ public class AncelyProcess extends AbstractProcessor {
         TypeMirror fragmentMirror = fragmentType.asType();
 
         for (Element element : elements) {
-
             //获取每个元素的类信息
             TypeMirror elementMirror = element.asType();
             mMessager.printMessage(Diagnostic.Kind.NOTE, "遍历元素的信息为: " + elementMirror.toString());

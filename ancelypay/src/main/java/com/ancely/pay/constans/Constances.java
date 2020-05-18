@@ -9,4 +9,7 @@ package com.ancely.pay.constans;
  *  @描述：    TODO
  */
 public class Constances {
+
+    public static String API = "http://fz7s6x.natappfree.cc/";
+    public static String APPID = "";
 }

@@ -2,11 +2,11 @@ package com.ancely.pay;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationManagerCompat;
@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ancely.fyw.aroute.model.bean.RequestErrBean;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.aroute.utils.LogUtils;
 import com.ancely.fyw.common.base.BaseModelActivity;
@@ -33,9 +32,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Subscribe;
 
-public class MainActivity extends BaseModelActivity<PayModel, String> {
+@ARouter(path="/ancelypay/PlayActivity")
+public class PlayActivity extends BaseModelActivity<PayModel, String> {
 
 
     private EditText mPayApiEt;
@@ -44,6 +45,15 @@ public class MainActivity extends BaseModelActivity<PayModel, String> {
     private Map<String, Object> mParams;
     private EditText mPayAppidEt;
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        if (PayApplication.mApplication==null) {
+            new PayApplication().initValized(newBase.getApplicationContext());
+
+        }
+    }
 
     @Override
     public PayModel getModelP() {
@@ -60,8 +70,9 @@ public class MainActivity extends BaseModelActivity<PayModel, String> {
         mPayPostSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharePreferenceHelper.putString(MainActivity.this, "POST_API", mPayApiEt.getText().toString());
+                SharePreferenceHelper.putString(PlayActivity.this, "POST_API", mPayApiEt.getText().toString());
                 Constances.API = mPayApiEt.getText().toString();
+                modelP.startRequestService(mParams);
             }
         });
         mPayAppidEt.addTextChangedListener(new TextWatcher() {
@@ -73,7 +84,7 @@ public class MainActivity extends BaseModelActivity<PayModel, String> {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Constances.APPID = s.toString();
-                SharePreferenceHelper.putString(MainActivity.this, "APPID", Constances.APPID);
+                SharePreferenceHelper.putString(PlayActivity.this, "APPID", Constances.APPID);
             }
 
             @Override
@@ -97,12 +108,12 @@ public class MainActivity extends BaseModelActivity<PayModel, String> {
 
         boolean enable = isNotificationListenerEnabled();
 
-        String host = SharePreferenceHelper.getString(MainActivity.this, "POST_API");
+        String host = SharePreferenceHelper.getString(PlayActivity.this, "POST_API");
         if (!host.isEmpty()) {
             mPayApiEt.setText(host);
         }
 
-        String appid = SharePreferenceHelper.getString(MainActivity.this, "APPID");
+        String appid = SharePreferenceHelper.getString(PlayActivity.this, "APPID");
         if (!appid.isEmpty()) {
             mPayAppidEt.setText(appid);
         }
@@ -189,18 +200,25 @@ public class MainActivity extends BaseModelActivity<PayModel, String> {
         return true;
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        long curTime = SystemClock.uptimeMillis();
+//        if (curTime - mBackPressedTime < 2 * 1000) {
+//            Intent home = new Intent(Intent.ACTION_MAIN);
+//            home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            home.addCategory(Intent.CATEGORY_HOME);
+//            startActivity(home);
+//        } else {
+//            mBackPressedTime = curTime;
+//            Toast.makeText(mContext, "双击回桌面", Toast.LENGTH_SHORT).show();
+//        }
+//        getModelP().startRequestService(mParams);
+//    }
+
+
     @Override
     public void onBackPressed() {
-        long curTime = SystemClock.uptimeMillis();
-        if (curTime - mBackPressedTime < 2 * 1000) {
-            Intent home = new Intent(Intent.ACTION_MAIN);
-            home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            home.addCategory(Intent.CATEGORY_HOME);
-            startActivity(home);
-        } else {
-            mBackPressedTime = curTime;
-            Toast.makeText(mContext, "双击回桌面", Toast.LENGTH_SHORT).show();
-        }
+        super.onBackPressed();
     }
 }

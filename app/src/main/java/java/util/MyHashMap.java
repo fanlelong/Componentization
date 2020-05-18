@@ -16,7 +16,7 @@ public class MyHashMap<K, V> extends AbstractMap<K, V> implements Map<K, V>, Clo
 
     private static final long serialVersionUID = 362498820763181265L;
 
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
+     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
 
     static final int MAXIMUM_CAPACITY = 1 << 30;

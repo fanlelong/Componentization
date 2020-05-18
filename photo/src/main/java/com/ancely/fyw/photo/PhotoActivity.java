@@ -35,7 +35,6 @@ import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.common.base.BaseModelActivity;
 import com.ancely.fyw.photo.bean.FloderBean;
-import com.ancely.fyw.photo.bean.PhotoBean;
 import com.ancely.fyw.photo.bean.UpdataViewEvent;
 import com.ancely.fyw.photo.event.EventBusIndex;
 import com.ancely.fyw.photo.util.GridSpacingItemDecoration;
@@ -45,7 +44,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import con.ancely.fyw.annotation.apt.ARouter;
 import con.ancely.fyw.annotation.apt.Subscribe;
@@ -381,3 +379,57 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

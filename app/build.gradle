@@ -15,7 +15,14 @@ android {
         versionName androidId.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+                abiFilters "armeabi-v7a"
+            }
+        }
         buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
+
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -25,6 +32,8 @@ android {
                              className     : "EventBusIndex"]
             }
         }
+
+
     }
     buildTypes {
         release {
@@ -36,9 +45,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+//    aaptOptions{
+//        cruncherEnable = false
+//    }
+
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
+
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']
+        jni.srcDirs = []
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
     }
 }
@@ -63,5 +86,6 @@ dependencies {
         implementation project(':login')
         implementation project(':usercenter')
         implementation project(':photo')
+        implementation project(':ancelypay')
     }
 }

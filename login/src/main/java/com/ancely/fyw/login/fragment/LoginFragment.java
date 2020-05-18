@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.ancely.fyw.aroute.bean.HttpResult;
 import com.ancely.fyw.aroute.eventbus.EventBus;
+import com.ancely.fyw.aroute.manager.NetWorkManager;
 import com.ancely.fyw.aroute.manager.RouterManager;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.aroute.utils.LogUtils;
@@ -115,6 +116,7 @@ public class LoginFragment extends BaseModelFragment<LoginModelP, HttpResult<Log
     @Override
     public void accessSuccess(ResponseBean<HttpResult<LoginBean>> responseBean) {
         super.accessSuccess(responseBean);
+        NetWorkManager.getInstance().setIsLogin(true);
         LoginBean loginBean = responseBean.body.getData();
         LogUtils.e("ancely_fyw", loginBean.getUsername());
         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
@@ -123,6 +125,7 @@ public class LoginFragment extends BaseModelFragment<LoginModelP, HttpResult<Log
                 .navigation(mContext, 2001);
 
         if (getActivity() != null) {
+            getActivity().setResult(100);
             getActivity().finish();
         }
 

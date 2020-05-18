@@ -1,0 +1,18 @@
+{
+  "buildFiles": [
+    "/Users/fanlelong/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/fanlelong/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/studio_demo/Componentization/app/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/fanlelong/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake --build /studio_demo/Componentization/app/.externalNativeBuild/cmake/release/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "ffmpeg-first-Release-armeabi-v7a": {
+      "artifactName": "ffmpeg-first",
+      "buildCommand": "/Users/fanlelong/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake --build /studio_demo/Componentization/app/.externalNativeBuild/cmake/release/armeabi-v7a --target ffmpeg-first",
+      "abi": "armeabi-v7a",
+      "output": "/studio_demo/Componentization/app/build/intermediates/cmake/release/obj/armeabi-v7a/libffmpeg-first.so"
+    }
+  }
+}

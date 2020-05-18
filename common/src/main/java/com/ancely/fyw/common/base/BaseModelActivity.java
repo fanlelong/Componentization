@@ -27,7 +27,7 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
     public Context mContext;
     protected boolean mIsFirstInto;//是否第一次进入界面
     public boolean isResevierrequest;//是否请求出现错误标记
-    private P modelP;
+    protected P modelP;
 
     public abstract P getModelP();
 

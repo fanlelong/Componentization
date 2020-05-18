@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/studio_demo/Componentization/app/.externalNativeBuild/cmake/release/x86_64",
+  "command": "/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=x86_64-none-linux-android22 --gcc-toolchain=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot  -Dffmpeg_first_EXPORTS -I../../../../src/main/cpp/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++  -L/studio_demo/Componentization/app/libs/x86_64 -O2 -DNDEBUG  -fPIC   -o CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o -c /studio_demo/Componentization/app/src/main/cpp/native-lib.cpp",
+  "file": "/studio_demo/Componentization/app/src/main/cpp/native-lib.cpp"
+}
+]

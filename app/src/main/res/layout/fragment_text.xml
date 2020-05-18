@@ -22,4 +22,9 @@
         android:background="@color/skin_background"
         android:text="frag-button"
         android:textColor="@color/skin_textColor"/>
+
+    <com.ancely.fyw.mvptext.GlView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

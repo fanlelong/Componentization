@@ -46,4 +46,5 @@ dependencies {
 
     support.each { k, v -> implementation v }
     implementation project(':common')
+    implementation project(':network')
 }

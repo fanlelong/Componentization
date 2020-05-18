@@ -1,5 +1,8 @@
 package com.ancely.fyw.network;
 
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+
 /*
  *  @项目名：  Componentization
  *  @包名：    com.ancely.fyw.network
@@ -9,4 +12,6 @@ package com.ancely.fyw.network;
  *  @描述：    TODO
  */
 public interface NetApi {
+    @GET
+    Observable<String> getString();
 }

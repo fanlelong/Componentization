@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/studio_demo/Componentization/aroute_impl/.externalNativeBuild/cmake/debug/armeabi-v7a",
+  "command": "/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=armv7-none-linux-androideabi22 --gcc-toolchain=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/fanlelong/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot  -Dffmpeg_first_EXPORTS -I../../../../src/main/cpp/include -I../../../../src/main/cpp/hafuman  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mfpu=vfpv3-d16 -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++ -frtti -fexceptions -L/studio_demo/Componentization/aroute_impl/libs/armeabi-v7a -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o -c /studio_demo/Componentization/aroute_impl/src/main/cpp/native-lib.cpp",
+  "file": "/studio_demo/Componentization/aroute_impl/src/main/cpp/native-lib.cpp"
+}
+]
