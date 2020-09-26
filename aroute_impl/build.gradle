@@ -31,6 +31,8 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     support.each { k, v -> implementation v }
     arch.each { k, v -> api v }
     testImplementation 'junit:junit:4.12'
@@ -40,4 +42,5 @@ dependencies {
     //    api 'com.tencent.bugly:crashreport_upgrade:1.4.1'
     // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
     //    api 'com.tencent.tinker:tinker-android-lib:1.9.14'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

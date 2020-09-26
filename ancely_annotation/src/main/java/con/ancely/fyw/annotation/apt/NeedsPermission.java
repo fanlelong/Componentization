@@ -11,6 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.CLASS)
 public @interface NeedsPermission {
-
     int code() default 0;
 }

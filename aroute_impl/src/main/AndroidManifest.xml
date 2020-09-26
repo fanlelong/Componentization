@@ -1,11 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ancely.fyw.aroute">
+    package="com.ancely.fyw.aroute" >
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application>
+        <activity android:name=".views.WechatActivity" >
+        </activity>
+
         <provider
-            android:name=".manager.AncelyContentProvider"
-            android:authorities="com.ancely.fyw.aroute.pay.manager.AncelyContentProvider"
-            android:exported="false"/>
+            android:authorities="com.ancely.fyw.aroute.manager.AncelyContentProvider"
+            android:exported="false"
+            android:name=".manager.AncelyContentProvider"/>
     </application>
+
 </manifest>

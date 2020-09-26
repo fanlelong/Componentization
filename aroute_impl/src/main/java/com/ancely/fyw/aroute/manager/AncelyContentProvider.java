@@ -6,8 +6,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.ancely.fyw.aroute.base.BaseActivity;
 
 /*
  *  @项目名：  Componentization
@@ -24,6 +28,9 @@ public class AncelyContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         context = getContext();
+        Log.e("ancely1","AncelyContentProvider time end  "+ (System.currentTimeMillis()- BaseActivity.time));
+        SystemClock.sleep(3000);
+        Log.e("ancely1","AncelyContentProvider time end  "+ (System.currentTimeMillis()- BaseActivity.time));
         return true;
     }
 

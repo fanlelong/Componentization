@@ -19,13 +19,19 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ancely.fyw.aroute.R;
+import com.ancely.fyw.aroute.floatball.StackViewTouchListener;
 import com.ancely.fyw.aroute.manager.PluginManager;
 import com.ancely.fyw.aroute.proxy.ActivityInterface;
 import com.ancely.fyw.aroute.skin.impl.ViewsMatch;
@@ -44,7 +50,7 @@ import com.ancely.fyw.aroute.skin.view.SelfAppCompatViewInflater;
  *  @描述：    Activity基类
  */
 public class BaseActivity extends AppCompatActivity implements ActivityInterface {
-
+    public static long time;
     protected Activity mActivity;
     private SelfAppCompatViewInflater mViewInflater;
     private Activity mContext;
@@ -364,6 +370,30 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
         } else {
             mActivity.finish();
             mActivity.overridePendingTransition(R.anim.anim_window_in_left, R.anim.anim_window_out_right);
+        }
+    }
+    @SuppressLint("ClickableViewAccessibility")
+    public void addWindowsView(){
+        View root = findViewById(android.R.id.content);
+        if (root instanceof FrameLayout) {
+            FrameLayout content = (FrameLayout) root;
+            final ImageView stackView = new ImageView(this);
+            stackView.setScaleType(ImageView.ScaleType.FIT_XY);
+            stackView.setBackgroundColor(0x55ff0000);
+            stackView.setImageResource(R.drawable.ic_launcher);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(160, 160);
+            params.gravity = Gravity.START;
+            final int dp18 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getResources().getDisplayMetrics());
+            params.topMargin = dp18 * 7;
+            stackView.setLayoutParams(params);
+            content.addView(stackView);
+            stackView.setOnTouchListener(new StackViewTouchListener(stackView, dp18 / 4));
+            stackView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "点击了", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

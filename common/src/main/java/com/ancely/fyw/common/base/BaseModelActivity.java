@@ -141,4 +141,5 @@ public abstract class BaseModelActivity<P extends ModelP<T>, T> extends BaseActi
     public boolean openEventBus() {
         return false;
     }
+
 }
