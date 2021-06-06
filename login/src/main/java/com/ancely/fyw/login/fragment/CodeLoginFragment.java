@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ancely.fyw.login.LoginActivity;
 import com.ancely.fyw.login.R;
@@ -52,7 +53,10 @@ public class CodeLoginFragment extends Fragment implements View.OnClickListener,
     }
 
     protected void initView() {
-
+        if (getArguments() != null) {
+            String key = getArguments().getString("key");
+            Toast.makeText(getContext(), key, Toast.LENGTH_SHORT).show();
+        }
         mFragLoginUsername = mContentView.findViewById(R.id.frag_login_username);
         mFragLoginPassword = mContentView.findViewById(R.id.frag_login_password);
         mFragCodeCode = mContentView.findViewById(R.id.frag_code_code);

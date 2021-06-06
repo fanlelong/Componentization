@@ -155,7 +155,7 @@
             android:id="@+id/iv"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ghsy"/>
+            android:src="@mipmap/main_bg"/>
 
         <TextView
             android:layout_width="wrap_content"

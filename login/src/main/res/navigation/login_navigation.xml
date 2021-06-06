@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/login_navigation"
-            app:startDestination="@id/loginFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_navigation"
+    tools:ignore="UnusedNavigation">
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ancely.fyw.login.fragment.LoginFragment"
@@ -14,25 +14,24 @@
             app:enterAnim="@anim/anim_window_in_right"
             app:exitAnim="@anim/anim_window_out_left"
             app:popEnterAnim="@anim/anim_window_in_left"
-            app:popExitAnim="@anim/anim_window_out_right"/>
-        <argument
-            android:name="Title"
-            android:defaultValue="@string/login_register_title"
-            app:argType="string"/>
+            app:popExitAnim="@anim/anim_window_out_right" />
         <action
             android:id="@+id/action_loginFragment_to_codeLoginFragment"
             app:destination="@id/codeLoginFragment"
             app:enterAnim="@anim/anim_window_in_right"
             app:exitAnim="@anim/anim_window_out_left"
             app:popEnterAnim="@anim/anim_window_in_left"
-            app:popExitAnim="@anim/anim_window_out_right"/>
+            app:popExitAnim="@anim/anim_window_out_right" />
+        <argument
+            android:name="Title"
+            android:defaultValue="@string/login_register_title"
+            app:argType="string" />
 
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.ancely.fyw.login.fragment.RegisterFragment"
-        android:label="RegisterFragment">
-    </fragment>
+        android:label="RegisterFragment"/>
 
     <fragment
         android:id="@+id/codeLoginFragment"
@@ -44,6 +43,6 @@
             app:enterAnim="@anim/anim_window_in_right"
             app:exitAnim="@anim/anim_window_out_left"
             app:popEnterAnim="@anim/anim_window_in_left"
-            app:popExitAnim="@anim/anim_window_out_right"/>
+            app:popExitAnim="@anim/anim_window_out_right" />
     </fragment>
 </navigation>

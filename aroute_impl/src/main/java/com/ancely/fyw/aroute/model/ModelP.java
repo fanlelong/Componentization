@@ -104,10 +104,6 @@ public abstract class ModelP<T> implements IBaseModelP<T> {
         }
     }
 
-    public void remomeInvokeMethod() {
-        AncelyHandler.getInstance().removeModelP(this);
-    }
-
     /**
      * @param isAddRetry 无网-->有网  是否需要重新请求: 有些场景是不需要的 比如点击收藏
      */

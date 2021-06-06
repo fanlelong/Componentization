@@ -87,7 +87,8 @@
 
 
     <TextView
-        android:layout_width="0dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_width="188dp"
         android:layout_height="40dp"
         android:background="@color/skin_background"
         android:gravity="center"

@@ -1,53 +1,197 @@
 package com.ancely.fyw;
 
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/*
- *  @项目名：  Componentization
- *  @包名：    com.ancely.fyw
- *  @文件名:   LockDemo
- *  @创建者:   fanlelong
- *  @创建时间:  2020/5/31 9:00 PM
- *  @描述：    TODO
- */
-public class LockDemo {
-    private int mCount = 0;
-    private Lock mLock = new ReentrantLock();
+public class FoodDemo {
 
-    public void add() {
-        mLock.lock();
-        mCount++;
-        mLock.unlock();
+    private String mFoodName;//物品名
+    private int mFoodId;//物品ID
+    private boolean isProducted;
+
+    public synchronized void putFood(String foodName) {
+        if (!isProducted) {
+            //开始生产
+            mFoodId += 1;
+            System.out.println(Thread.currentThread().getName() + " 生产者: 生产了: " + mFoodId);
+
+
+            //已经生产完了
+            isProducted = true;
+
+            notifyAll();//唤醒被等待的 如果不用synchronized修饰就会报 Exception in thread "Thread-1" java.lang.IllegalMonitorStateException
+
+
+            try {
+                wait();//它需要获取锁,然后再把这把锁给释放掉,当前线程进入等待状态,这个时候CPU就会去执行其它线程.
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private static class MyThread extends Thread {
-        LockDemo mLockDemo;
+    public synchronized void outFood() {
 
-        public MyThread(LockDemo lockDemo) {
-            mLockDemo = lockDemo;
+        if (isProducted) {
+            //可以开始消费了
+            System.out.println(Thread.currentThread().getName() + " >>>>>>>>>>>>>消费者: 消费了: " + mFoodId);
+            isProducted = false;
+
+            //消费完成
+            notifyAll();
+
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static class ProductThread extends Thread {
+        private FoodDemo mFoodDemo;
+
+        public ProductThread(FoodDemo foodDemo) {
+            mFoodDemo = foodDemo;
         }
 
         @Override
         public void run() {
             super.run();
-            for (int i = 0; i < 10000; i++) {
-                mLockDemo.add();
+            for (int i = 0; i < 20; i++) {
+                mFoodDemo.putFood("面包 ");
+            }
+        }
+    }
+
+    public static class ConsumeThread extends Thread {
+        private FoodDemo mFoodDemo;
+
+        public ConsumeThread(FoodDemo foodDemo) {
+            mFoodDemo = foodDemo;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            for (int i = 0; i < 20; i++) {
+                mFoodDemo.outFood();
             }
         }
     }
 
     public static void main(String[] args) {
 
-        LockDemo lockDemo = new LockDemo();
-        new MyThread(lockDemo).start();
-        new MyThread(lockDemo).start();
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("count: " + lockDemo.mCount);
+//        FoodDemo foodDemo = new FoodDemo();
+//        new ProductThread(foodDemo).start();
+//        new ConsumeThread(foodDemo).start();
+        unDiedLocd();
     }
 
+    public static void diedLocd() {
+        Object one = new Object();
+        Object two = new Object();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (one) {
+                    System.out.println("get one");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (two) {
+                        System.out.println("get two");
+                    }
+                }
+            }
+        }).start();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (two) {
+                    System.out.println("get two");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (one) {
+                        System.out.println("get onw");
+                    }
+                }
+            }
+        }).start();
+    }
+
+    public static void unDiedLocd() {
+        Lock one = new ReentrantLock();
+        Lock two = new ReentrantLock();
+        Random random = new Random();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (one.tryLock()) {
+                        System.out.println("get one");
+
+                        try {
+                            if (two.tryLock()) {
+                                try {
+                                    System.out.println("get two");
+                                    break;
+                                } finally {
+                                    two.unlock();
+                                }
+                            }
+                        } finally {
+                            one.unlock();
+                        }
+                    }
+                    try {
+                        Thread.sleep(random.nextInt(3));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }).start();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (two.tryLock()) {
+                        System.out.println("get one");
+
+                        try {
+                            if (one.tryLock()) {
+                                try {
+                                    System.out.println("get two");
+                                    break;
+                                } finally {
+                                    one.unlock();
+                                }
+                            }
+                        } finally {
+                            two.unlock();
+                        }
+                    }
+                    try {
+                        Thread.sleep(random.nextInt(3));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }).start();
+    }
 }

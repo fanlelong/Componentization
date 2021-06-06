@@ -29,7 +29,7 @@ import androidx.navigation.Navigation;
  *  @创建时间:  2019/11/12 5:59 PM
  *  @描述：    注册
  */
-public class RegisterFragment extends BaseModelFragment<RegisterModelP,HttpResult<RegisterBean>> implements View.OnClickListener, StrakeOutEditText.EditextChangedListener {
+public class RegisterFragment extends BaseModelFragment<RegisterModelP, HttpResult<RegisterBean>> implements View.OnClickListener, StrakeOutEditText.EditextChangedListener {
 
     private StrakeOutEditText mFragRegisterAccount;
     private StrakeOutEditText mFragRegisterPassword;
@@ -58,6 +58,8 @@ public class RegisterFragment extends BaseModelFragment<RegisterModelP,HttpResul
 
     protected void initView() {
 
+
+
         mFragRegisterAccount = mContentView.findViewById(R.id.frag_register_account);
         mFragRegisterPassword = mContentView.findViewById(R.id.frag_register_password);
         mFragRegisterPasswordAgain = mContentView.findViewById(R.id.frag_register_password_again);
@@ -83,11 +85,12 @@ public class RegisterFragment extends BaseModelFragment<RegisterModelP,HttpResul
 
         int i = v.getId();
         if (i == R.id.frag_register_register) {
-           register();
+            register();
         } else if (i == R.id.jump_to_login) {
             Navigation.findNavController(v).popBackStack();
         }
     }
+
     private void register() {
         mParams.put("username", mFragRegisterAccount.getEditext());
         mParams.put("password", mFragRegisterPassword.getEditext());

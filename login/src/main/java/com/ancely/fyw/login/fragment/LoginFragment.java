@@ -107,6 +107,12 @@ public class LoginFragment extends BaseModelFragment<LoginModelP, HttpResult<Log
     @Override
     public void onResume() {
         super.onResume();
+
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
         if (getActivity() instanceof LoginActivity) {
             ((LoginActivity) getActivity()).setBarTitle(R.string.login);
             ((LoginActivity) getActivity()).setLeftIconIsShow(false);
@@ -117,6 +123,11 @@ public class LoginFragment extends BaseModelFragment<LoginModelP, HttpResult<Log
     public void accessSuccess(ResponseBean<HttpResult<LoginBean>> responseBean) {
         super.accessSuccess(responseBean);
         NetWorkManager.getInstance().setIsLogin(true);
+        int errorCode = responseBean.body.getErrorCode();
+        if (errorCode!=0) {
+            Toast.makeText(mContext, responseBean.body.getErrorMsg(), Toast.LENGTH_SHORT).show();
+            return;
+        }
         LoginBean loginBean = responseBean.body.getData();
         LogUtils.e("ancely_fyw", loginBean.getUsername());
         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();

@@ -119,16 +119,12 @@ public class LifeManagerRetriever implements Handler.Callback {
         boolean handled = true;
         Object removed = null;
         Object key = null;
-        switch (message.what) {
-
-            case ID_REMOVE_SUPPORT_FRAGMENT_MANAGER:
-                FragmentManager supportFm = (FragmentManager) message.obj;
-                key = supportFm;
-                removed = pendingSupportRequestManagerFragments.remove(supportFm);
-                break;
-            default:
-                handled = false;
-                break;
+        if (message.what == ID_REMOVE_SUPPORT_FRAGMENT_MANAGER) {
+            FragmentManager supportFm = (FragmentManager) message.obj;
+            key = supportFm;
+            removed = pendingSupportRequestManagerFragments.remove(supportFm);
+        } else {
+            handled = false;
         }
         if (handled && removed == null && Log.isLoggable(TAG, Log.WARN)) {
             Log.w(TAG, "Failed to remove expected request manager fragment, manager: " + key);

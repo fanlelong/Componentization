@@ -24,7 +24,7 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/act_login_other_login"
         app:layout_constraintTop_toBottomOf="@+id/act_login_title"
-        app:navGraph="@navigation/login_navigation"/>
+      />
 
     <LinearLayout
         android:id="@+id/act_login_other_login"

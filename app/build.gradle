@@ -77,6 +77,7 @@ dependencies {
     implementation project(':ancely_annotation')
     annotationProcessor project(':ancely_compile')
     implementation project(':common')
+    implementation 'org.openjdk.jol:jol-core:0.9'
 
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
@@ -88,4 +89,6 @@ dependencies {
         implementation project(':photo')
         implementation project(':ancelypay')
     }
+//    implementation 'me.zhyd.oauth:JustAuth:1.15.4-alpha'
+//    implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
 }

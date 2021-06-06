@@ -14,22 +14,31 @@ import java.util.concurrent.CountDownLatch;
  */
 public class TestJoin {
     public static void join() {
+
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.e("ancely1>>> ", "thread1");
+//                Log.e("ancely1>>> ", "thread1");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("thread1");
+
             }
         });
-
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
+
+//                Log.e("ancely1>>> ", "thread2");
                 try {
                     thread1.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e("ancely1>>> ", "thread2");
+                System.out.println("thread2");
             }
         });
 
@@ -41,14 +50,23 @@ public class TestJoin {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e("ancely1>>> ", "thread3");
+//                Log.e("ancely1>>> ", "thread3");
+                System.out.println("thread3");
             }
         });
 
+//
 
-        thread2.start();
-        thread3.start();
         thread1.start();
+        thread2.start();
+
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        thread3.start();
+
     }
 
     public static void join1() {
@@ -102,15 +120,17 @@ public class TestJoin {
                 }
             }
         },"C");
-
-        thread2.start();
-        thread3.start();
         thread1.start();
+        thread3.start();
+        thread2.start();
         try {
             count.await();
         }catch (Exception e){
 
         }
         Log.e("ancely1>>> ", "执行完....");
+    }
+    public static void main(String art []){
+        join();
     }
 }

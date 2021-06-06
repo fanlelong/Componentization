@@ -1,11 +1,3 @@
 # ninja log v5
-0	928	1577785136	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	266eec600b7143b1
-1	848	1577785189	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	fde5e9013c5700c1
-848	921	1577785190	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libffmpeg-first.so	56ec2d29a8d0a6fc
-1	825	1577786340	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	fde5e9013c5700c1
-1	756	1577786416	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	fde5e9013c5700c1
-1	178	1577786517	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libffmpeg-first.so	56ec2d29a8d0a6fc
-18	717	1584003286	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	fde5e9013c5700c1
-718	790	1584003286	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libffmpeg-first.so	56ec2d29a8d0a6fc
-4	1098	1585408549	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	fde5e9013c5700c1
-1099	1200	1585408549	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libffmpeg-first.so	56ec2d29a8d0a6fc
+1	667	1601143067	CMakeFiles/ffmpeg-first.dir/src/main/cpp/native-lib.cpp.o	fde5e9013c5700c1
+668	748	1601143067	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libffmpeg-first.so	56ec2d29a8d0a6fc

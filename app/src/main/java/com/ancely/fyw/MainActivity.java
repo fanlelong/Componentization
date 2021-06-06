@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -83,7 +84,12 @@ public class MainActivity extends BaseModelActivity {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", 0, 1);
         scaleX.start();
 
-
+//        WindowUtil.getInstance().showPermissionWindow(this, new WindowUtil.OnPermissionListener() {
+//            @Override
+//            public void showPermissionDialog() {
+//
+//            }
+//        });
     }
 
     @Override
@@ -94,7 +100,6 @@ public class MainActivity extends BaseModelActivity {
     protected void initEvent() {
 
     }
-
 
 
     @Override
@@ -199,7 +204,7 @@ public class MainActivity extends BaseModelActivity {
             Object iActivityManager = getServiceMethod.get(null);
             Log.e(TAG, "iActivityManager: " + iActivityManager.getClass().getName());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Messenger messenger = new Messenger(new Handler());
         }
 
@@ -214,6 +219,17 @@ public class MainActivity extends BaseModelActivity {
 
 
     public void jumpSkinDysn(View view) {
+        Looper mainLooper = Looper.getMainLooper();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Looper.prepare();
+
+            }
+        }).start();
+
         startActivity(new Intent(this, SkinTestActivity.class));
         EventBus.getDefault().postSticky("sdfsdf");
         EventBus.getDefault().postSticky("gdsgsdgsd");
@@ -297,12 +313,11 @@ public class MainActivity extends BaseModelActivity {
     }
 
     public void permission(View view) {
+        addWindowsView();
         PermissionManager.request(this, new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-
-
     }
 
     public void selectPhoto(View view) {
@@ -312,8 +327,9 @@ public class MainActivity extends BaseModelActivity {
 
 
     }
+
     @NeedsPermission(code = 1002)
-    public void selectPhoto(){
+    public void selectPhoto() {
         RouterManager.getInstance().build("/photo/PhotoActivity")
                 .navigation(this);
     }
@@ -322,4 +338,6 @@ public class MainActivity extends BaseModelActivity {
         RouterManager.getInstance().build("/ancelypay/PlayActivity")
                 .navigation(this);
     }
+
+
 }
