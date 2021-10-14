@@ -30,13 +30,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ancely.fyw.annotation.apt.ARouter;
+import com.ancely.fyw.annotation.apt.Subscribe;
+import com.ancely.fyw.annotation.apt.SubscriberInfoIndex;
 import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.common.base.BaseModelActivity;
 import com.ancely.fyw.photo.bean.FloderBean;
 import com.ancely.fyw.photo.bean.UpdataViewEvent;
-import com.ancely.fyw.photo.event.EventBusIndex;
 import com.ancely.fyw.photo.util.GridSpacingItemDecoration;
 
 import java.io.File;
@@ -44,9 +46,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import con.ancely.fyw.annotation.apt.ARouter;
-import con.ancely.fyw.annotation.apt.Subscribe;
 
 @ARouter(path = "/photo/PhotoActivity")
 public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnItemClickListener {
@@ -106,7 +105,14 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        EventBus.getDefault().addIndex(new EventBusIndex());
+        try {
+            Class<?> aClass = Class.forName("com.ancely.fyw.photo.event.EventBusIndex");
+            Object o = aClass.newInstance();
+            if (o instanceof SubscriberInfoIndex) {
+                EventBus.getDefault().addIndex((SubscriberInfoIndex) o);
+            }
+        }catch (Exception ignored){
+        }
         super.onCreate(savedInstanceState);
         mImgs = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

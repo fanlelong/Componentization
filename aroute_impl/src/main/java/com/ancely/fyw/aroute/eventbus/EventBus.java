@@ -4,19 +4,21 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.ancely.fyw.annotation.apt.SubscriberInfoIndex;
+import com.ancely.fyw.annotation.apt.bean.SubscriberInfo;
+import com.ancely.fyw.annotation.apt.bean.SubscriberMethod;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import con.ancely.fyw.annotation.apt.SubscriberInfoIndex;
-import con.ancely.fyw.annotation.apt.bean.SubscriberInfo;
-import con.ancely.fyw.annotation.apt.bean.SubscriberMethod;
 
 /**
  * ArrayList的底层是数组，查询和修改直接根据索引可以很快找到对应的元素（替换）
@@ -34,19 +36,22 @@ public class EventBus {
     private static volatile EventBus defaultInstance;
     // 索引接口
     private SubscriberInfoIndex subscriberInfoIndexes;
+    // 索引接口集合
+    private final Set<Class<?>> subscriberInfoIndexSet = new HashSet<>();
+
     // 订阅者类型集合，比如：订阅者MainActivity订阅了哪些EventBean，或者解除订阅的缓存。
     // key：订阅者MainActivity.class，value：EventBean集合
-    private Map<Object, List<Class<?>>> typesBySubscriber;
+    private final Map<Object, List<Class<?>>> typesBySubscriber;
     // 方法缓存：key：订阅者MainActivity.class，value：订阅方法集合
     private static final Map<Class<?>, List<SubscriberMethod>> METHOD_CACHE = new ConcurrentHashMap<>();
     // EventBean缓存，key：UserInfo.class，value：订阅者（可以是多个Activity）中所有订阅的方法集合
-    private Map<Class<?>, CopyOnWriteArrayList<Subscription>> subscriptionsByEventType;
+    private final Map<Class<?>, CopyOnWriteArrayList<Subscription>> subscriptionsByEventType;
     // 粘性事件缓存，key：UserInfo.class，value：UserInfo
     private final Map<Class<?>, Object> stickyEvents;
     // 发送（子线程） - 订阅（主线程）
-    private Handler handler;
+    private final Handler handler;
     // 发送（主线程） - 订阅（子线程）
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
 
     private EventBus() {
         // 初始化缓存集合
@@ -72,18 +77,23 @@ public class EventBus {
     }
 
     // 添加索引（简化），接口 = 接口实现类，参考EventBusBuilder.java 136行
-    public void addIndex(SubscriberInfoIndex index) {
-        if (subscriberInfoIndexes != null && subscriberInfoIndexes != index) {
-            Map<Class, SubscriberInfo> subscriberMaps = index.getSubscriberMaps();
-            for (Class clazz : subscriberMaps.keySet()) {
-                subscriberInfoIndexes.putIndexs(index.getSubscriberInfo(clazz));
-            }
-            subscriberMaps.clear();
-
-        } else {
+    public synchronized void addIndex(SubscriberInfoIndex index) {
+        if (index == null || subscriberInfoIndexSet.contains(index.getClass())) {
+            return;
+        }
+        if (subscriberInfoIndexes == null) {
+            subscriberInfoIndexSet.add(index.getClass());
             subscriberInfoIndexes = index;
+            return;
         }
 
+        Map<Class, SubscriberInfo> subscriberMaps = index.getSubscriberMaps();
+        for (Class<?> clazz : subscriberMaps.keySet()) {
+            //将其它模块注册的方法的添加进集合
+            subscriberInfoIndexes.putIndexs(index.getSubscriberInfo(clazz));
+        }
+        subscriberMaps.clear();
+        subscriberInfoIndexSet.add(index.getClass());
     }
 
     // 注册 / 订阅事件，参考EventBus.java 138行
@@ -120,7 +130,7 @@ public class EventBus {
     // 遍历中……并开始订阅，参考EventBus.java 149行
 
     /**
-     * @param subscriber 注册的类比如MainActivity
+     * @param subscriber       注册的类比如MainActivity
      * @param subscriberMethod 注册类里加了@Subscriber的注解的方法
      */
     private void subscribe(Object subscriber, SubscriberMethod subscriberMethod) {
@@ -306,24 +316,14 @@ public class EventBus {
                     invokeSubscriber(subscription, event);
                 } else {
                     // 订阅方是子线程，则子 - 主
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            invokeSubscriber(subscription, event);
-                        }
-                    });
+                    handler.post(() -> invokeSubscriber(subscription, event));
                 }
                 break;
             case ASYNC:
                 // 订阅方是主线程，则主 - 子
                 if (Looper.myLooper() == Looper.getMainLooper()) {
                     // 主线程 - 子线程，创建一个子线程（缓存线程池）
-                    executorService.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            invokeSubscriber(subscription, event);
-                        }
-                    });
+                    executorService.execute(() -> invokeSubscriber(subscription, event));
                 } else {
                     // 订阅方是子线程，则子 - 子
                     invokeSubscriber(subscription, event);

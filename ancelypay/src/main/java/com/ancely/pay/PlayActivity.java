@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ancely.fyw.annotation.apt.ARouter;
+import com.ancely.fyw.annotation.apt.Subscribe;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.aroute.utils.LogUtils;
 import com.ancely.fyw.common.base.BaseModelActivity;
@@ -31,9 +33,6 @@ import com.ancely.pay.utils.SharePreferenceHelper;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import con.ancely.fyw.annotation.apt.ARouter;
-import con.ancely.fyw.annotation.apt.Subscribe;
 
 @ARouter(path="/ancelypay/PlayActivity")
 public class PlayActivity extends BaseModelActivity<PayModel, String> {

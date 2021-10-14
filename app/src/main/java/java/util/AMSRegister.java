@@ -9,19 +9,6 @@ package java.util;
  *  @描述：    TODO
  */
 
-import android.content.Context;
-import android.os.BinderProxy;
-import android.os.IBinder;
-import android.os.Parcel;
-import android.os.RemoteException;
-import android.os.ServiceManager;
-import android.os.ServiceManagerNative;
-
-import com.android.internal.os.BinderInternal;
-import com.android.server.SystemServer;
-import com.android.server.SystemServiceManager;
-import com.android.server.am.ActivityManagerService;
-
 class AMSRegister {
             //  SystemServer.java
 //   main();
@@ -142,9 +129,8 @@ class AMSRegister {
 
 
     public static void aa (){
-        Class<ActivityManagerService.Lifecycle> lifecycleClass = ActivityManagerService.Lifecycle.class;
-        lifecycleClass.getService();
-
+//        Class<ActivityManagerService.Lifecycle> lifecycleClass = ActivityManagerService.Lifecycle.class;
+//        lifecycleClass.getService();
     }
 
 }

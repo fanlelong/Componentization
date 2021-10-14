@@ -16,7 +16,7 @@ public abstract class BaseViewModel<T> extends ViewModel implements IBaseViewMod
 
     private MediatorLiveData<ResponseBean<T>> resultLiveData;
     private MediatorLiveData<ResponseBean<T>> moreLiveData;
-    private MutableLiveData<RequestErrBean> errorLiveData;
+    private SingleLiveEvent<RequestErrBean> errorLiveData;
     private MutableLiveData<Integer> showLoadingLiveData;
     private MutableLiveData<Integer> hideLoadingLiveData;
     private final Gson mGson = new Gson();
@@ -44,9 +44,9 @@ public abstract class BaseViewModel<T> extends ViewModel implements IBaseViewMod
     }
 
     @Override
-    public MutableLiveData<RequestErrBean> getErrorLiveData() {
+    public SingleLiveEvent<RequestErrBean> getErrorLiveData() {
         if (null == errorLiveData) {
-            errorLiveData = new MutableLiveData<>();
+            errorLiveData = new SingleLiveEvent<>();
         }
         return errorLiveData;
     }

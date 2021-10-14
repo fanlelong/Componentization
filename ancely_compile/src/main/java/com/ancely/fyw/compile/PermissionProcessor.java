@@ -1,5 +1,9 @@
 package com.ancely.fyw.compile;
 
+import com.ancely.fyw.annotation.apt.NeedsPermission;
+import com.ancely.fyw.annotation.apt.OnNeverAskAgain;
+import com.ancely.fyw.annotation.apt.OnPermissionDenied;
+import com.ancely.fyw.annotation.apt.OnShowRationale;
 import com.google.auto.service.AutoService;
 
 import java.io.IOException;
@@ -24,11 +28,6 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
-
-import con.ancely.fyw.annotation.apt.NeedsPermission;
-import con.ancely.fyw.annotation.apt.OnNeverAskAgain;
-import con.ancely.fyw.annotation.apt.OnPermissionDenied;
-import con.ancely.fyw.annotation.apt.OnShowRationale;
 
 // 通过auto-service中的@AutoService可以自动生成AutoService注解处理器是Google开发的，
 // 用来生成 META-INF/services/javax.annotation.processing.Processor 文件

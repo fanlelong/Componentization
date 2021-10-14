@@ -1,0 +1,12 @@
+apply plugin: 'com.android.application'
+apply from: "${rootDir}/comm.gradle"
+android {
+    defaultConfig {
+        applicationId "com.plugin.text"
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation project(':network')
+}

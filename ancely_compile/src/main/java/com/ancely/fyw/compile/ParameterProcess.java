@@ -1,5 +1,6 @@
 package com.ancely.fyw.compile;
 
+import com.ancely.fyw.annotation.apt.Parameter;
 import com.ancely.fyw.compile.utils.Constance;
 import com.ancely.fyw.compile.utils.EmptyUtils;
 import com.google.auto.service.AutoService;
@@ -34,8 +35,6 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
-
-import con.ancely.fyw.annotation.apt.Parameter;
 
 /*
  *  @项目名：  Componentization

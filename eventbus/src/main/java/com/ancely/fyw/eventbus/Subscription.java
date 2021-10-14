@@ -1,7 +1,7 @@
 package com.ancely.fyw.eventbus;
 
 
-import con.ancely.fyw.annotation.apt.bean.SubscriberMethod;
+import com.ancely.fyw.annotation.apt.bean.SubscriberMethod;
 
 /**
  * 临时JavaBean对象，也可以直接写在EventBus做为变量

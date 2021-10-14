@@ -3,13 +3,13 @@ package com.ancely.fyw.login;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ancely.fyw.annotation.apt.ARouter;
 import com.ancely.fyw.aroute.base.BaseActivity;
 import com.ancely.fyw.login.views.BaseTitle;
 
 import androidx.navigation.NavGraph;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import con.ancely.fyw.annotation.apt.ARouter;
 
 @ARouter(path = "/login/LoginActivity")
 public class LoginActivity extends BaseActivity implements BaseTitle.OnLeftBackListener {

@@ -11,6 +11,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ancely.fyw.annotation.apt.ARouter;
+import com.ancely.fyw.annotation.apt.NeedsPermission;
+import com.ancely.fyw.annotation.apt.OnNeverAskAgain;
+import com.ancely.fyw.annotation.apt.OnPermissionDenied;
+import com.ancely.fyw.annotation.apt.OnShowRationale;
+import com.ancely.fyw.annotation.apt.Parameter;
+import com.ancely.fyw.annotation.apt.Subscribe;
+import com.ancely.fyw.annotation.apt.SubscriberInfoIndex;
+import com.ancely.fyw.annotation.apt.bean.ThreadMode;
 import com.ancely.fyw.aroute.base.BaseActivity;
 import com.ancely.fyw.aroute.bean.BaseEntry;
 import com.ancely.fyw.aroute.eventbus.EventBus;
@@ -20,16 +29,6 @@ import com.ancely.fyw.aroute.permissions.PermissionManager;
 import com.ancely.fyw.aroute.permissions.listener.PermissionRequest;
 import com.ancely.fyw.aroute.proxy.ProxyActivity;
 import com.ancely.fyw.aroute.proxy.ProxyService;
-import com.ancely.fyw.usercenter.event.EventBusIndex;
-
-import con.ancely.fyw.annotation.apt.ARouter;
-import con.ancely.fyw.annotation.apt.NeedsPermission;
-import con.ancely.fyw.annotation.apt.OnNeverAskAgain;
-import con.ancely.fyw.annotation.apt.OnPermissionDenied;
-import con.ancely.fyw.annotation.apt.OnShowRationale;
-import con.ancely.fyw.annotation.apt.Parameter;
-import con.ancely.fyw.annotation.apt.Subscribe;
-import con.ancely.fyw.annotation.apt.bean.ThreadMode;
 
 @ARouter(path = "/usercenter/UserCenter_MainActivity")
 public class UserCenter_MainActivity extends BaseActivity {
@@ -42,7 +41,14 @@ public class UserCenter_MainActivity extends BaseActivity {
         setContentView(R.layout.activity_usercenter);
         ParameterManager.getInstance().loadParameter(this);
         Log.e("componentization", name);
-        EventBus.getDefault().addIndex(new EventBusIndex());
+        try {
+            Class<?> aClass = Class.forName(BuildConfig.EVENT_PACKAGEAME+".EventBusIndex");
+            Object o = aClass.newInstance();
+            if (o instanceof SubscriberInfoIndex) {
+                EventBus.getDefault().addIndex((SubscriberInfoIndex) o);
+            }
+        }catch (Exception ignored){
+        }
         EventBus.getDefault().register(this);
         EventBus.getDefault().removeStickyEvent(BaseEntry.class);
     }

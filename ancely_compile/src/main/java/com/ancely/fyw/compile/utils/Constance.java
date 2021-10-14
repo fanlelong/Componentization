@@ -10,16 +10,16 @@ package com.ancely.fyw.compile.utils;
  */
 public interface Constance {
     //ARouter注解的全路径
-    String AROUTE_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.ARouter";
+    String AROUTE_ANNOTATION_TYPE = "com.ancely.fyw.annotation.apt.ARouter";
 
     //@Parameter注解全路径
-    String PARAMETER_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Parameter";
+    String PARAMETER_ANNOTATION_TYPE = "com.ancely.fyw.annotation.apt.Parameter";
 
     //@Subscribe注解全路径
-    String SUBSCRIBE_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Subscribe";
+    String SUBSCRIBE_ANNOTATION_TYPE = "com.ancely.fyw.annotation.apt.Subscribe";
 
 
-    String MODEL_ANNOTATION_TYPE = "con.ancely.fyw.annotation.apt.Model";
+    String MODEL_ANNOTATION_TYPE = "com.ancely.fyw.annotation.apt.Model";
 
     //每个项目的名字
     String PRODECT_NAME = "projectName";
@@ -68,7 +68,7 @@ public interface Constance {
     String CLASS_NAME = "className";
 
     // 所有的事件订阅方法，生成索引接口
-    String SUBSCRIBERINFO_INDEX = "con.ancely.fyw.annotation.apt.SubscriberInfoIndex";
+    String SUBSCRIBERINFO_INDEX = "com.ancely.fyw.annotation.apt.SubscriberInfoIndex";
 
     // 全局属性名
     String FIELD_NAME = "SUBSCRIBER_INDEX";

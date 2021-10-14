@@ -1,15 +1,13 @@
-apply plugin: 'com.android.application'
-
-
 def androidId = rootProject.ext.androidId
 def support = rootProject.ext.dependencies
-
+def appId = rootProject.ext.appId
 android {
     compileSdkVersion androidId.compileSdkVersion
 
-
     defaultConfig {
-        applicationId "com.plugin.text"
+        if (!isRelease) {
+            applicationId appId.get(project.getName())
+        }
         minSdkVersion androidId.minSdkVersion
         targetSdkVersion androidId.targetSdkVersion
         versionCode androidId.versionCode
@@ -19,9 +17,14 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [projectName: project.getName(), packageNameAPT: packageNameAPT]
+                arguments = [projectName: project.getName(),
+                             packageNameAPT: packageNameAPT,
+                             packageName   : eventBusPackagename + project.getName() + ".event",
+                             className     : "EventBusIndex"]
             }
         }
+        buildConfigField "String", "EVENT_PACKAGEAME", "\"${eventBusPackagename + project.getName() + ".event"}\""
+
     }
 
     buildTypes {
@@ -30,9 +33,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            if (!isRelease) {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    exclude '**/debug/**'
+                }
+            }
+        }
     }
 
 }
@@ -45,6 +61,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     support.each { k, v -> implementation v }
+    implementation project(':ancely_annotation')
+    annotationProcessor project(':ancely_compile')
     implementation project(':common')
-    implementation project(':network')
 }

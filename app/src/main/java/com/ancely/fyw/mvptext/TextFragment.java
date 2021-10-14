@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.ancely.fyw.R;
 
-import con.ancely.fyw.annotation.apt.ARouter;
+import com.ancely.fyw.annotation.apt.ARouter;
 
 /*
  *  @项目名：  Componentization

@@ -21,6 +21,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.ancely.fyw.annotation.apt.ARouter;
+import com.ancely.fyw.annotation.apt.NeedsPermission;
+import com.ancely.fyw.annotation.apt.OnNeverAskAgain;
+import com.ancely.fyw.annotation.apt.OnPermissionDenied;
+import com.ancely.fyw.annotation.apt.OnShowRationale;
+import com.ancely.fyw.annotation.apt.Parameter;
+import com.ancely.fyw.annotation.apt.Subscribe;
 import com.ancely.fyw.aroute.bean.BaseEntry;
 import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.ParameterManager;
@@ -41,14 +48,6 @@ import com.ancely.fyw.mvptext.TestJoin;
 import java.lang.reflect.Field;
 import java.util.MyHashMap;
 import java.util.MyLinkedHashMap;
-
-import con.ancely.fyw.annotation.apt.ARouter;
-import con.ancely.fyw.annotation.apt.NeedsPermission;
-import con.ancely.fyw.annotation.apt.OnNeverAskAgain;
-import con.ancely.fyw.annotation.apt.OnPermissionDenied;
-import con.ancely.fyw.annotation.apt.OnShowRationale;
-import con.ancely.fyw.annotation.apt.Parameter;
-import con.ancely.fyw.annotation.apt.Subscribe;
 
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends BaseModelActivity {

@@ -13,7 +13,7 @@ interface IBaseViewModel<T> {
 
     MutableLiveData<ResponseBean<T>> getMoreLiveData();
 
-    MutableLiveData<RequestErrBean> getErrorLiveData();
+    SingleLiveEvent<RequestErrBean> getErrorLiveData();
 
     MutableLiveData<Integer> getShowLoadingLiveData();
 

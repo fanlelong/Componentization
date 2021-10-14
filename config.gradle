@@ -4,7 +4,7 @@ ext {
     isRelease = true
 
     packageNameAPT = "com.ancely.fyw.modular.apt"
-    eventBusPackagename = "com.ancely.fyw.eventbus.apt"
+    eventBusPackagename = "com.ancely.fyw."
     //建立Map的储存
     androidId = [
             compileSdkVersion: 28,

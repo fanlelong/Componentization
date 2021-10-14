@@ -3,7 +3,7 @@ package com.ancely.fyw.login.impl;
 import com.ancely.fyw.common.LoginCall;
 import com.ancely.fyw.login.R;
 
-import con.ancely.fyw.annotation.apt.ARouter;
+import com.ancely.fyw.annotation.apt.ARouter;
 
 /*
  *  @项目名：  Componentization

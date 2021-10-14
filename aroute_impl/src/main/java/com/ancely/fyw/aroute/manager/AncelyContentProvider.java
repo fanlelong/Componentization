@@ -28,9 +28,6 @@ public class AncelyContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         context = getContext();
-        Log.e("ancely1","AncelyContentProvider time end  "+ (System.currentTimeMillis()- BaseActivity.time));
-        SystemClock.sleep(3000);
-        Log.e("ancely1","AncelyContentProvider time end  "+ (System.currentTimeMillis()- BaseActivity.time));
         return true;
     }
 

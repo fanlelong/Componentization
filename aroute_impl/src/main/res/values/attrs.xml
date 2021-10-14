@@ -33,5 +33,16 @@
     </declare-styleable>
 
     <!-- 后续架构师拓展………………………………………………………………………… -->
-
+    <declare-styleable name="AncelyConstraintLayout_Layout">
+        <attr name="base_orientation">
+            <!--以竖屏的宽高做来计算尺寸-->
+            <enum name="portrait" value="0" />
+            <!--以横屏的宽高做来计算尺寸-->
+            <enum name="landscape" value="1" />
+            <!--以竖屏的宽做来计算尺寸-->
+            <enum name="base_width" value="2" />
+            <!--以竖屏的高做来计算尺寸-->
+            <enum name="base_height" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>

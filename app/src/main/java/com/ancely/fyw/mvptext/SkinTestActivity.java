@@ -8,12 +8,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.ancely.fyw.R;
+import com.ancely.fyw.annotation.apt.Subscribe;
 import com.ancely.fyw.aroute.base.BaseActivity;
 import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 
 import java.io.File;
-
-import con.ancely.fyw.annotation.apt.Subscribe;
 
 public class SkinTestActivity extends BaseActivity {
 
