@@ -8,13 +8,14 @@ package com.ancely.fyw.interceptertest;
  *  @创建时间:  2019/10/16 9:50 AM
  *  @描述：    TODO
  */
-public class Task3  implements IBaseTask {
+public class Task3 implements IBaseTask {
     @Override
-    public void doAction(String action, IBaseTask baseTask) {
+    public String doAction(String action, IBaseTask baseTask) {
+        System.out.println("Task3执行任务完成");
         if (action.equals("ok2")) {
-            System.out.println("执行任务成功了");
+            return "Task3:执行任务成功了";
         } else {
-            baseTask.doAction(action, baseTask);
+            return baseTask.doAction(action, baseTask);
         }
     }
 }

@@ -52,6 +52,7 @@ public class ExampleUnitTest {
         managerTask.addTask(task2);
         managerTask.addTask(task3);
 
-        managerTask.doAction("ok",managerTask);
+        String actionReturn = managerTask.doAction("ok2",managerTask);
+        System.out.println(actionReturn);
     }
 }

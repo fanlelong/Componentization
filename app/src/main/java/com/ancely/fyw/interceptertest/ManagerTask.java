@@ -20,11 +20,12 @@ public class ManagerTask implements IBaseTask {
     }
 
     @Override
-    public void doAction(String action, IBaseTask baseTask) {
+    public String doAction(String action, IBaseTask baseTask) {
         if (mTaskList != null && mTaskList.size() > 0 && index <= mTaskList.size()) {
             IBaseTask iBaseTask = mTaskList.get(index);
             index++;
-            iBaseTask.doAction(action, baseTask);
+           return iBaseTask.doAction(action, baseTask);
         }
+        return action;
     }
 }

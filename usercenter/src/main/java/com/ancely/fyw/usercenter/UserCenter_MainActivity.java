@@ -18,7 +18,6 @@ import com.ancely.fyw.annotation.apt.OnPermissionDenied;
 import com.ancely.fyw.annotation.apt.OnShowRationale;
 import com.ancely.fyw.annotation.apt.Parameter;
 import com.ancely.fyw.annotation.apt.Subscribe;
-import com.ancely.fyw.annotation.apt.SubscriberInfoIndex;
 import com.ancely.fyw.annotation.apt.bean.ThreadMode;
 import com.ancely.fyw.aroute.base.BaseActivity;
 import com.ancely.fyw.aroute.bean.BaseEntry;
@@ -41,14 +40,6 @@ public class UserCenter_MainActivity extends BaseActivity {
         setContentView(R.layout.activity_usercenter);
         ParameterManager.getInstance().loadParameter(this);
         Log.e("componentization", name);
-        try {
-            Class<?> aClass = Class.forName(BuildConfig.EVENT_PACKAGEAME+".EventBusIndex");
-            Object o = aClass.newInstance();
-            if (o instanceof SubscriberInfoIndex) {
-                EventBus.getDefault().addIndex((SubscriberInfoIndex) o);
-            }
-        }catch (Exception ignored){
-        }
         EventBus.getDefault().register(this);
         EventBus.getDefault().removeStickyEvent(BaseEntry.class);
     }

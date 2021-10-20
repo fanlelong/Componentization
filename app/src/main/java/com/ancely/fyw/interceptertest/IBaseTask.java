@@ -10,5 +10,5 @@ package com.ancely.fyw.interceptertest;
  */
 public interface IBaseTask {
 
-    void doAction(String action, IBaseTask baseTask);
+    String doAction(String action, IBaseTask baseTask);
 }

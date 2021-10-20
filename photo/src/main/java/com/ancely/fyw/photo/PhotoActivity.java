@@ -32,8 +32,6 @@ import android.widget.Toast;
 
 import com.ancely.fyw.annotation.apt.ARouter;
 import com.ancely.fyw.annotation.apt.Subscribe;
-import com.ancely.fyw.annotation.apt.SubscriberInfoIndex;
-import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.model.ModelP;
 import com.ancely.fyw.aroute.model.bean.ResponseBean;
 import com.ancely.fyw.common.base.BaseModelActivity;
@@ -105,14 +103,6 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        try {
-            Class<?> aClass = Class.forName("com.ancely.fyw.photo.event.EventBusIndex");
-            Object o = aClass.newInstance();
-            if (o instanceof SubscriberInfoIndex) {
-                EventBus.getDefault().addIndex((SubscriberInfoIndex) o);
-            }
-        }catch (Exception ignored){
-        }
         super.onCreate(savedInstanceState);
         mImgs = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

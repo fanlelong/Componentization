@@ -10,11 +10,13 @@ package com.ancely.fyw.interceptertest;
  */
 public class Task1 implements IBaseTask {
     @Override
-    public void doAction(String action, IBaseTask baseTask) {
+    public String doAction(String action, IBaseTask baseTask) {
+        System.out.println("Task1执行任务完成");
         if (action.equals("no")) {
             System.out.println("执行任务成功了");
+            return "Task1:执行任务成功了";
         } else {
-            baseTask.doAction(action, baseTask);
+           return baseTask.doAction(action, baseTask);
         }
     }
 }

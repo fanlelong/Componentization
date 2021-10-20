@@ -8,7 +8,9 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.ancely.fyw.aroute.core.IApplication;
 import com.ancely.fyw.aroute.life.LifeManagerRetriever;
 import com.ancely.fyw.aroute.networks.NetChangeImpl;
 import com.ancely.fyw.aroute.networks.NetworkCallbackImpl;
@@ -96,6 +98,31 @@ public class NetWorkManager {
      */
     public void init(String host, Context context) {
         init(host, null, context);
+        initEvent(context);
+    }
+
+    public void initEvent(Context context){
+        List<String> applicationList = Applications.getApplicationPackageName();
+        for (String applicationAbsolutePath : applicationList) {
+            if (applicationAbsolutePath.equals(context.getClass().getName())) {
+                if (context instanceof IApplication) {
+                    ((IApplication) context).addEventBean();
+                }
+                continue;
+            }
+            try {
+                Class<?> aClass = Class.forName(applicationAbsolutePath);
+                Object application = aClass.newInstance();
+                if (application instanceof IApplication) {
+                    ((IApplication) application).attach(context);
+                    ((IApplication) application).addEventBean();
+                    Applications.addApplication((IApplication) application);
+                }
+            }catch (Exception ignored){
+                Log.e("ancely>>>", "applicationAbsolutePath not register, Please Applications register");
+            }
+        }
+        applicationList.clear();
     }
 
     public Context getContext() {
