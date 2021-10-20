@@ -46,6 +46,7 @@ android {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
                 java {
                     exclude '**/debug/**'
+                    exclude '**/android/**'
                 }
             }
         }

@@ -76,11 +76,5 @@ public class InvokeOnClickActivity extends AppCompatActivity {
         });
         //这里是将我们自己的替换掉原来的
         onClickListenerField.set(listenerInfo, proxyInstance);
-
-
-
-
-
-
     }
 }
