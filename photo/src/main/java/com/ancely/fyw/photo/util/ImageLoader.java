@@ -15,14 +15,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
-/*
- *  @项目名：  PhotoFile
- *  @包名：    com.pick.photo.util
- *  @文件名:   ImageLoader
- *  @创建者:   fanlelong
- *  @创建时间:  2018/12/13 上午10:28
- *  @描述：    加载图片类
- */
 public class ImageLoader {
     private static ImageLoader mInstance;
 
@@ -31,17 +23,12 @@ public class ImageLoader {
     public static final int DEFAULT_THREAD_POOL = 1; //默认线程数
     private Type mType = Type.LIFO;//队列的调度方式
     private LinkedList<Runnable> mTaskQueue;
-    private Thread mPoolThread;//后台轮询线程
     private Handler mPoolThreadHandler;//线程中的handler
     private Handler mUiHandler; // 主线程的Handler
 
     private Semaphore mPoolThreadHandlerSemaphore = new Semaphore(0);
     private Semaphore mSemaphoreThreadPool;
-    private boolean isScroll;
 
-    public void setScroll(boolean scroll) {
-        isScroll = scroll;
-    }
 
     public enum Type {
         FIFO, LIFO
@@ -54,51 +41,26 @@ public class ImageLoader {
     /**
      * 初始化
      */
-    private void init(int threadCound, Type type) {
+    private void init(int threadCount, Type type) {
         //后台的一个轮询线程
         HandlerThread handlerThread = new HandlerThread("photo-list: ") {
             @Override
             protected void onLooperPrepared() {
-                mPoolThreadHandler = new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message message) {
-                        //线程池去取出一个任务执行
-                        mThreadPools.execute(getTask());
-                        try {
-                            mSemaphoreThreadPool.acquire();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return false;
+                mPoolThreadHandler = new Handler(message -> {
+                    //线程池去取出一个任务执行
+                    mThreadPools.execute(getTask());
+                    try {
+                        mSemaphoreThreadPool.acquire();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+                    return false;
                 });
 
                 mPoolThreadHandlerSemaphore.release();
             }
         };
         handlerThread.start();
-//        mPoolThread = new Thread() {
-//            @Override
-//            public void run() {
-//                Looper.prepare();
-//                mPoolThreadHandler = new Handler(new Handler.Callback() {
-//                    @Override
-//                    public boolean handleMessage(Message message) {
-//                        //线程池去取出一个任务执行
-//                        mThreadPools.execute(getTask());
-//                        try {
-//                            mSemaphoreThreadPool.acquire();
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                        return false;
-//                    }
-//                });
-//                mPoolThreadHandlerSemaphore.release();// 证明 mPoolThreadHandler初始化完毕  释放一个信号量
-//                Looper.loop();
-//            }
-//        };
-//        mPoolThread.start();
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
         int cacheMemory = maxMemory / 8;
         mLruCache = new LruCache<String, Bitmap>(cacheMemory) {
@@ -107,10 +69,10 @@ public class ImageLoader {
                 return value.getRowBytes() * value.getHeight(); //每一行的字节数* 图片高度
             }
         };
-        mThreadPools = Executors.newFixedThreadPool(threadCound);
+        mThreadPools = Executors.newFixedThreadPool(threadCount);
         mTaskQueue = new LinkedList<>();
         mType = type;
-        mSemaphoreThreadPool = new Semaphore(threadCound);
+        mSemaphoreThreadPool = new Semaphore(threadCount);
     }
 
     /**
@@ -155,41 +117,35 @@ public class ImageLoader {
     public ImageLoader loadImage(final String filePath, final ImageView imageView, final boolean isBigImg) {
         imageView.setTag(filePath);
         if (mUiHandler == null) {
-            mUiHandler = new Handler(new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message message) {
-                    //获取得到的图片,为imageView设置bitmap
-                    ImageBeanHolder holder = (ImageBeanHolder) message.obj;
-                    Bitmap bitmap = holder.bitmap;
-                    String filePath = holder.filePath;
-                    ImageView imageView = holder.imageView;
-                    if (imageView.getTag().toString().equals(filePath)) {
-                        imageView.setImageBitmap(bitmap);
-                    }
-                    return false;
+            mUiHandler = new Handler(message -> {
+                //获取得到的图片,为imageView设置bitmap
+                ImageBeanHolder holder = (ImageBeanHolder) message.obj;
+                Bitmap bitmap = holder.bitmap;
+                String filePath1 = holder.filePath;
+                ImageView imageView1 = holder.imageView;
+                if (imageView1.getTag().toString().equals(filePath1)) {
+                    imageView1.setImageBitmap(bitmap);
                 }
+                return false;
             });
         }
         if (!new File(filePath).exists()) {
-            refreashBitmap(null, "-1", imageView);
+            refreshBitmap(null, "-1", imageView);
             return this;
         }
         Bitmap bm = getBitmapFromLrucache(isBigImg ? (filePath + "BIG") : filePath);
         if (bm != null) {
-            refreashBitmap(bm, filePath, imageView);
+            refreshBitmap(bm, filePath, imageView);
         } else {
-            addTask(new Runnable() {
-                @Override
-                public void run() {
-                    //获取图片要显示的大小
-                    ImageSize imageViewSize = getImageViewSize(imageView);
-                    //通过宽高压缩图片
-                    Bitmap bm = decodeSampledBitmapFromPath(filePath, imageViewSize.width, imageViewSize.height);
-                    addBitmapToLrucache(isBigImg ? (filePath + "BIG") : filePath, bm);
-                    //加载图片
-                    refreashBitmap(bm, filePath, imageView);
-                    mSemaphoreThreadPool.release();
-                }
+            addTask(() -> {
+                //获取图片要显示的大小
+                ImageSize imageViewSize = getImageViewSize(imageView);
+                //通过宽高压缩图片
+                Bitmap bm1 = decodeSampledBitmapFromPath(filePath, imageViewSize.width, imageViewSize.height);
+                addBitmapToLruCache(isBigImg ? (filePath + "BIG") : filePath, bm1);
+                //加载图片
+                refreshBitmap(bm1, filePath, imageView);
+                mSemaphoreThreadPool.release();
             });
         }
         return this;
@@ -199,7 +155,7 @@ public class ImageLoader {
         return this.loadImage(filePath, imageView, false);
     }
 
-    private void refreashBitmap(Bitmap bm, String filePath, ImageView imageView) {
+    private void refreshBitmap(Bitmap bm, String filePath, ImageView imageView) {
         Message message = Message.obtain();
         ImageBeanHolder holder = new ImageBeanHolder();
         holder.bitmap = bm;
@@ -215,7 +171,7 @@ public class ImageLoader {
      * @param filePath 路径
      * @param bm       图片
      */
-    private void addBitmapToLrucache(String filePath, Bitmap bm) {
+    private void addBitmapToLruCache(String filePath, Bitmap bm) {
         if (getBitmapFromLrucache(filePath) == null) {
             if (bm != null) {
                 mLruCache.put(filePath, bm);
@@ -310,19 +266,19 @@ public class ImageLoader {
     }
 
     /**
-     * 根据filePaht从缓存中获取bitmap
+     * 根据filePath从缓存中获取bitmap
      */
     private Bitmap getBitmapFromLrucache(String filePath) {
         return mLruCache.get(filePath);
     }
 
-    private class ImageBeanHolder {
+    private static class ImageBeanHolder {
         Bitmap bitmap;
         ImageView imageView;
         String filePath;
     }
 
-    private class ImageSize {
+    private static class ImageSize {
         int width;
         int height;
     }

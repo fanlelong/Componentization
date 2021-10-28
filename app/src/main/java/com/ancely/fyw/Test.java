@@ -18,7 +18,7 @@ public class Test {
         for (int i = 0; i < 100; i++) {
             arr[i] = i;
         }
-//        test(arr);
+        test(arr);
 
 //        printlnObject();
     }

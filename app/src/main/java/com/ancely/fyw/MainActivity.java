@@ -2,6 +2,8 @@ package com.ancely.fyw;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -41,6 +43,7 @@ import com.ancely.fyw.aroute.skin.utils.PreferencesUtils;
 import com.ancely.fyw.aroute.utils.LogUtils;
 import com.ancely.fyw.common.LoginCall;
 import com.ancely.fyw.common.base.BaseModelActivity;
+import com.ancely.fyw.lock.ReenTrantLockTest;
 import com.ancely.fyw.login.bean.LoginBean;
 import com.ancely.fyw.mvptext.SkinTestActivity;
 import com.ancely.fyw.mvptext.TestJoin;
@@ -76,7 +79,7 @@ public class MainActivity extends BaseModelActivity {
         super.onCreate(savedInstanceState);
 //        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10000);
 
-
+        ActivityManager systemService = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ParameterManager.getInstance().loadParameter(this);
         ImageView imageView = findViewById(R.id.act_main_iv);
         imageView.setImageResource(mLoginCall.getDrawable());
@@ -97,7 +100,9 @@ public class MainActivity extends BaseModelActivity {
 
     @Override
     protected void initEvent() {
-
+        ReenTrantLockTest lockTest = new ReenTrantLockTest(true);
+        lockTest.lock();
+        System.out.println("还会走下去？");
     }
 
 
