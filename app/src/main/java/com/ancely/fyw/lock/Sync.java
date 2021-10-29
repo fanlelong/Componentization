@@ -9,7 +9,7 @@ package com.ancely.fyw.lock;
  *  @描述：    TODO
  */
 
-public abstract class Sync extends AbstractQueuedTest {
+public abstract class Sync extends AbstractQueuedSynchronizerTest {
     abstract void lock();
 
     final boolean nonfairTryAcquire(int acquires) {
@@ -41,35 +41,5 @@ public abstract class Sync extends AbstractQueuedTest {
         }
         setState(c);
         return free;
-    }
-
-    protected final boolean isHeldExclusively() {
-        // While we must in general read state before owner,
-        // we don't need to do so to check if current thread is owner
-        return getExclusiveOwnerThread() == Thread.currentThread();
-    }
-
-
-    // Methods relayed from outer class
-
-    final Thread getOwner() {
-        return getState() == 0 ? null : getExclusiveOwnerThread();
-    }
-
-    final int getHoldCount() {
-        return isHeldExclusively() ? getState() : 0;
-    }
-
-    final boolean isLocked() {
-        return getState() != 0;
-    }
-
-    /**
-     * Reconstitutes the instance from a stream (that is, deserializes it).
-     */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        setState(0); // reset to unlocked state
     }
 }

@@ -12,7 +12,7 @@ package com.ancely.fyw.lock;
 import java.util.concurrent.locks.AbstractOwnableSynchronizer;
 import java.util.concurrent.locks.LockSupport;
 
-public class AbstractQueuedTest extends AbstractOwnableSynchronizer implements java.io.Serializable {
+public class AbstractQueuedSynchronizerTest extends AbstractOwnableSynchronizer implements java.io.Serializable {
     private transient volatile Node head;
     private transient volatile Node tail;
     private volatile int state;
@@ -102,10 +102,10 @@ public class AbstractQueuedTest extends AbstractOwnableSynchronizer implements j
 
     public final void acquire(int arg) {
         boolean isAcquire = tryAcquire(arg);
-        if (!isAcquire){
+        if (!isAcquire) {
             Node node = addWaiter(Node.EXCLUSIVE);
             boolean b = acquireQueued(node, arg);
-            if (b){
+            if (b) {
                 selfInterrupt();
             }
         }
@@ -125,8 +125,7 @@ public class AbstractQueuedTest extends AbstractOwnableSynchronizer implements j
                     p.next = null; // help GC
                     return interrupted;
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                        parkAndCheckInterrupt())
+                if (shouldParkAfterFailedAcquire(p, node) && parkAndCheckInterrupt())
                     interrupted = true;
             }
         } catch (Throwable t) {
@@ -240,12 +239,9 @@ public class AbstractQueuedTest extends AbstractOwnableSynchronizer implements j
 
     static {
         try {
-            STATE = ReflectUtils.objectFieldOffset
-                    (AbstractQueuedTest.class.getDeclaredField("state"));
-            HEAD = ReflectUtils.objectFieldOffset
-                    (AbstractQueuedTest.class.getDeclaredField("head"));
-            TAIL = ReflectUtils.objectFieldOffset
-                    (AbstractQueuedTest.class.getDeclaredField("tail"));
+            STATE = ReflectUtils.objectFieldOffset(AbstractQueuedSynchronizerTest.class.getDeclaredField("state"));
+            HEAD = ReflectUtils.objectFieldOffset(AbstractQueuedSynchronizerTest.class.getDeclaredField("head"));
+            TAIL = ReflectUtils.objectFieldOffset(AbstractQueuedSynchronizerTest.class.getDeclaredField("tail"));
         } catch (ReflectiveOperationException e) {
             throw new Error(e);
         }
@@ -299,14 +295,10 @@ public class AbstractQueuedTest extends AbstractOwnableSynchronizer implements j
 
         static {
             try {
-                NEXT = ReflectUtils.objectFieldOffset
-                        (Node.class.getDeclaredField("next"));
-                PREV = ReflectUtils.objectFieldOffset
-                        (Node.class.getDeclaredField("prev"));
-                THREAD = ReflectUtils.objectFieldOffset
-                        (Node.class.getDeclaredField("thread"));
-                WAITSTATUS = ReflectUtils.objectFieldOffset
-                        (Node.class.getDeclaredField("waitStatus"));
+                NEXT = ReflectUtils.objectFieldOffset(Node.class.getDeclaredField("next"));
+                PREV = ReflectUtils.objectFieldOffset(Node.class.getDeclaredField("prev"));
+                THREAD = ReflectUtils.objectFieldOffset(Node.class.getDeclaredField("thread"));
+                WAITSTATUS = ReflectUtils.objectFieldOffset(Node.class.getDeclaredField("waitStatus"));
             } catch (ReflectiveOperationException e) {
                 throw new Error(e);
             }

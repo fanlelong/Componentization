@@ -35,14 +35,15 @@ public class ReenTrantLockTest implements Lock {
         return sync.nonfairTryAcquire(1);
     }
 
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return false;
-    }
 
     @Override
     public void unlock() {
         sync.release(1);
+    }
+
+    @Override
+    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        return false;
     }
 
     @Override

@@ -49,8 +49,11 @@ import com.ancely.fyw.mvptext.SkinTestActivity;
 import com.ancely.fyw.mvptext.TestJoin;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MyHashMap;
 import java.util.MyLinkedHashMap;
+import java.util.concurrent.locks.Lock;
 
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends BaseModelActivity {
@@ -63,6 +66,7 @@ public class MainActivity extends BaseModelActivity {
     LoginCall mLoginCall;
 
     private Button mButton;
+    private Lock mLockTest;
 
     @Override
     public ModelP getModelP() {
@@ -100,11 +104,8 @@ public class MainActivity extends BaseModelActivity {
 
     @Override
     protected void initEvent() {
-        ReenTrantLockTest lockTest = new ReenTrantLockTest(true);
-        lockTest.lock();
-        System.out.println("还会走下去？");
+        mLockTest = new ReenTrantLockTest(true);
     }
-
 
     @Override
     protected void initView() {
@@ -317,7 +318,7 @@ public class MainActivity extends BaseModelActivity {
     }
 
     public void permission(View view) {
-        addWindowsView();
+//        addWindowsView();
         PermissionManager.request(this, new String[]{
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -343,5 +344,25 @@ public class MainActivity extends BaseModelActivity {
                 .navigation(this);
     }
 
+    List<Thread> mThreadList = new ArrayList<>();
 
+    public void release(View view) {
+        Thread thread = mThreadList.get(0);
+        thread.interrupt();
+        mThreadList.remove(thread);
+    }
+
+    public void lock(View view) {
+        Thread thread = new Thread(() -> {
+            mLockTest.lock();
+            System.out.println("还会走下去？");
+            try {
+                Thread.sleep(Integer.MAX_VALUE);
+            } catch (InterruptedException e) {
+                mLockTest.unlock();
+            }
+        });
+        mThreadList.add(thread);
+        thread.start();
+    }
 }

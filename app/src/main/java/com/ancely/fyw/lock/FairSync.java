@@ -1,7 +1,6 @@
 package com.ancely.fyw.lock;
 
 public class FairSync extends Sync {
-    private static final long serialVersionUID = -3000897897090466540L;
 
     final void lock() {
         acquire(1);
