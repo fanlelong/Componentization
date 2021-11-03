@@ -4,15 +4,103 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.ancely.fyw.aroute.views.FloatLayout
+        android:paddingLeft="44px"
+        android:paddingRight="44px"
+        android:id="@+id/float_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_0f66cc">
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="杯子" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="笔记本电脑" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="罗技键盘" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="鼠标" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="键盘套装" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:layout_width="match_parent"
+            android:text="独享" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="键盘" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="台式电脑" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="手机" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="电脑桌" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="华为手机" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="桌子" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="电风扇" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="音响" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="小音响" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="100抽纸巾" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="移动固态硬盘" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="鼠标" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="蓝牙音响" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="防毒口罩" />
+
+        <TextView
+            style="@style/float_text_view"
+            android:text="一个台灯" />
+    </com.ancely.fyw.aroute.views.FloatLayout>
+
     <com.ancely.fyw.touchevent.TestRecyclerView
         android:id="@+id/test_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
-
-    <com.ancely.fyw.view.FloatLayout
-        android:background="@color/color_0f66cc"
-        android:id="@+id/float_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>

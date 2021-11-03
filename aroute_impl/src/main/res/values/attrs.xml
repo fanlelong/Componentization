@@ -33,7 +33,7 @@
     </declare-styleable>
 
     <!-- 后续架构师拓展………………………………………………………………………… -->
-    <declare-styleable name="AncelyConstraintLayout_Layout">
+    <declare-styleable name="AutoLayout_Layout">
         <attr name="base_orientation">
             <!--以竖屏的宽高做来计算尺寸-->
             <enum name="portrait" value="0" />
