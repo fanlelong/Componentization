@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ancely.fyw.annotation.apt.ARouter;
 import com.ancely.fyw.annotation.apt.NeedsPermission;
@@ -354,12 +355,14 @@ public class MainActivity extends BaseModelActivity {
 
     public void lock(View view) {
         Thread thread = new Thread(() -> {
+            runOnUiThread(() -> Toast.makeText(mContext, "开始获取锁", Toast.LENGTH_SHORT).show());
             mLockTest.lock();
-            System.out.println("还会走下去？");
+            runOnUiThread(() -> Toast.makeText(mContext, "获取锁成功， 开始执行下面逻辑", Toast.LENGTH_SHORT).show());
             try {
                 Thread.sleep(Integer.MAX_VALUE);
             } catch (InterruptedException e) {
                 mLockTest.unlock();
+                runOnUiThread(() -> Toast.makeText(mContext, "释放锁成功", Toast.LENGTH_SHORT).show());
             }
         });
         mThreadList.add(thread);

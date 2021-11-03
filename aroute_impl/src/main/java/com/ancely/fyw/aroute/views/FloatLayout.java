@@ -133,10 +133,9 @@ public class FloatLayout extends ViewGroup {
 
             for (View view : views) {
                 int left = (mGravity == Gravity.CENTER) ? curL + averageWidth : curL;
-                int top = curT;
                 int right = left + view.getMeasuredWidth();
-                int bottom = top + view.getMeasuredHeight();
-                view.layout(left, top, right, bottom);
+                int bottom = curT + view.getMeasuredHeight();
+                view.layout(left, curT, right, bottom);
                 curL = (mGravity == Gravity.CENTER) ? right : right + mHonizontalWidthSpace;
             }
             curL = getPaddingLeft();
