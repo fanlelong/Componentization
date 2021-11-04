@@ -11,6 +11,8 @@ public interface ActivityInterface {
 
     void attach(Activity activity);
 
+    void onCreateBefore();
+
     void onCreate(@Nullable Bundle savedInstanceState);
 
     void onStart();

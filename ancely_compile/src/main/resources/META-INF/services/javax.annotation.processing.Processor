@@ -1,0 +1,4 @@
+com.ancely.fyw.compile.ParameterProcess
+com.ancely.fyw.compile.AncelyProcess
+com.ancely.fyw.compile.PermissionProcessor
+com.ancely.fyw.compile.SubscribeProcessor

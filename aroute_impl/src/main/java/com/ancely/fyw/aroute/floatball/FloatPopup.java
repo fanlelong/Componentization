@@ -104,7 +104,7 @@ public class FloatPopup extends PopupWindow {
             unSafeAreaWidth = 0;
         }
         showY = lastY;
-        if (!false) {
+        if (!false) {// 悬浮球是否展示
             mHandler.post(() -> {
                 if (mActivity == null || mActivity.isDestroyed()) {
                     floatPopup = null;

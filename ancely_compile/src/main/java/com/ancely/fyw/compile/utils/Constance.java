@@ -33,6 +33,7 @@ public interface Constance {
     String FRAGMENT_PATH = "android.support.v4.app.Fragment";
     String CALL_PATH = "com.ancely.fyw.aroute.core.Call";
     String STRING = "java.lang.String";
+    String ARRAYLIST = "java.util.ArrayList";
     String ROUTER_MANAGER = "com.ancely.fyw.aroute.manager.RouterManager";
 
     //接口的全类名

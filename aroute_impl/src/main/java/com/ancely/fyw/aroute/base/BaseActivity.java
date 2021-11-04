@@ -54,6 +54,7 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     protected Activity mActivity;
     private SelfAppCompatViewInflater mViewInflater;
     private Activity mContext;
+    private boolean mFactoryIsTrue;
 
     public Activity getContext() {
         return mContext;
@@ -65,19 +66,26 @@ public class BaseActivity extends AppCompatActivity implements ActivityInterface
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-
+    public void onCreateBefore() {
         if (mActivity == null) {
             if (openChangerSkin()) {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 LayoutInflaterCompat.setFactory2(inflater, this);
             }
-            super.onCreate(savedInstanceState);
+
         } else {
-            if (openChangerSkin()) {
+            if (openChangerSkin() &&! mFactoryIsTrue) {
+                mFactoryIsTrue = true;
                 LayoutInflater inflater = LayoutInflater.from(mActivity);
                 LayoutInflaterCompat.setFactory2(inflater, mActivity);
             }
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (mActivity == null) {
+            super.onCreate(savedInstanceState);
         }
         mContext = mActivity == null ? this : mActivity;
         AppCompatDelegate.setDefaultNightMode(Configuration.UI_MODE_NIGHT_NO);

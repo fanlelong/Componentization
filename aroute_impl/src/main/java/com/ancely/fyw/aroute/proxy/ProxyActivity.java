@@ -40,7 +40,7 @@ public class ProxyActivity extends Activity {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 //        }
-        super.onCreate(savedInstanceState);
+
         String className = getIntent().getStringExtra("className");
         try {
             Class<?> aClass = PluginManager.getInstance().getClassLoader().loadClass(className);
@@ -48,13 +48,13 @@ public class ProxyActivity extends Activity {
             if (instance instanceof ActivityInterface) {
                 mInterface = (ActivityInterface) instance;
                 mInterface.attach(this);
-                Bundle bundle = new Bundle();
-                mInterface.onCreate(bundle);
+                mInterface.onCreateBefore();
             }
         } catch (Exception e) {
             e.printStackTrace();
-
         }
+        super.onCreate(savedInstanceState);
+        mInterface.onCreate(savedInstanceState);
     }
 
     @Override
@@ -144,4 +144,8 @@ public class ProxyActivity extends Activity {
     }
 
 
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+    }
 }

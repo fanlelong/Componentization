@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -28,11 +29,29 @@ import com.ancely.fyw.aroute.permissions.PermissionManager;
 import com.ancely.fyw.aroute.permissions.listener.PermissionRequest;
 import com.ancely.fyw.aroute.proxy.ProxyActivity;
 import com.ancely.fyw.aroute.proxy.ProxyService;
+import com.ancely.fyw.common.LoginCall;
+
+import java.util.ArrayList;
 
 @ARouter(path = "/usercenter/UserCenter_MainActivity")
 public class UserCenter_MainActivity extends BaseActivity {
     @Parameter
     String name;
+
+    @Parameter
+    ArrayList<String> mStringArrayList;
+
+    @Parameter
+    String[] array;
+
+    @Parameter
+    Integer mInteger;
+
+    @Parameter
+    UserManager mUserManager;
+
+    @Parameter(name = "/login/getDrawable")
+    LoginCall mLoginCall;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,7 +138,7 @@ public class UserCenter_MainActivity extends BaseActivity {
 
     @NeedsPermission(code = 1002)
     public void startActivitys() {
-        boolean isSuccess = PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin-debug.apk");
+        boolean isSuccess = PluginManager.getInstance().loadPluginPath(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Plugin-debug.apk");
         if (!isSuccess) {
             return;
         }

@@ -4,7 +4,6 @@ import com.ancely.fyw.annotation.apt.ARouter;
 import com.ancely.fyw.annotation.apt.bean.RouteBean;
 import com.ancely.fyw.compile.utils.Constance;
 import com.ancely.fyw.compile.utils.EmptyUtils;
-import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -24,7 +23,6 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedOptions;
@@ -46,7 +44,7 @@ import javax.tools.Diagnostic;
  *  @创建时间:  2019/8/9 3:54 PM
  *  @描述：    TODO
  */
-@AutoService(Processor.class)//通过AutoService生成AutoService注解器
+//@AutoService(Processor.class)//通过AutoService生成AutoService注解器
 @SupportedSourceVersion(value = SourceVersion.RELEASE_8)//jdk版本
 @SupportedAnnotationTypes({Constance.AROUTE_ANNOTATION_TYPE})//需要接收的注解类型
 @SupportedOptions({Constance.PRODECT_NAME, Constance.APT_PACKAGE})//从build.gradle传过来的参数

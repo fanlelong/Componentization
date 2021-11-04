@@ -11,7 +11,6 @@ package com.ancely.fyw.aroute.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -118,6 +117,7 @@ public class AutoLayoutHelp {
             int index = array.getIndex(i);
             int pxVal;
             try {
+                if (!isPxVal(array.peekValue(index))) continue;
                 pxVal = array.getDimensionPixelOffset(index, 0);
             } catch (Exception ignore) {
                 continue;
@@ -213,9 +213,9 @@ public class AutoLayoutHelp {
                 return;
             }
             fillAttrs(view, autoLayoutInfo);
-            if (autoLayoutInfo.haveMargin && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (autoLayoutInfo.haveMargin) {
                 ((AutoLayoutParams) params).setMarginStart(autoLayoutInfo.leftMargin);
-                ((AutoLayoutParams) params).setMarginStart(autoLayoutInfo.rightMargin);
+                ((AutoLayoutParams) params).setMarginEnd(autoLayoutInfo.rightMargin);
             }
         }
     }
@@ -300,5 +300,13 @@ public class AutoLayoutHelp {
             }
         }
         return calculationSize;
+    }
+
+    private static int getComplexUnit(int data) {
+        return TypedValue.COMPLEX_UNIT_MASK & (data >> TypedValue.COMPLEX_UNIT_SHIFT);
+    }
+
+    public static boolean isPxVal(TypedValue val) {
+        return val != null && val.type == TypedValue.TYPE_DIMENSION && getComplexUnit(val.data) == TypedValue.COMPLEX_UNIT_PX;
     }
 }

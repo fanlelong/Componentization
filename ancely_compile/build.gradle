@@ -4,8 +4,8 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
-    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+//    compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
+//    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
     implementation 'com.squareup:javapoet:1.9.0'
     implementation project(':ancely_annotation')
     implementation 'org.openjdk.jol:jol-core:0.9'

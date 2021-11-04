@@ -20,7 +20,7 @@ public class PluginNetWorkApi extends NetWorkApi {
     public static PluginNetWorkApi getInstance() {
         if (sInstance == null) {
             synchronized (PluginNetWorkApi.class) {
-                if (sInstance != null) {
+                if (sInstance == null) {
                     sInstance = new PluginNetWorkApi();
                 }
             }
