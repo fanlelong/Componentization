@@ -120,7 +120,6 @@ public class FloatLayout extends ViewGroup {
         int realWidth = widthMode == MeasureSpec.EXACTLY ? selfWidth : parentWidth;
         int realHeight = heightMode == MeasureSpec.EXACTLY ? selfHeight : parentHeight;
         setMeasuredDimension(realWidth, realHeight);
-
     }
 
     @Override

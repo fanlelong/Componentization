@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <com.ancely.fyw.aroute.views.FloatLayout
+        android:visibility="gone"
         android:paddingLeft="44px"
         android:paddingRight="44px"
         android:id="@+id/float_layout"
@@ -102,5 +103,5 @@
         android:id="@+id/test_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </LinearLayout>
