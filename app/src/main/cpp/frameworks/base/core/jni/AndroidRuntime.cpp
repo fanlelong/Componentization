@@ -1040,6 +1040,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
     JniInvocation jni_invocation;
     jni_invocation.Init(NULL);
     JNIEnv* env;
+    //todo 注释1:启动虚拟机
     if (startVm(&mJavaVM, &env, zygote) != 0) {
         return;
     }
@@ -1048,6 +1049,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
     /*
      * Register android functions.
      */
+     //todo 注释2:注册安卓功能(JNI)
     if (startReg(env) < 0) {
         ALOGE("Unable to register all android natives\n");
         return;
@@ -1079,6 +1081,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
     /*
      * Start VM.  This thread becomes the main thread of the VM, and will
      * not return until the VM exits.
+     * todo 启动虚拟机。 该线程成为VM的主线程，直到VM退出才会返回。
      */
     char* slashClassName = toSlashClassName(className);
     jclass startClass = env->FindClass(slashClassName);
@@ -1092,6 +1095,7 @@ void AndroidRuntime::start(const char* className, const Vector<String8>& options
             ALOGE("JavaVM unable to find main() in '%s'\n", className);
             /* keep going */
         } else {
+            //todo 注释3 便用JNI调用 ZygoteInit 的 main() 方法。这里的 ZygoteInit 是class文件，也就是说从这里开始就进入java领域喽。
             env->CallStaticVoidMethod(startClass, startMeth, strArray);
 
 #if 0
@@ -1455,7 +1459,7 @@ static const RegJNIRec gRegJNI[] = {
      * and never released.  Use Push/Pop to manage the storage.
      */
     env->PushLocalFrame(200);
-//注册我们jni方法
+    //todo 注册我们jni方法
     if (register_jni_procs(gRegJNI, NELEM(gRegJNI), env) < 0) {
         env->PopLocalFrame(NULL);
         return -1;

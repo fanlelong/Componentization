@@ -4,7 +4,6 @@ import com.ancely.fyw.annotation.apt.NeedsPermission;
 import com.ancely.fyw.annotation.apt.OnNeverAskAgain;
 import com.ancely.fyw.annotation.apt.OnPermissionDenied;
 import com.ancely.fyw.annotation.apt.OnShowRationale;
-import com.google.auto.service.AutoService;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -19,7 +18,6 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -31,7 +29,7 @@ import javax.tools.JavaFileObject;
 
 // 通过auto-service中的@AutoService可以自动生成AutoService注解处理器是Google开发的，
 // 用来生成 META-INF/services/javax.annotation.processing.Processor 文件
-@AutoService(Processor.class)
+//@AutoService(Processor.class)
 // @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class PermissionProcessor extends AbstractProcessor {
 

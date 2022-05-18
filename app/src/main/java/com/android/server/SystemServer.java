@@ -251,6 +251,7 @@ public final class SystemServer {
         Looper.prepareMainLooper();
 
         // Initialize native services.
+        // todo 注释1：加载动态库libandroid_service.so。
         System.loadLibrary("android_servers");
 
         // Check whether we failed to shut down last time we tried.
@@ -258,14 +259,20 @@ public final class SystemServer {
         performPendingShutdown();
 
         // Initialize the system context.
+        // todo 注释2：创建系统上下文。
         createSystemContext();
 
         // Create the system service manager.
+        // todo 注释3：创建 SystemServiceManager。
         mSystemServiceManager = new SystemServiceManager(mSystemContext);
         LocalServices.addService(SystemServiceManager.class, mSystemServiceManager);
+        //todo  为可并行化的 init 任务准备线程池
+        SystemServerInitThreadPool.start();
 
         // Start services.
+        // todo 注释4：Start services。
         try {
+            // todo 下面咱们看看这个三个方法启动什么服务
             startBootstrapServices();
             startCoreServices();
             startOtherServices();
@@ -281,6 +288,7 @@ public final class SystemServer {
         }
 
         // Loop forever.
+        // todo 注释5：Loop 永久循环。
         Looper.loop();
         throw new RuntimeException("Main thread loop unexpectedly exited");
     }

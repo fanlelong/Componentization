@@ -3,7 +3,6 @@ package com.ancely.fyw.compile;
 import com.ancely.fyw.annotation.apt.Parameter;
 import com.ancely.fyw.compile.utils.Constance;
 import com.ancely.fyw.compile.utils.EmptyUtils;
-import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -22,7 +21,6 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -44,7 +42,7 @@ import javax.tools.Diagnostic;
  *  @创建时间:  2019/8/11 8:35 PM
  *  @描述：    TODO
  */
-@AutoService(Processor.class)//通过AutoService生成AutoService注解器
+//@AutoService(Processor.class)//通过AutoService生成AutoService注解器
 @SupportedSourceVersion(value = SourceVersion.RELEASE_8)//jdk版本
 @SupportedAnnotationTypes({Constance.PARAMETER_ANNOTATION_TYPE})//需要接收的注解类型
 public class ParameterProcess extends AbstractProcessor {
@@ -146,7 +144,6 @@ public class ParameterProcess extends AbstractProcessor {
 
     private void buildStatement(Element element, MethodSpec.Builder methodBuild) {
         TypeMirror typeMirror = element.asType();//获取到成功变量的类型 比如int string Handler这样的
-
         //获取成员变量的变量名: 如 :  String userName的userName
         String fileName = element.getSimpleName().toString();
 
@@ -160,23 +157,35 @@ public class ParameterProcess extends AbstractProcessor {
         //t.age
         String finalValue = "t." + fileName;
         String methContent = finalValue + " = t.getIntent().";
+        mMessager.printMessage(Diagnostic.Kind.NOTE, "TypeKind.ARRAY.ordinal(): " + type);
+        mMessager.printMessage(Diagnostic.Kind.NOTE, "TypeKind.ARRAY.ordinal(): " + typeMirror.toString());
         if (type == TypeKind.INT.ordinal()) {
             methContent += "getIntExtra($S, " + finalValue + ")";
         } else if (type == TypeKind.BOOLEAN.ordinal()) {
             //getBooleanExtra("sdfsdf",false)
             methContent += "getBooleanExtra($S, " + finalValue + ")";
+        } else if (type == TypeKind.ARRAY.ordinal()) {
+            //getBooleanExtra("sdfsdf",false)
+            methContent += "getStringArrayExtra($S)";
         } else {
             if (typeMirror.toString().equalsIgnoreCase(Constance.STRING)) {
                 methContent += "getStringExtra($S)";
+            } else if (typeMirror.toString().contains(Constance.ARRAYLIST)) {
+                methContent += "getStringArrayListExtra($S)";
             } else if (mTypesUtils.isSubtype(typeMirror, mCallTypeMirror)) {//注解在一个Call实现类的接口之上
 
                 //  t.mDrawable = (OrderDrawable) RouterManager.getInstance().build("/order/getDrawable").navigation(t);
-                methContent = "t. " + fileName + " = ($T)$T.getInstance().build($S).navigation(t)";
+                methContent = finalValue + " = ($T)$T.getInstance().build($S).navigation(t)";
                 methodBuild.addStatement(methContent,
                         TypeName.get(typeMirror),
                         ClassName.get(mElementUtils.getTypeElement(Constance.ROUTER_MANAGER)),
                         annotationValue
                 );
+                return;
+            } else {
+                //t.mUserManager = (UserManager) t.getIntent().getSerializableExtra("array");
+                methContent = finalValue + "= ($T) t.getIntent().getSerializableExtra($S)";
+                methodBuild.addStatement(methContent, TypeName.get(typeMirror), annotationValue);
                 return;
             }
         }

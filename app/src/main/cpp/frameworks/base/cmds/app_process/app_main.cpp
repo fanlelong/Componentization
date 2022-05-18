@@ -194,6 +194,7 @@ int main(int argc, char* const argv[])
         }
     }
 
+    // todo 注释1：初始化AppRuntime(AndroidRunTime) 其实就是 AndroidRuntime(ART)。
     AppRuntime runtime(argv[0], computeArgBlockSize(argc, argv));
     // Process command line arguments
     // ignore argv[0]
@@ -245,6 +246,7 @@ int main(int argc, char* const argv[])
     ++i;  // Skip unused "parent dir" argument.
     while (i < argc) {
         const char* arg = argv[i++];
+        // todo 注释2：设置zygote模式
         if (strcmp(arg, "--zygote") == 0) {
             zygote = true;
             niceName = ZYGOTE_NICE_NAME;
@@ -273,9 +275,10 @@ int main(int argc, char* const argv[])
         args.add(application ? String8("application") : String8("tool"));
         runtime.setClassNameAndArgs(className, argc - i, argv + i);
     } else {
-        // We're in zygote mode.
+        // todo 我们处于 zygote 模式。
         maybeCreateDalvikCache();
 
+        // todo 注释3：在 zygote 模式下，将参数传递给 ZygoteInit.main() 方法。
         if (startSystemServer) {
             args.add(String8("start-system-server"));
         }
@@ -304,6 +307,7 @@ int main(int argc, char* const argv[])
     }
 
     if (zygote) {
+        // todo 注释4:调用 AndroidRuntime.start() 方法
         runtime.start("com.android.internal.os.ZygoteInit", args, zygote);
     } else if (className) {
         runtime.start("com.android.internal.os.RuntimeInit", args, zygote);

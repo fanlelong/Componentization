@@ -1,8 +1,12 @@
 package com.ancely.fyw.compile;
 
+import com.ancely.fyw.annotation.apt.Subscribe;
+import com.ancely.fyw.annotation.apt.bean.EventBeans;
+import com.ancely.fyw.annotation.apt.bean.SubscriberInfo;
+import com.ancely.fyw.annotation.apt.bean.SubscriberMethod;
+import com.ancely.fyw.annotation.apt.bean.ThreadMode;
 import com.ancely.fyw.compile.utils.Constance;
 import com.ancely.fyw.compile.utils.EmptyUtils;
-import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
@@ -23,7 +27,6 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedOptions;
@@ -39,17 +42,11 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import com.ancely.fyw.annotation.apt.Subscribe;
-import com.ancely.fyw.annotation.apt.bean.EventBeans;
-import com.ancely.fyw.annotation.apt.bean.SubscriberInfo;
-import com.ancely.fyw.annotation.apt.bean.SubscriberMethod;
-import com.ancely.fyw.annotation.apt.bean.ThreadMode;
-
 /**
  * 编码此类1句话：细心再细心，出了问题debug真的不好调试
  */
 // 用来生成 META-INF/services/javax.annotation.processing.Processor 文件
-@AutoService(Processor.class)
+//@AutoService(Processor.class)
 // 允许/支持的注解类型，让注解处理器处理
 @SupportedAnnotationTypes({Constance.SUBSCRIBE_ANNOTATION_TYPE})
 // 指定JDK编译版本

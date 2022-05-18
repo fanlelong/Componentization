@@ -21,10 +21,10 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode">
+
         </activity>
         <activity
-            android:name=".aroute.proxy.ProxyActivity"
-            android:theme="@style/AppTheme" />
+            android:name=".aroute.proxy.ProxyActivity" />
 
         <activity android:name=".mvptext.SkinTestActivity"/>
 

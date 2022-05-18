@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 
 import com.ancely.fyw.R;
 import com.ancely.fyw.aroute.manager.RouterManager;
+import com.ancely.fyw.aroute.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class TouchEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_touch_event);
+        UIUtils.initApplication(getApplication());
         mViewPager = findViewById(R.id.viewpager);
         List<Fragment> dates = new ArrayList<>();
         Fragment textFragment = (Fragment) RouterManager.getInstance().build("/app/TextFragment")

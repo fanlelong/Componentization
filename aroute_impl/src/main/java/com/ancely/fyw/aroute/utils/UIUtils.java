@@ -1,8 +1,13 @@
 package com.ancely.fyw.aroute.utils;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Point;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.lang.reflect.Field;
@@ -19,17 +24,18 @@ public class UIUtils {
     public static float sStateBarHeight;
 
     private static UIUtils sUIUtils;
+    private static Application sApplication;
 
-    public static UIUtils getInstance(Context context) {
-        if (sUIUtils == null) {
-            sUIUtils = new UIUtils(context);
-        }
-        return sUIUtils;
+    public static void initApplication(Application application) {
+        sApplication = application;
     }
 
     public static UIUtils getUIUtils() {
+        if (sApplication == null) {
+            throw new RuntimeException("Please initApplication ...");
+        }
         if (sUIUtils == null) {
-            throw new RuntimeException("UiUtil not init..");
+            sUIUtils = new UIUtils(sApplication);
         }
         return sUIUtils;
     }
@@ -43,7 +49,9 @@ public class UIUtils {
             //在这里得到设备的真实值
             Display defaultDisplay = windowManager.getDefaultDisplay();
             windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-            defaultDisplay.getRealMetrics(realDisplay);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                defaultDisplay.getRealMetrics(realDisplay);
+            }
 
             //判断横屏还竖屏
             if (displayMetrics.widthPixels > displayMetrics.heightPixels) {
@@ -103,5 +111,45 @@ public class UIUtils {
 
     public int getRealHeight(int height) {
         return Math.round((float) height * sDisplayRealHeight / (STANDARD_HEIGHT));
+    }
+
+
+    public void resetUiUtils(Activity activity) {
+        Point p = getScreenWidthAndHeightFormActivity(activity);
+        sDisplayMetricsWidth = Math.min(p.x, p.y);
+        sDisplayMetricsHeight = Math.max(p.x, p.y);
+    }
+
+    public Point getScreenWidthAndHeightFormActivity(Activity activity) {
+        int screenWidth;
+        int screenHeight;
+        View decorView = activity.getWindow().getDecorView();
+        int decorWidth = decorView.getWidth();
+        int widthPixels = activity.getResources().getDisplayMetrics().widthPixels;
+        //有些设备获取（decorWidth）这个值会有问题，如果差距大就用DisplayMetrics
+        if (decorWidth > widthPixels * 1.5) {
+            screenWidth = widthPixels;
+        } else if (decorWidth >= 240) {//优先用decorView的宽度
+            screenWidth = decorWidth;
+        } else {
+            screenWidth = Math.max(decorWidth, widthPixels);
+        }
+        int decorHeight = decorView.getHeight();
+        int heightPixels = activity.getResources().getDisplayMetrics().heightPixels;
+
+        //有些设备获取（decorHeight）这个值会有问题，如果差距大就用DisplayMetrics
+        if (decorHeight > heightPixels * 1.5) {
+            screenHeight = heightPixels;
+        } else if (decorHeight >= 320) {//优先用decorView的高度
+            screenHeight = decorHeight;
+        } else {
+            screenHeight = Math.max(decorHeight, heightPixels);
+        }
+        //如果二个相等取DisplayMetrics宽高
+        if (screenWidth == screenHeight) {
+            screenWidth = widthPixels;
+            screenHeight = heightPixels;
+        }
+        return new Point(screenWidth, screenHeight);
     }
 }

@@ -11,6 +11,7 @@ import com.ancely.fyw.aroute.core.IApplication;
 import com.ancely.fyw.aroute.eventbus.EventBus;
 import com.ancely.fyw.aroute.manager.Applications;
 import com.ancely.fyw.aroute.manager.NetWorkManager;
+import com.ancely.fyw.aroute.utils.UIUtils;
 
 
 /*
@@ -29,6 +30,7 @@ public class ComApplication extends Application implements IApplication {
 //        Bugly.init(this, "900029763", false);
         NetWorkManager.getInstance().init("https://www.wanandroid.com/",this);
 //        LeakCanary.install(this);
+        UIUtils.initApplication(this);
     }
 
     @Override
