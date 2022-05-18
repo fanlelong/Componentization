@@ -55,4 +55,9 @@ public class TestRecyclerView extends RecyclerView {
         mLastY = y;
         return super.dispatchTouchEvent(ev);
     }
+
+    @Override
+    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        super.requestDisallowInterceptTouchEvent(disallowIntercept);
+    }
 }

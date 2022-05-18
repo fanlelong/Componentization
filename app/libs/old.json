@@ -1,0 +1,53 @@
+{
+  "Code": 0,
+  "Data": {
+    "Guide": "HK",
+    "Region": "HK",
+    "RegionRouteData": [
+      {
+        "LogicalRegionId": 1033,
+        "Region": "HK",
+        "Sources": [
+          {
+            "Host": [
+              "34.120.176.176",
+              "13.248.214.92",
+              "76.223.77.177",
+              "8.210.178.77",
+              "dc-gs-hk-1.clktec.com",
+              "dc-gs-hk-2.clktec.com",
+              "dc-gs-hk-3.clktec.com"
+            ],
+            "Port": 8099,
+            "Protocol": "DCRPC"
+          },
+          {
+            "Host": [
+              "dc-gs-hk-2.clktec.com",
+              "dc-gs-hk-3.clktec.com"
+            ],
+            "Port": 18099,
+            "Protocol": "HTTPS"
+          },
+          {
+            "Host": [
+              "dc-gs-hk-cdn.clktec.com"
+            ],
+            "Port": 443,
+            "Protocol": "DCDN"
+          },
+          {
+            "Host": [
+              "dc-gs-hk-2.clktec.com",
+              "dc-gs-hk-3.clktec.com",
+              "dc-gs-hk-cdn-wss.clktec.com:443"
+            ],
+            "Port": 28099,
+            "Protocol": "WEBSOCKET"
+          }
+        ]
+      }
+    ]
+  },
+  "Info": "success"
+}

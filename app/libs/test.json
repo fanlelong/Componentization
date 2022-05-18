@@ -1,0 +1,32 @@
+{
+  "Code": 0,
+  "Info": "success",
+  "Data": {
+    "Region": "CN",
+    "Guide": "HK",
+    "GwKey": "",
+    "RegionRouteData": [
+      {
+        "Region": "HK",
+        "LogicalRegionId": 1033,
+        "Sources": [
+          {
+            "Host": [
+              "uat-chaos-gateway.9longe.net",
+              "139.159.190.167"
+            ],
+            "Port": 8111,
+            "Protocol": "DCRPC"
+          },
+          {
+            "Host": [
+              "uat-chaos-gateway.9longe.net"
+            ],
+            "Port": 8110,
+            "Protocol": "HTTPS"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -174,7 +174,7 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
                 Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION, null, null, IMAGE_PROJECTION[6] + " DESC");
                 assert cursor != null;
                 Map<String, FloderBean> parentFiles = new HashMap<>();
-                long start=System.currentTimeMillis();
+                long start = System.currentTimeMillis();
                 while (cursor.moveToNext()) {
 
                     String name = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
@@ -218,7 +218,7 @@ public class PhotoActivity extends BaseModelActivity implements PhotoAdapter.OnI
 //                for (PhotoBean photoBean : sPhotoBeans) {
 //                    mImgs.add(photoBean.path);
 //                }
-                Log.e("ancely>>> ",String.valueOf(System.currentTimeMillis()-start));
+                Log.e("ancely>>> ", String.valueOf(System.currentTimeMillis() - start));
                 Message message = mHandler.obtainMessage();
                 message.obj = mImgs;
                 message.what = 0x100;

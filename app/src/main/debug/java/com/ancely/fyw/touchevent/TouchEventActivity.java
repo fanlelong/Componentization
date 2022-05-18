@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 
 import com.ancely.fyw.R;
 import com.ancely.fyw.aroute.manager.RouterManager;
@@ -27,4 +28,11 @@ public class TouchEventActivity extends AppCompatActivity {
         dates.add(textFragment);
         mViewPager.setAdapter(new TestPageAdapter(getSupportFragmentManager(), dates));
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
+
+
 }

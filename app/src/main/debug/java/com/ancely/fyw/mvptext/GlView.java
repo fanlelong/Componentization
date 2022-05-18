@@ -9,7 +9,7 @@ import android.util.AttributeSet;
  *  @包名：    com.ancely.fyw.mvptext
  *  @文件名:   GlView
  *  @创建者:   fanlelong
- *  @创建时间:  2020/5/10 12:20 AM
+ *  @创建时间:  2020/5/10 12:20
  *  @描述：    TODO
  */
 public class GlView extends GLSurfaceView {
@@ -19,7 +19,7 @@ public class GlView extends GLSurfaceView {
 
     public GlView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setEGLContextClientVersion(2 );
+        setEGLContextClientVersion(2);
         setRenderer(new GlRender(this));//这行代码的意思就是渲染交给了GLRrender
         //RENDERMODE_CONTINUOUSLY: 实时渲染
         //RENDERMODE_WHEN_DIRTY: 需要时就渲染 效率高.需要自己调用requestRender
